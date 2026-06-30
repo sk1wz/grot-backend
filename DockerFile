@@ -6,7 +6,7 @@ WORKDIR /app
 
 COPY package.json package-lock.json ./
 
-RUN npm ci --frozen-lockfile
+RUN npm ci
 
 FROM base AS build
 
@@ -32,7 +32,7 @@ WORKDIR /app
 
 COPY package.json package-lock.json ./
 
-RUN npm ci --omit=dev --frozen-lockfile
+RUN npm ci --omit=dev
 
 COPY --from=build /app/dist ./dist
 COPY --from=build /app/prisma/__generated__ ./prisma/__generated__
