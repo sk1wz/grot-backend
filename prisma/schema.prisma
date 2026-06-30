@@ -1,0 +1,160 @@
+generator client {
+  provider     = "prisma-client"
+  output       = "./__generated__"
+  moduleFormat = "cjs"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id       String   @id @default(uuid())
+  email    String   @unique
+  password String
+  role     UserRole @default(REGULAR)
+  balance  Int      @default(0)
+
+  picture   String?
+  method    AuthMethod
+  createdAt DateTime   @default(now()) @map("created_at")
+  updatedAt DateTime   @updatedAt() @map("updated_at")
+
+  checks              Check[]
+  reports             Report[]
+  balanceTransactions BalanceTransaction[]
+  notifications       Notification[]
+
+  @@map("users")
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title     String
+  message   String
+  payload   Json?
+  isRead    Boolean  @default(false) @map("is_read")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@index([userId, createdAt])
+  @@map("notifications")
+}
+
+model CheckPrice {
+  module    CheckModuleEnums @id
+  price     Int
+  updatedAt DateTime         @updatedAt @map("updated_at")
+
+  @@map("check_prices")
+}
+
+model Check {
+  id             String           @id @default(uuid())
+  userId         String           @map("user_id")
+  user           User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  serviceId      String?          @map("service_id")
+  module         CheckModuleEnums
+  status         CheckStatusEnums @default(PENDING)
+  cost           Int
+  balanceRefund  Boolean          @default(false) @map("balance_refund")
+  subject        Json
+  result         Json?
+  error          Json?
+  idempotencyKey String           @unique @map("idempotency_key")
+  createdAt      DateTime         @default(now()) @map("created_at")
+  updatedAt      DateTime         @updatedAt() @map("updated_at")
+  completedAt    DateTime?        @map("completed_at")
+
+  reports Report[]
+
+  @@index([userId, createdAt])
+  @@index([status])
+  @@map("checks")
+}
+
+model Report {
+  id          String            @id @default(uuid())
+  userId      String            @map("user_id")
+  user        User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  checkId     String            @map("check_id")
+  check       Check             @relation(fields: [checkId], references: [id], onDelete: Cascade)
+  status      ReportStatusEnums @default(REPORT_PENDING)
+  filePath    String?           @map("file_path")
+  error       Json?
+  createdAt   DateTime          @default(now()) @map("created_at")
+  updatedAt   DateTime          @updatedAt() @map("updated_at")
+  completedAt DateTime?         @map("completed_at")
+
+  @@unique([checkId])
+  @@index([userId, createdAt])
+  @@index([status])
+  @@map("reports")
+}
+
+model BalanceTransaction {
+  id        String             @id @default(uuid())
+  userId    String             @map("user_id")
+  user      User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  amount    Int
+  status    BalanceStatusEnums
+  meta      Json?
+  createdAt DateTime           @default(now()) @map("created_at")
+
+  @@index([userId, createdAt])
+  @@map("balance_transactions")
+}
+
+model Token {
+  id        String    @id @default(uuid())
+  email     String
+  token     String    @unique
+  type      TokenType
+  expiresIn DateTime  @map("expires_in")
+
+  @@map("tokens")
+}
+
+enum UserRole {
+  REGULAR
+  ADMIN
+}
+
+enum AuthMethod {
+  CREDENTIALS
+}
+
+enum TokenType {
+  PASSWORD_RESET
+}
+
+enum CheckModuleEnums {
+  GIBDD
+  GISTORGI
+  FSSP
+  BANKRUPTCY
+  INN
+}
+
+enum CheckStatusEnums {
+  PENDING
+  QUEUED
+  RUNNING
+  DONE
+  FAILED
+}
+
+enum BalanceStatusEnums {
+  BALANCE_PURCHASE
+  BALANCE_REFUND
+  BALANCE_TOPUP
+  BALANCE_FAILED
+}
+
+enum ReportStatusEnums {
+  REPORT_PENDING
+  REPORT_PROCESSING
+  REPORT_DONE
+  REPORT_FAILED
+}

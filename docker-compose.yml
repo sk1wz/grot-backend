@@ -1,0 +1,68 @@
+services:
+  db:
+    container_name: grot-postgres
+    image: postgres:15.2
+    restart: always
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    ports:
+      - 5433:5432
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - backend
+    healthcheck:
+      test:
+        [
+          'CMD-SHELL',
+          'pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}',
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    container_name: grot-redis
+    image: redis:7.0
+    restart: always
+    ports:
+      - 6379:6379
+    command: redis-server --requirepass ${REDIS_PASSWORD}
+    volumes:
+      - redis_data:/data
+    networks:
+      - backend
+
+  backend:
+    container_name: grot-backend
+    build:
+      context: .
+      dockerfile: DockerFile
+    restart: always
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    env_file:
+      - .env
+    environment:
+      NODE_ENV: production
+      DATABASE_URI: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+      REDIS_URI: redis://:${REDIS_PASSWORD}@redis:6379
+    ports:
+      - '${APPLICATION_PORT:-3000}:${APPLICATION_PORT:-3000}'
+    volumes:
+      - report_storage:/app/storage
+    networks:
+      - backend
+
+volumes:
+  postgres_data:
+  redis_data:
+  report_storage:
+
+networks:
+  backend:
