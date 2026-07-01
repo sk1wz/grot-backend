@@ -1,8 +1,9 @@
 import { BullModule } from '@nestjs/bullmq';
 import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { CHECK_QUEUES } from './check-queue.constants';
-import { REPORT_QUEUE } from '../report/report-queue.constants';
+import { CHECK_QUEUES } from './check/check-queue.constants';
+import { REPORT_QUEUE } from './report/report-queue.constants';
+import { NOTIFICATION_QUEUE } from './notification/notification-queue.constants';
 
 @Module({
   imports: [
@@ -21,8 +22,9 @@ import { REPORT_QUEUE } from '../report/report-queue.constants';
       { name: CHECK_QUEUES.BANKRUPTCY },
       { name: CHECK_QUEUES.INN },
       { name: REPORT_QUEUE },
+      { name: NOTIFICATION_QUEUE },
     ),
   ],
   exports: [BullModule],
 })
-export class CheckBullModule {}
+export class QueueBullModule {}

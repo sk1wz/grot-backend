@@ -12,7 +12,7 @@ import { ROLES_KEY } from '../decorators/roles.decorator';
 
 type RequestWithUser = Request & {
   user?: {
-    plan: UserRole;
+    role: UserRole;
   };
 };
 
@@ -36,9 +36,9 @@ export class RolesGuard implements CanActivate {
       throw new UnauthorizedException('Требуется авторизация');
     }
 
-    if (!requiredRoles.includes(request.user.plan)) {
+    if (!requiredRoles.includes(request.user.role)) {
       throw new ForbiddenException(
-        'Недостаточно доступа. Пожалуйста, обновите ваш тарифный план.',
+        'Недостаточно прав для выполнения этого действия.',
       );
     }
 

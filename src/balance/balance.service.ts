@@ -21,6 +21,39 @@ export class BalanceService {
     private readonly balanceGateway: BalanceGateway,
   ) {}
 
+  public async getUserTransactions(userId: string) {
+    return this.prismaService.balanceTransaction.findMany({
+      where: { userId },
+      orderBy: { createdAt: 'desc' },
+    });
+  }
+
+  public async getUserTransactionsByAdmin(userId: string) {
+    return this.prismaService.balanceTransaction.findMany({
+      where: { userId },
+      orderBy: { createdAt: 'desc' },
+    });
+  }
+
+  public async debitByAdmin(
+    userId: string,
+    amount: number,
+  ): Promise<BalanceChangeResult> {
+    return this.debit(userId, amount, BalanceStatusEnums.BALANCE_PURCHASE, {
+      action: 'Списание средств с баланса',
+    });
+  }
+
+  public async creditByAdmin(
+    userId: string,
+    amount: number,
+  ): Promise<BalanceChangeResult> {
+    return this.credit(userId, amount, BalanceStatusEnums.BALANCE_TOPUP, {
+      action: 'Пополнение средств на баланс',
+    });
+  }
+
+  /* Системные */
   public async getBalance(userId: string): Promise<number> {
     const user = await this.prismaService.user.findUnique({
       where: { id: userId },
@@ -33,14 +66,7 @@ export class BalanceService {
 
     return user.balance;
   }
-
-  public async getTransactions(userId: string) {
-    return this.prismaService.balanceTransaction.findMany({
-      where: { userId },
-      orderBy: { createdAt: 'desc' },
-    });
-  }
-
+  /* ФУНКЦИЯ ДЛЯ СНЯТИЯ СРЕДСТВ С БАЛАНСА */
   public async debit(
     userId: string,
     amount: number,
@@ -57,12 +83,13 @@ export class BalanceService {
     );
 
     if (!tx) {
-      await this.publish(userId, result.balance, status, meta);
+      this.publish(userId, result.balance, status, meta);
     }
 
     return result;
   }
 
+  /* ФУНКЦИЯ ДЛЯ ПОПОЛНЕНИЯ БАЛАНСА */
   public async credit(
     userId: string,
     amount: number,
@@ -77,12 +104,13 @@ export class BalanceService {
     );
 
     if (!tx) {
-      await this.publish(userId, result.balance, status, meta);
+      this.publish(userId, result.balance, status, meta);
     }
 
     return result;
   }
 
+  /* ФУНКЦИЯ ДЛЯ ПРИМЕНЕНИЯ ИЗМЕНЕНИЯ БАЛАНСА */
   private async applyChange(
     client: TransactionClient,
     userId: string,
@@ -149,26 +177,18 @@ export class BalanceService {
     }
   }
 
-  private async publish(
+  private publish(
     userId: string,
     balance: number,
     status: BalanceStatusEnums,
     meta?: BalanceChangeMeta,
-  ): Promise<void> {
+  ): void {
     const payload = {
       balance,
       status,
       meta,
       createdAt: new Date().toISOString(),
     };
-
     this.balanceGateway.emitBalanceUpdated(userId, payload);
-
-    await this.notificationService.createAndDispatch({
-      userId,
-      title: 'Операции с балансом',
-      message: `Баланс обновлен. Статус: ${status}`,
-      payload: payload as Prisma.InputJsonValue,
-    });
   }
 }

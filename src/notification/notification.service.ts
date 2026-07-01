@@ -1,14 +1,7 @@
 import { PrismaService } from '@/prisma/prisma.service';
 import { Injectable } from '@nestjs/common';
-import { Prisma } from '@prisma/__generated__/client';
 import { NotificationGateway } from './notification.gateway';
-
-type CreateNotificationParams = {
-  userId: string;
-  title: string;
-  message: string;
-  payload?: Prisma.InputJsonValue;
-};
+import { CreateNotificationParams } from './types/notification.types';
 
 @Injectable()
 export class NotificationService {
@@ -17,7 +10,14 @@ export class NotificationService {
     private readonly notificationGateway: NotificationGateway,
   ) {}
 
-  public async createAndDispatch(params: CreateNotificationParams) {
+  public async getAllNotifications(userId: string) {
+    return this.prismaService.notification.findMany({
+      where: { userId },
+      orderBy: { createdAt: 'desc' },
+    });
+  }
+
+  public async create(params: CreateNotificationParams) {
     const notification = await this.prismaService.notification.create({
       data: params,
     });
@@ -28,12 +28,5 @@ export class NotificationService {
     );
 
     return notification;
-  }
-
-  public async getUserNotifications(userId: string) {
-    return this.prismaService.notification.findMany({
-      where: { userId },
-      orderBy: { createdAt: 'desc' },
-    });
   }
 }

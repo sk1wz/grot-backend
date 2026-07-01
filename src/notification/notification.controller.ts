@@ -11,7 +11,7 @@ export class NotificationController {
 
   @Auth()
   @Get()
-  public getMyNotifications(@Req() req: Request) {
-    return this.notificationService.getUserNotifications(req.session.userId!);
+  public getAllNotifications(@Req() req: Request) {
+    return this.notificationService.getAllNotifications(req.session.userId!);
   }
 }
