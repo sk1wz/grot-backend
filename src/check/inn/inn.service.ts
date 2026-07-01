@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { CheckModuleEnums } from '@prisma/__generated__/enums';
+import { CheckModuleEnums } from '@/db';
 import { CheckService } from '../check.service';
 import { bodyFromDto } from '../types/check-body.type';
-import { InnDto } from './dto/inn.dto';
+import { InnDto } from './dto';
 
 @Injectable()
 export class InnService {

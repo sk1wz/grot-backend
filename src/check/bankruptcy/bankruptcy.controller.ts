@@ -7,9 +7,9 @@ import {
   Req,
 } from '@nestjs/common';
 import { type Request } from 'express';
-import { Auth } from '@/auth/decorators/auth.decorator';
+import { Auth } from '@/auth/decorators';
 import { BankruptcyService } from './bankruptcy.service';
-import { BankruptcyDto } from './dto/bankruptcy.dto';
+import { BankruptcyDto } from './dto';
 
 @Controller('checks/bankruptcy')
 export class BankruptcyController {

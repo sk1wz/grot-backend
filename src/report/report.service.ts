@@ -5,11 +5,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { Prisma } from '@prisma/__generated__/client';
-import {
-  CheckStatusEnums,
-  ReportStatusEnums,
-} from '@prisma/__generated__/enums';
+import { CheckStatusEnums, Prisma, ReportStatusEnums } from '@/db';
 import { createReadStream } from 'fs';
 import { ReportPdfService } from './report-pdf.service';
 import { saveReportPdf } from './report-storage';

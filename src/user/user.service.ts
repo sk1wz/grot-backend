@@ -4,7 +4,7 @@ import {
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
-import { AuthMethod } from '@prisma/__generated__/enums';
+import { AuthMethod } from '@/db';
 import { hash } from 'argon2';
 @Injectable()
 export class UserService {

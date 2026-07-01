@@ -1,4 +1,4 @@
-import { VinSubjectDto } from '@/check/types/vin.type';
+import { VinSubjectDto } from '@/check/types';
 import { Type } from 'class-transformer';
 import { ValidateNested } from 'class-validator';
 

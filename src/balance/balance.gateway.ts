@@ -7,6 +7,7 @@ import {
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
 import { UserRoomGatewayBase } from '@/common/socket/user-room.gateway.base';
+import { BalanceChangeResponse } from './response/balance.response';
 
 @WebSocketGateway({
   namespace: 'balance',
@@ -24,7 +25,10 @@ export class BalanceGateway extends UserRoomGatewayBase {
     this.joinFromPayload(client, body);
   }
 
-  public emitBalanceUpdated(userId: string, payload: unknown): void {
+  public emitBalanceUpdated(
+    userId: string,
+    payload: BalanceChangeResponse,
+  ): void {
     this.server.to(this.getUserRoom(userId)).emit('balance.updated', payload);
   }
 }

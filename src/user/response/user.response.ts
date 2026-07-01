@@ -1,5 +1,4 @@
-import { User } from '@prisma/__generated__/client';
-import { UserRole } from '@prisma/__generated__/enums';
+import { User, UserRole } from '@/db';
 
 export class UserResponse {
   id: string;

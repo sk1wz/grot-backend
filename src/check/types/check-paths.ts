@@ -1,4 +1,4 @@
-import { CheckModuleEnums } from '@prisma/__generated__/enums';
+import { CheckModuleEnums } from '@/db';
 
 export const STORMFINDER_CHECK_PATHS = {
   [CheckModuleEnums.GIBDD]: '/checks/gibdd',

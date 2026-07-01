@@ -1,5 +1,4 @@
-import { Report } from '@prisma/__generated__/client';
-import { ReportStatusEnums } from '@prisma/__generated__/enums';
+import { Report, ReportStatusEnums } from '@/db';
 
 export type ReportResponse = {
   id: string;

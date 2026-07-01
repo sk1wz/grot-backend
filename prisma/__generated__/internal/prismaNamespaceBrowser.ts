@@ -106,6 +106,8 @@ export type NotificationScalarFieldEnum = (typeof NotificationScalarFieldEnum)[k
 
 export const CheckPriceScalarFieldEnum = {
   module: 'module',
+  title: 'title',
+  description: 'description',
   price: 'price',
   updatedAt: 'updatedAt'
 } as const

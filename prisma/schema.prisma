@@ -43,9 +43,11 @@ model Notification {
 }
 
 model CheckPrice {
-  module    CheckModuleEnums @id
-  price     Int
-  updatedAt DateTime         @updatedAt @map("updated_at")
+  module      CheckModuleEnums @id
+  title       String           @default("")
+  description String           @default("")
+  price       Int
+  updatedAt   DateTime         @updatedAt @map("updated_at")
 
   @@map("check_prices")
 }

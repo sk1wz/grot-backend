@@ -36,18 +36,24 @@ export type CheckPriceSumAggregateOutputType = {
 
 export type CheckPriceMinAggregateOutputType = {
   module: $Enums.CheckModuleEnums | null
+  title: string | null
+  description: string | null
   price: number | null
   updatedAt: Date | null
 }
 
 export type CheckPriceMaxAggregateOutputType = {
   module: $Enums.CheckModuleEnums | null
+  title: string | null
+  description: string | null
   price: number | null
   updatedAt: Date | null
 }
 
 export type CheckPriceCountAggregateOutputType = {
   module: number
+  title: number
+  description: number
   price: number
   updatedAt: number
   _all: number
@@ -64,18 +70,24 @@ export type CheckPriceSumAggregateInputType = {
 
 export type CheckPriceMinAggregateInputType = {
   module?: true
+  title?: true
+  description?: true
   price?: true
   updatedAt?: true
 }
 
 export type CheckPriceMaxAggregateInputType = {
   module?: true
+  title?: true
+  description?: true
   price?: true
   updatedAt?: true
 }
 
 export type CheckPriceCountAggregateInputType = {
   module?: true
+  title?: true
+  description?: true
   price?: true
   updatedAt?: true
   _all?: true
@@ -169,6 +181,8 @@ export type CheckPriceGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inter
 
 export type CheckPriceGroupByOutputType = {
   module: $Enums.CheckModuleEnums
+  title: string
+  description: string
   price: number
   updatedAt: Date
   _count: CheckPriceCountAggregateOutputType | null
@@ -198,12 +212,16 @@ export type CheckPriceWhereInput = {
   OR?: Prisma.CheckPriceWhereInput[]
   NOT?: Prisma.CheckPriceWhereInput | Prisma.CheckPriceWhereInput[]
   module?: Prisma.EnumCheckModuleEnumsFilter<"CheckPrice"> | $Enums.CheckModuleEnums
+  title?: Prisma.StringFilter<"CheckPrice"> | string
+  description?: Prisma.StringFilter<"CheckPrice"> | string
   price?: Prisma.IntFilter<"CheckPrice"> | number
   updatedAt?: Prisma.DateTimeFilter<"CheckPrice"> | Date | string
 }
 
 export type CheckPriceOrderByWithRelationInput = {
   module?: Prisma.SortOrder
+  title?: Prisma.SortOrder
+  description?: Prisma.SortOrder
   price?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -213,12 +231,16 @@ export type CheckPriceWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.CheckPriceWhereInput | Prisma.CheckPriceWhereInput[]
   OR?: Prisma.CheckPriceWhereInput[]
   NOT?: Prisma.CheckPriceWhereInput | Prisma.CheckPriceWhereInput[]
+  title?: Prisma.StringFilter<"CheckPrice"> | string
+  description?: Prisma.StringFilter<"CheckPrice"> | string
   price?: Prisma.IntFilter<"CheckPrice"> | number
   updatedAt?: Prisma.DateTimeFilter<"CheckPrice"> | Date | string
 }, "module">
 
 export type CheckPriceOrderByWithAggregationInput = {
   module?: Prisma.SortOrder
+  title?: Prisma.SortOrder
+  description?: Prisma.SortOrder
   price?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.CheckPriceCountOrderByAggregateInput
@@ -233,54 +255,72 @@ export type CheckPriceScalarWhereWithAggregatesInput = {
   OR?: Prisma.CheckPriceScalarWhereWithAggregatesInput[]
   NOT?: Prisma.CheckPriceScalarWhereWithAggregatesInput | Prisma.CheckPriceScalarWhereWithAggregatesInput[]
   module?: Prisma.EnumCheckModuleEnumsWithAggregatesFilter<"CheckPrice"> | $Enums.CheckModuleEnums
+  title?: Prisma.StringWithAggregatesFilter<"CheckPrice"> | string
+  description?: Prisma.StringWithAggregatesFilter<"CheckPrice"> | string
   price?: Prisma.IntWithAggregatesFilter<"CheckPrice"> | number
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"CheckPrice"> | Date | string
 }
 
 export type CheckPriceCreateInput = {
   module: $Enums.CheckModuleEnums
+  title?: string
+  description?: string
   price: number
   updatedAt?: Date | string
 }
 
 export type CheckPriceUncheckedCreateInput = {
   module: $Enums.CheckModuleEnums
+  title?: string
+  description?: string
   price: number
   updatedAt?: Date | string
 }
 
 export type CheckPriceUpdateInput = {
   module?: Prisma.EnumCheckModuleEnumsFieldUpdateOperationsInput | $Enums.CheckModuleEnums
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.IntFieldUpdateOperationsInput | number
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type CheckPriceUncheckedUpdateInput = {
   module?: Prisma.EnumCheckModuleEnumsFieldUpdateOperationsInput | $Enums.CheckModuleEnums
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.IntFieldUpdateOperationsInput | number
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type CheckPriceCreateManyInput = {
   module: $Enums.CheckModuleEnums
+  title?: string
+  description?: string
   price: number
   updatedAt?: Date | string
 }
 
 export type CheckPriceUpdateManyMutationInput = {
   module?: Prisma.EnumCheckModuleEnumsFieldUpdateOperationsInput | $Enums.CheckModuleEnums
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.IntFieldUpdateOperationsInput | number
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type CheckPriceUncheckedUpdateManyInput = {
   module?: Prisma.EnumCheckModuleEnumsFieldUpdateOperationsInput | $Enums.CheckModuleEnums
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.IntFieldUpdateOperationsInput | number
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type CheckPriceCountOrderByAggregateInput = {
   module?: Prisma.SortOrder
+  title?: Prisma.SortOrder
+  description?: Prisma.SortOrder
   price?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -291,12 +331,16 @@ export type CheckPriceAvgOrderByAggregateInput = {
 
 export type CheckPriceMaxOrderByAggregateInput = {
   module?: Prisma.SortOrder
+  title?: Prisma.SortOrder
+  description?: Prisma.SortOrder
   price?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type CheckPriceMinOrderByAggregateInput = {
   module?: Prisma.SortOrder
+  title?: Prisma.SortOrder
+  description?: Prisma.SortOrder
   price?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -313,35 +357,45 @@ export type EnumCheckModuleEnumsFieldUpdateOperationsInput = {
 
 export type CheckPriceSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   module?: boolean
+  title?: boolean
+  description?: boolean
   price?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["checkPrice"]>
 
 export type CheckPriceSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   module?: boolean
+  title?: boolean
+  description?: boolean
   price?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["checkPrice"]>
 
 export type CheckPriceSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   module?: boolean
+  title?: boolean
+  description?: boolean
   price?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["checkPrice"]>
 
 export type CheckPriceSelectScalar = {
   module?: boolean
+  title?: boolean
+  description?: boolean
   price?: boolean
   updatedAt?: boolean
 }
 
-export type CheckPriceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"module" | "price" | "updatedAt", ExtArgs["result"]["checkPrice"]>
+export type CheckPriceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"module" | "title" | "description" | "price" | "updatedAt", ExtArgs["result"]["checkPrice"]>
 
 export type $CheckPricePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "CheckPrice"
   objects: {}
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     module: $Enums.CheckModuleEnums
+    title: string
+    description: string
     price: number
     updatedAt: Date
   }, ExtArgs["result"]["checkPrice"]>
@@ -427,8 +481,8 @@ export interface CheckPriceDelegate<ExtArgs extends runtime.Types.Extensions.Int
    * // Get first 10 CheckPrices
    * const checkPrices = await prisma.checkPrice.findMany({ take: 10 })
    * 
-   * // Only select the `price`
-   * const checkPriceWithPriceOnly = await prisma.checkPrice.findMany({ select: { price: true } })
+   * // Only select the `title`
+   * const checkPriceWithTitleOnly = await prisma.checkPrice.findMany({ select: { title: true } })
    * 
    */
   findMany<T extends CheckPriceFindManyArgs>(args?: Prisma.SelectSubset<T, CheckPriceFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CheckPricePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
@@ -472,9 +526,9 @@ export interface CheckPriceDelegate<ExtArgs extends runtime.Types.Extensions.Int
    *   ]
    * })
    * 
-   * // Create many CheckPrices and only return the `price`
-   * const checkPriceWithPriceOnly = await prisma.checkPrice.createManyAndReturn({
-   *   select: { price: true },
+   * // Create many CheckPrices and only return the `title`
+   * const checkPriceWithTitleOnly = await prisma.checkPrice.createManyAndReturn({
+   *   select: { title: true },
    *   data: [
    *     // ... provide data here
    *   ]
@@ -563,9 +617,9 @@ export interface CheckPriceDelegate<ExtArgs extends runtime.Types.Extensions.Int
    *   ]
    * })
    * 
-   * // Update zero or more CheckPrices and only return the `price`
-   * const checkPriceWithPriceOnly = await prisma.checkPrice.updateManyAndReturn({
-   *   select: { price: true },
+   * // Update zero or more CheckPrices and only return the `title`
+   * const checkPriceWithTitleOnly = await prisma.checkPrice.updateManyAndReturn({
+   *   select: { title: true },
    *   where: {
    *     // ... provide filter here
    *   },
@@ -768,6 +822,8 @@ export interface Prisma__CheckPriceClient<T, Null = never, ExtArgs extends runti
  */
 export interface CheckPriceFieldRefs {
   readonly module: Prisma.FieldRef<"CheckPrice", 'CheckModuleEnums'>
+  readonly title: Prisma.FieldRef<"CheckPrice", 'String'>
+  readonly description: Prisma.FieldRef<"CheckPrice", 'String'>
   readonly price: Prisma.FieldRef<"CheckPrice", 'Int'>
   readonly updatedAt: Prisma.FieldRef<"CheckPrice", 'DateTime'>
 }

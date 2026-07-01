@@ -1,4 +1,4 @@
-import { AuthMethod } from '@prisma/__generated__/enums';
+import { AuthMethod } from '@/db';
 import { IsEmail, IsNotEmpty, IsString, MinLength } from 'class-validator';
 
 export class CreateUserDto {

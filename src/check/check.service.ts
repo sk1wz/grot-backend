@@ -7,17 +7,17 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { Check, Prisma } from '@prisma/__generated__/client';
 import {
   BalanceStatusEnums,
+  Check,
   CheckModuleEnums,
   CheckStatusEnums,
-} from '@prisma/__generated__/enums';
+  Prisma,
+} from '@/db';
 import { randomUUID } from 'crypto';
-import { STORMFINDER_CHECK_PATHS } from './types/check-paths';
+import { STORMFINDER_CHECK_PATHS, CheckBody } from './types';
 import { CheckQueueService } from '@/queue/check/check-queue.service';
 import { CheckResponseDto } from './response/check.response';
-import { CheckBody } from './types/check-body.type';
 import { getCheckModuleLabel } from '@/utils/check-module-label';
 import {
   isActiveCheckStatus,
@@ -25,7 +25,6 @@ import {
   mapStormfinderStatus,
   toCheckError,
 } from '@/utils/stormfinder-map';
-import { NotificationService } from '@/notification/notification.service';
 import { CheckGateway } from './check.gateway';
 
 @Injectable()
@@ -35,7 +34,6 @@ export class CheckService {
     private readonly stormfinderService: StormfinderService,
     private readonly checkQueueService: CheckQueueService,
     private readonly balanceService: BalanceService,
-    private readonly notificationService: NotificationService,
     private readonly checkGateway: CheckGateway,
   ) {}
 
@@ -75,7 +73,7 @@ export class CheckService {
         cost,
         BalanceStatusEnums.BALANCE_PURCHASE,
         {
-          action: `Покупка модуль ${getCheckModuleLabel(module)}`,
+          action: `Оплата проверки модуль ${getCheckModuleLabel(module)}`,
         },
         tx,
       );

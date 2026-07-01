@@ -1,5 +1,4 @@
-import { Prisma } from '@prisma/__generated__/client';
-import { CheckStatusEnums } from '@prisma/__generated__/enums';
+import { CheckStatusEnums, Prisma } from '@/db';
 import { StormfinderCheckResponse } from '@/stormfinder/stormfinder.types';
 
 export function mapStormfinderStatus(

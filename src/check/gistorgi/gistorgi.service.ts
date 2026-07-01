@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { CheckModuleEnums } from '@prisma/__generated__/enums';
-import { GistorgiDto } from './dto/gistorgi.dto';
+import { CheckModuleEnums } from '@/db';
+import { GistorgiDto } from './dto';
 import { CheckService } from '../check.service';
 import { bodyFromDto } from '../types/check-body.type';
 

@@ -5,13 +5,11 @@ import {
   InternalServerErrorException,
   UnauthorizedException,
 } from '@nestjs/common';
-import { RegisterDto } from './dto/register.dto';
 import { UserService } from '@/user/user.service';
-import { AuthMethod } from '@prisma/__generated__/enums';
-import { LoginDto } from './dto/login.dto';
+import { AuthMethod, User } from '@/db';
+import { LoginDto, RegisterDto } from './dto';
 import { verify } from 'argon2';
 import { ConfigService } from '@nestjs/config';
-import { User } from '@prisma/__generated__/client';
 import { UserResponse } from '@/user/response/user.response';
 
 @Injectable()

@@ -1,15 +1,17 @@
-import { IsInt, IsPositive, IsUUID } from 'class-validator';
+import { Type } from 'class-transformer';
+import { IsInt, IsUUID, Min } from 'class-validator';
 
-export class GetUserTransactionsByAdminDto {
+export class UserTransactionsByIdAdminDto {
   @IsUUID()
   id: string;
 }
 
 export class AdminBalanceChangeDto {
-  @IsUUID('4')
+  @IsUUID()
   userId: string;
 
-  @IsInt()
-  @IsPositive()
+  @Type(() => Number)
+  @IsInt({ message: 'Сумма должна быть положительным целым числом' })
+  @Min(1, { message: 'Сумма должна быть положительным целым числом' })
   amount: number;
 }

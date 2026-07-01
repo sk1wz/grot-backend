@@ -7,8 +7,8 @@ import {
   Req,
 } from '@nestjs/common';
 import { type Request } from 'express';
-import { Auth } from '@/auth/decorators/auth.decorator';
-import { GibddDto } from './dto/gibdd.dto';
+import { Auth } from '@/auth/decorators';
+import { GibddDto } from './dto';
 import { GibddService } from './gibdd.service';
 
 @Controller('checks/gibdd')

@@ -7,9 +7,9 @@ import {
   Req,
 } from '@nestjs/common';
 import { type Request } from 'express';
-import { Auth } from '@/auth/decorators/auth.decorator';
+import { Auth } from '@/auth/decorators';
 import { GistorgiService } from './gistorgi.service';
-import { GistorgiDto } from './dto/gistorgi.dto';
+import { GistorgiDto } from './dto';
 
 @Controller('checks/gistorgi')
 export class GistorgiController {

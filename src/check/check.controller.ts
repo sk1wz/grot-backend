@@ -1,6 +1,6 @@
 import { Controller, Get, Param, Req } from '@nestjs/common';
 import { type Request } from 'express';
-import { Auth } from '@/auth/decorators/auth.decorator';
+import { Auth } from '@/auth/decorators';
 import { CheckService } from './check.service';
 
 @Controller('checks')

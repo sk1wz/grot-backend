@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CheckModuleEnums } from '@prisma/__generated__/enums';
+import { CheckModuleEnums } from '@/db';
 import { CheckService } from '../check.service';
 import { bodyFromDto } from '../types/check-body.type';
 import { FsspCheckDto } from './dto/fssp.dto';

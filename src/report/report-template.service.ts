@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Check } from '@prisma/__generated__/client';
+import { Check } from '@/db';
 
 @Injectable()
 export class ReportTemplateService {

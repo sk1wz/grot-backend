@@ -1,4 +1,4 @@
-import { CheckModuleEnums } from '@prisma/__generated__/enums';
+import { CheckModuleEnums } from '@/db';
 
 const CHECK_MODULE_LABELS: Record<CheckModuleEnums, string> = {
   [CheckModuleEnums.GIBDD]: 'ГИБДД',

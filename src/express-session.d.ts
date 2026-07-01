@@ -1,4 +1,4 @@
-import { UserRole } from '@prisma/__generated__/enums';
+import { UserRole } from '@/db';
 import 'express-session';
 
 declare module 'express-session' {

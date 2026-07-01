@@ -1,8 +1,4 @@
-import { Check } from '@prisma/__generated__/client';
-import {
-  CheckModuleEnums,
-  CheckStatusEnums,
-} from '@prisma/__generated__/enums';
+import { Check, CheckModuleEnums, CheckStatusEnums } from '@/db';
 
 export type CheckResponse = {
   id: string;

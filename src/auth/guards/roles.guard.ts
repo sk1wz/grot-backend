@@ -7,8 +7,8 @@ import {
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { Request } from 'express';
-import { UserRole } from '@prisma/__generated__/enums';
-import { ROLES_KEY } from '../decorators/roles.decorator';
+import { UserRole } from '@/db';
+import { ROLES_KEY } from '../decorators';
 
 type RequestWithUser = Request & {
   user?: {

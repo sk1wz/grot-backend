@@ -4,11 +4,36 @@ import { PrismaClient } from './__generated__/client';
 import { CheckModuleEnums } from './__generated__/enums';
 
 const PRICES = [
-  { module: CheckModuleEnums.GIBDD, price: 50 },
-  { module: CheckModuleEnums.GISTORGI, price: 10 },
-  { module: CheckModuleEnums.FSSP, price: 10 },
-  { module: CheckModuleEnums.BANKRUPTCY, price: 10 },
-  { module: CheckModuleEnums.INN, price: 10 },
+  {
+    module: CheckModuleEnums.GIBDD,
+    title: 'ГИБДД',
+    description: 'Проверка автомобиля по базе ГИБДД',
+    price: 50,
+  },
+  {
+    module: CheckModuleEnums.GISTORGI,
+    title: 'ГИС Торги',
+    description: 'Проверка по базе государственных торгов',
+    price: 10,
+  },
+  {
+    module: CheckModuleEnums.FSSP,
+    title: 'ФССП',
+    description: 'Проверка исполнительных производств ФССП',
+    price: 10,
+  },
+  {
+    module: CheckModuleEnums.BANKRUPTCY,
+    title: 'Банкротство',
+    description: 'Проверка сведений о банкротстве',
+    price: 10,
+  },
+  {
+    module: CheckModuleEnums.INN,
+    title: 'ИНН',
+    description: 'Проверка по ИНН',
+    price: 10,
+  },
 ] as const;
 
 async function main(): Promise<void> {
@@ -21,16 +46,22 @@ async function main(): Promise<void> {
   });
 
   try {
-    const { count } = await prisma.checkPrice.createMany({
-      data: [...PRICES],
-      skipDuplicates: true,
-    });
+    for (const row of PRICES) {
+      await prisma.checkPrice.upsert({
+        where: { module: row.module },
+        create: row,
+        update: {
+          title: row.title,
+          description: row.description,
+          price: row.price,
+        },
+      });
+    }
 
     const rows = await prisma.checkPrice.findMany({
       orderBy: { module: 'asc' },
     });
 
-    console.log(`Добавлено новых цен: ${count}`);
     console.log('В таблице check_prices:', rows);
   } finally {
     await prisma.$disconnect();

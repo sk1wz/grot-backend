@@ -1,13 +1,9 @@
 import { CheckQueueService } from '@/queue/check/check-queue.service';
 import { CHECK_QUEUE_MODULES } from '@/queue/check/check-queue.constants';
-import { NotificationQueueService } from '@/queue/notification/notification-queue.service';
 import { ReportQueueService } from '@/queue/report/report-queue.service';
 import { PrismaService } from '@/prisma/prisma.service';
 import { Injectable, Logger, OnApplicationBootstrap } from '@nestjs/common';
-import {
-  CheckStatusEnums,
-  ReportStatusEnums,
-} from '@prisma/__generated__/enums';
+import { CheckStatusEnums, ReportStatusEnums } from '@/db';
 
 @Injectable()
 export class QueueRecoveryService implements OnApplicationBootstrap {
@@ -17,7 +13,6 @@ export class QueueRecoveryService implements OnApplicationBootstrap {
     private readonly prismaService: PrismaService,
     private readonly checkQueueService: CheckQueueService,
     private readonly reportQueueService: ReportQueueService,
-    private readonly notificationQueueService: NotificationQueueService,
   ) {}
 
   public onApplicationBootstrap(): void {
@@ -25,23 +20,14 @@ export class QueueRecoveryService implements OnApplicationBootstrap {
   }
 
   private async recoverOnStartup(): Promise<void> {
-    const [
-      submitRecovered,
-      syncRecovered,
-      reportsRecovered,
-      notificationsRecovered,
-    ] = await Promise.all([
-      this.recoverPendingSubmits(),
-      this.recoverActiveSyncs(),
-      this.recoverPendingReports(),
-      this.recoverFailedNotifications(),
-    ]);
+    const [submitRecovered, syncRecovered, reportsRecovered] =
+      await Promise.all([
+        this.recoverPendingSubmits(),
+        this.recoverActiveSyncs(),
+        this.recoverPendingReports(),
+      ]);
 
-    const total =
-      submitRecovered +
-      syncRecovered +
-      reportsRecovered +
-      notificationsRecovered;
+    const total = submitRecovered + syncRecovered + reportsRecovered;
 
     if (total === 0) {
       this.logger.log('Startup queue recovery: nothing to recover');
@@ -49,7 +35,7 @@ export class QueueRecoveryService implements OnApplicationBootstrap {
     }
 
     this.logger.log(
-      `Startup queue recovery: ${submitRecovered} submit, ${syncRecovered} sync, ${reportsRecovered} report, ${notificationsRecovered} notification jobs re-enqueued`,
+      `Startup queue recovery: ${submitRecovered} submit, ${syncRecovered} sync, ${reportsRecovered} report, jobs re-enqueued`,
     );
   }
 
@@ -131,9 +117,5 @@ export class QueueRecoveryService implements OnApplicationBootstrap {
     }
 
     return recovered;
-  }
-
-  private async recoverFailedNotifications(): Promise<number> {
-    return this.notificationQueueService.recoverFailedCreates();
   }
 }

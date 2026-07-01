@@ -1,4 +1,4 @@
-import { Prisma } from '@prisma/__generated__/client';
+import { Prisma } from '@/db';
 
 export type CreateNotificationParams = {
   userId: string;

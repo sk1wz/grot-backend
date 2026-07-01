@@ -7,8 +7,8 @@ import {
   Req,
 } from '@nestjs/common';
 import { type Request } from 'express';
-import { Auth } from '@/auth/decorators/auth.decorator';
-import { FsspCheckDto } from './dto/fssp.dto';
+import { Auth } from '@/auth/decorators';
+import { FsspCheckDto } from './dto';
 import { FsspService } from './fssp.service';
 
 @Controller('checks/fssp')
