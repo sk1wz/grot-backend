@@ -95,10 +95,10 @@ export class BalanceService {
         requireSufficientFunds: true,
       }),
     );
-
-    this.publish(userId, result);
-
-    return BalanceChangeResponseTransform.fromBalanceChangeResult(result);
+    const response =
+      BalanceChangeResponseTransform.fromBalanceChangeResponse(result);
+    this.publish(userId, response);
+    return response;
   }
 
   /* ФУНКЦИЯ ДЛЯ ПОПОЛНЕНИЯ БАЛАНСА */
@@ -112,10 +112,10 @@ export class BalanceService {
     const result = await this.runInTransaction(tx, (client) =>
       this.applyChange(client, userId, amount, status, meta),
     );
-
-    this.publish(userId, result);
-
-    return BalanceChangeResponseTransform.fromBalanceChangeResult(result);
+    const response =
+      BalanceChangeResponseTransform.fromBalanceChangeResponse(result);
+    this.publish(userId, response);
+    return response;
   }
 
   /* ФУНКЦИЯ ДЛЯ ПРИМЕНЕНИЯ ИЗМЕНЕНИЯ БАЛАНСА */
@@ -178,8 +178,6 @@ export class BalanceService {
   }
 
   private publish(userId: string, result: BalanceChangeResponse): void {
-    const payload =
-      BalanceChangeResponseTransform.fromBalanceChangeResult(result);
-    this.balanceGateway.emitBalanceUpdated(userId, payload);
+    this.balanceGateway.emitBalanceUpdated(userId, result);
   }
 }

@@ -5,7 +5,7 @@ export type BalanceChangeResponse = {
   transaction: BalanceTransaction;
 };
 export class BalanceChangeResponseTransform {
-  static fromBalanceChangeResult(
+  static fromBalanceChangeResponse(
     result: BalanceChangeResponse,
   ): BalanceChangeResponse {
     return {
