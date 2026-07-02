@@ -5,7 +5,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { CheckStatusEnums, Prisma, ReportStatusEnums } from '@/db';
+import { CheckStatusEnums, Prisma, Report, ReportStatusEnums } from '@/db';
 import { createReadStream } from 'fs';
 import { ReportPdfService } from './report-pdf.service';
 import { saveReportPdf } from './report-storage';
@@ -54,7 +54,7 @@ export class ReportService {
       return ReportResponseDto.fromReport(existingReport);
     }
 
-    let report;
+    let report: Report;
 
     try {
       report = await this.prismaService.report.create({
