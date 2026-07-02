@@ -8,6 +8,7 @@ import {
 import { BalanceChangeMeta, BalanceStatusEnums, JsonValue, Prisma } from '@/db';
 import { BalanceGateway } from './balance.gateway';
 import { AdminBalanceChangeDto } from './dto';
+import { NotificationService } from '@/notification/notification.service';
 import {
   BalanceChangeResponse,
   BalanceChangeResponseTransform,
@@ -20,6 +21,7 @@ export class BalanceService {
   public constructor(
     private readonly prismaService: PrismaService,
     private readonly balanceGateway: BalanceGateway,
+    private readonly notificationService: NotificationService,
   ) {}
 
   /* ПОЛЬЗОВАТЕЛЬСКИЕ ФУНКЦИИ */
@@ -97,6 +99,15 @@ export class BalanceService {
     );
     const response =
       BalanceChangeResponseTransform.fromBalanceChangeResponse(result);
+
+    if (!tx) {
+      await this.createBalanceNotification(
+        userId,
+        status,
+        response.transaction.amount,
+      );
+    }
+
     this.publish(userId, response);
     return response;
   }
@@ -114,6 +125,15 @@ export class BalanceService {
     );
     const response =
       BalanceChangeResponseTransform.fromBalanceChangeResponse(result);
+
+    if (!tx) {
+      await this.createBalanceNotification(
+        userId,
+        status,
+        response.transaction.amount,
+      );
+    }
+
     this.publish(userId, response);
     return response;
   }
@@ -179,5 +199,26 @@ export class BalanceService {
 
   private publish(userId: string, result: BalanceChangeResponse): void {
     this.balanceGateway.emitBalanceUpdated(userId, result);
+  }
+
+  private async createBalanceNotification(
+    userId: string,
+    status: BalanceStatusEnums,
+    amount: number,
+  ): Promise<void> {
+    const title =
+      status === BalanceStatusEnums.BALANCE_TOPUP
+        ? 'Пополнение баланса'
+        : 'Списание баланса';
+    const message =
+      status === BalanceStatusEnums.BALANCE_TOPUP
+        ? `Баланс пополнен на ${amount}`
+        : `С баланса списано ${amount}`;
+
+    await this.notificationService.create({
+      userId,
+      title,
+      message,
+    });
   }
 }

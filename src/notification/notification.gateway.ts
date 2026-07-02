@@ -5,6 +5,7 @@ import {
   WebSocketGateway,
   WebSocketServer,
 } from '@nestjs/websockets';
+import { Notification } from '@/db';
 import { Server, Socket } from 'socket.io';
 import { UserRoomGatewayBase } from '@/common/socket/user-room.gateway.base';
 
@@ -24,9 +25,9 @@ export class NotificationGateway extends UserRoomGatewayBase {
     this.joinFromPayload(client, body);
   }
 
-  public emitNotificationCreated(userId: string, payload: unknown): void {
+  public emitNotificationUpdated(userId: string, payload: Notification): void {
     this.server
       .to(this.getUserRoom(userId))
-      .emit('notification.created', payload);
+      .emit('notification.updated', payload);
   }
 }
