@@ -26,6 +26,7 @@ import {
   toCheckError,
 } from '@/utils/stormfinder-map';
 import { CheckGateway } from './check.gateway';
+import { NotificationService } from '@/notification/notification.service';
 
 @Injectable()
 export class CheckService {
@@ -35,6 +36,7 @@ export class CheckService {
     private readonly checkQueueService: CheckQueueService,
     private readonly balanceService: BalanceService,
     private readonly checkGateway: CheckGateway,
+    private readonly notificationService: NotificationService,
   ) {}
 
   /* === API ENDPOINTS === */
@@ -171,13 +173,13 @@ export class CheckService {
 
   /* ФУНКЦИЯ ДЛЯ ОБРАБОТКИ ОШИБКИ ПРОВЕРКИ */
   public async failCheck(check: Check, error: unknown): Promise<void> {
-    await this.prismaService.$transaction(async (tx) => {
+    const updatedCheck = await this.prismaService.$transaction(async (tx) => {
       const current = await tx.check.findUnique({
         where: { id: check.id },
       });
 
       if (!current) {
-        return;
+        return null;
       }
 
       const shouldRefund =
@@ -197,10 +199,10 @@ export class CheckService {
       }
 
       if (current.status === CheckStatusEnums.FAILED) {
-        return;
+        return null;
       }
 
-      await tx.check.update({
+      return tx.check.update({
         where: { id: current.id },
         data: {
           status: CheckStatusEnums.FAILED,
@@ -210,6 +212,10 @@ export class CheckService {
         },
       });
     });
+
+    if (updatedCheck) {
+      await this.publish(updatedCheck);
+    }
   }
 
   /* ФУНКЦИЯ */
@@ -221,7 +227,7 @@ export class CheckService {
     const shouldRefund =
       status === CheckStatusEnums.FAILED &&
       check.status !== CheckStatusEnums.FAILED;
-    await this.prismaService.$transaction(async (tx) => {
+    const updatedCheck = await this.prismaService.$transaction(async (tx) => {
       if (shouldRefund) {
         await this.balanceService.credit(
           check.userId,
@@ -234,13 +240,38 @@ export class CheckService {
         );
       }
 
-      await tx.check.update({
+      return tx.check.update({
         where: { id: check.id },
         data: {
           ...mapStormfinderResponseToCheckData(response),
           ...(shouldRefund ? { balanceRefund: true } : {}),
         },
       });
+    });
+
+    await this.publish(updatedCheck);
+  }
+
+  private async publish(check: Check): Promise<void> {
+    if (
+      check.status !== CheckStatusEnums.DONE &&
+      check.status !== CheckStatusEnums.FAILED
+    ) {
+      return;
+    }
+
+    const response = CheckResponseDto.fromCheck(check);
+    this.checkGateway.emitCheckUpdated(check.userId, response);
+
+    const moduleLabel = getCheckModuleLabel(check.module);
+    const isSuccess = check.status === CheckStatusEnums.DONE;
+
+    await this.notificationService.create({
+      userId: check.userId,
+      title: isSuccess ? 'Проверка завершена' : 'Проверка не выполнена',
+      message: isSuccess
+        ? `Проверка «${moduleLabel}» успешно завершена`
+        : `Проверка «${moduleLabel}» завершилась с ошибкой`,
     });
   }
 

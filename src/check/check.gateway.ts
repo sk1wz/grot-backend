@@ -7,6 +7,7 @@ import {
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
 import { UserRoomGatewayBase } from '@/common/socket/user-room.gateway.base';
+import { CheckResponse } from './response/check.response';
 
 @WebSocketGateway({
   namespace: 'check',
@@ -24,7 +25,7 @@ export class CheckGateway extends UserRoomGatewayBase {
     this.joinFromPayload(client, body);
   }
 
-  public emitCheckUpdated(userId: string, payload: unknown): void {
+  public emitCheckUpdated(userId: string, payload: CheckResponse): void {
     this.server.to(this.getUserRoom(userId)).emit('check.updated', payload);
   }
 }
