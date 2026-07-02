@@ -40,8 +40,15 @@ export class BalanceService {
   }
 
   /* АДМИНИСТРАТИВНЫЕ ФУНКЦИИ */
-  public async getAllUserTransactionsByAdmin() {
+  public async getAllTransactionsByAdmin() {
     return this.prismaService.balanceTransaction.findMany({
+      orderBy: { createdAt: 'desc' },
+    });
+  }
+
+  public async getTransactionsByAdmin(userId: string) {
+    return this.prismaService.balanceTransaction.findMany({
+      where: { userId },
       orderBy: { createdAt: 'desc' },
       select: {
         id: true,
@@ -50,13 +57,6 @@ export class BalanceService {
         meta: true,
         createdAt: true,
       },
-    });
-  }
-
-  public async getUserTransactionsByAdmin(userId: string) {
-    return this.prismaService.balanceTransaction.findMany({
-      where: { userId },
-      orderBy: { createdAt: 'desc' },
     });
   }
 
