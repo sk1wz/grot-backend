@@ -1,7 +1,7 @@
 import { BullModule } from '@nestjs/bullmq';
 import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { CHECK_QUEUES } from './check/check-queue.constants';
+import { CHECK_SINGLE_QUEUE } from './check/check-queue.constants';
 import { REPORT_QUEUE } from './report/report-queue.constants';
 
 @Module({
@@ -15,11 +15,7 @@ import { REPORT_QUEUE } from './report/report-queue.constants';
       }),
     }),
     BullModule.registerQueue(
-      { name: CHECK_QUEUES.GIBDD },
-      { name: CHECK_QUEUES.GISTORGI },
-      { name: CHECK_QUEUES.FSSP },
-      { name: CHECK_QUEUES.BANKRUPTCY },
-      { name: CHECK_QUEUES.INN },
+      { name: CHECK_SINGLE_QUEUE },
       { name: REPORT_QUEUE },
     ),
   ],

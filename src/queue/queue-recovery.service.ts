@@ -46,16 +46,13 @@ export class QueueRecoveryService implements OnApplicationBootstrap {
         serviceId: null,
         module: { in: [...CHECK_QUEUE_MODULES] },
       },
-      select: { id: true, module: true },
+      select: { id: true },
     });
 
     let recovered = 0;
 
     for (const check of checks) {
-      const enqueued = await this.checkQueueService.ensureSubmit(
-        check.module,
-        check.id,
-      );
+      const enqueued = await this.checkQueueService.ensureSubmit(check.id);
 
       if (enqueued) {
         recovered += 1;
@@ -74,16 +71,13 @@ export class QueueRecoveryService implements OnApplicationBootstrap {
         serviceId: { not: null },
         module: { in: [...CHECK_QUEUE_MODULES] },
       },
-      select: { id: true, module: true },
+      select: { id: true },
     });
 
     let recovered = 0;
 
     for (const check of checks) {
-      const enqueued = await this.checkQueueService.ensureSync(
-        check.module,
-        check.id,
-      );
+      const enqueued = await this.checkQueueService.ensureSync(check.id);
 
       if (enqueued) {
         recovered += 1;

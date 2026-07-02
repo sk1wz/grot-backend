@@ -93,7 +93,7 @@ export class CheckService {
     });
 
     try {
-      await this.checkQueueService.enqueueSubmit(module, check.id);
+      await this.checkQueueService.enqueueSubmit(check.id);
     } catch (error) {
       await this.failCheck(check, error);
       throw error;
@@ -135,7 +135,7 @@ export class CheckService {
       });
 
       if (isActiveCheckStatus(mapStormfinderStatus(response.status))) {
-        await this.checkQueueService.enqueueSync(check.module, check.id);
+        await this.checkQueueService.enqueueSync(check.id);
       }
     } catch (error) {
       await this.failCheck(check, error);
@@ -164,10 +164,10 @@ export class CheckService {
       await this.persistFinderResponse(check, response);
 
       if (isActiveCheckStatus(mapStormfinderStatus(response.status))) {
-        await this.checkQueueService.enqueueSync(check.module, check.id);
+        await this.checkQueueService.enqueueSync(check.id);
       }
     } catch {
-      await this.checkQueueService.enqueueSync(check.module, check.id);
+      await this.checkQueueService.enqueueSync(check.id);
     }
   }
 

@@ -1,14 +1,12 @@
 import { InjectQueue } from '@nestjs/bullmq';
 import { Injectable } from '@nestjs/common';
-import { CheckModuleEnums } from '@/db';
 import { Queue, JobType } from 'bullmq';
 import {
-  CHECK_QUEUES,
+  CHECK_SINGLE_QUEUE,
   CHECK_SUBMIT_JOB,
   CHECK_SYNC_DELAY_MS,
   CHECK_SYNC_JOB,
   CheckJobData,
-  QueuedCheckModule,
 } from './check-queue.constants';
 
 const PENDING_JOB_STATES: JobType[] = [
@@ -22,36 +20,13 @@ const PENDING_JOB_STATES: JobType[] = [
 
 @Injectable()
 export class CheckQueueService {
-  private readonly queues: Record<QueuedCheckModule, Queue<CheckJobData>>;
-
   public constructor(
-    @InjectQueue(CHECK_QUEUES.GIBDD)
-    gibddQueue: Queue<CheckJobData>,
-    @InjectQueue(CHECK_QUEUES.GISTORGI)
-    gistorgiQueue: Queue<CheckJobData>,
-    @InjectQueue(CHECK_QUEUES.FSSP)
-    fsspQueue: Queue<CheckJobData>,
-    @InjectQueue(CHECK_QUEUES.BANKRUPTCY)
-    bankruptcyQueue: Queue<CheckJobData>,
-    @InjectQueue(CHECK_QUEUES.INN)
-    innQueue: Queue<CheckJobData>,
-  ) {
-    this.queues = {
-      [CheckModuleEnums.GIBDD]: gibddQueue,
-      [CheckModuleEnums.GISTORGI]: gistorgiQueue,
-      [CheckModuleEnums.FSSP]: fsspQueue,
-      [CheckModuleEnums.BANKRUPTCY]: bankruptcyQueue,
-      [CheckModuleEnums.INN]: innQueue,
-    };
-  }
+    @InjectQueue(CHECK_SINGLE_QUEUE)
+    private readonly queue: Queue<CheckJobData>,
+  ) {}
 
-  public async enqueueSubmit(
-    module: QueuedCheckModule,
-    checkId: string,
-  ): Promise<void> {
-    const queue = this.getQueue(module);
-
-    await queue.add(
+  public async enqueueSubmit(checkId: string): Promise<void> {
+    await this.queue.add(
       CHECK_SUBMIT_JOB,
       { checkId },
       {
@@ -67,13 +42,8 @@ export class CheckQueueService {
     );
   }
 
-  public async enqueueSync(
-    module: QueuedCheckModule,
-    checkId: string,
-  ): Promise<void> {
-    const queue = this.getQueue(module);
-
-    await queue.add(
+  public async enqueueSync(checkId: string): Promise<void> {
+    await this.queue.add(
       CHECK_SYNC_JOB,
       { checkId },
       {
@@ -84,12 +54,8 @@ export class CheckQueueService {
     );
   }
 
-  public async ensureSubmit(
-    module: QueuedCheckModule,
-    checkId: string,
-  ): Promise<boolean> {
-    const queue = this.getQueue(module);
-    const existing = await queue.getJob(checkId);
+  public async ensureSubmit(checkId: string): Promise<boolean> {
+    const existing = await this.queue.getJob(checkId);
 
     if (existing) {
       const state = await existing.getState();
@@ -104,30 +70,22 @@ export class CheckQueueService {
       }
     }
 
-    await this.enqueueSubmit(module, checkId);
+    await this.enqueueSubmit(checkId);
     return true;
   }
 
-  public async ensureSync(
-    module: QueuedCheckModule,
-    checkId: string,
-  ): Promise<boolean> {
-    if (await this.hasPendingSyncJob(module, checkId)) {
+  public async ensureSync(checkId: string): Promise<boolean> {
+    if (await this.hasPendingSyncJob(checkId)) {
       return false;
     }
 
-    await this.enqueueSync(module, checkId);
+    await this.enqueueSync(checkId);
     return true;
   }
 
-  private async hasPendingSyncJob(
-    module: QueuedCheckModule,
-    checkId: string,
-  ): Promise<boolean> {
-    const queue = this.getQueue(module);
-
+  private async hasPendingSyncJob(checkId: string): Promise<boolean> {
     for (const state of PENDING_JOB_STATES) {
-      const jobs = await queue.getJobs([state], 0, 100);
+      const jobs = await this.queue.getJobs([state], 0, 100);
 
       if (
         jobs.some(
@@ -143,9 +101,5 @@ export class CheckQueueService {
 
   private isPendingState(state: string): boolean {
     return PENDING_JOB_STATES.includes(state as JobType);
-  }
-
-  private getQueue(module: QueuedCheckModule): Queue<CheckJobData> {
-    return this.queues[module];
   }
 }

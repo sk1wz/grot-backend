@@ -1,12 +1,6 @@
 import { CheckModuleEnums } from '@/db';
 
-export const CHECK_QUEUES = {
-  GIBDD: 'checks-gibdd',
-  GISTORGI: 'checks-gistorgi',
-  FSSP: 'checks-fssp',
-  BANKRUPTCY: 'checks-bankruptcy',
-  INN: 'checks-inn',
-} as const;
+export const CHECK_SINGLE_QUEUE = 'checks-single';
 
 export const CHECK_QUEUE_MODULES = [
   CheckModuleEnums.GIBDD,

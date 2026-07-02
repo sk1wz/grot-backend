@@ -2,14 +2,15 @@ import { Processor, WorkerHost } from '@nestjs/bullmq';
 import { Job } from 'bullmq';
 import { CheckService } from '@/check/check.service';
 import {
-  CHECK_QUEUES,
+  CHECK_SINGLE_QUEUE,
   CHECK_SUBMIT_JOB,
   CHECK_SYNC_JOB,
   CheckJobData,
 } from './check-queue.constants';
 
-abstract class CheckJobProcessor extends WorkerHost {
-  public constructor(protected readonly checkService: CheckService) {
+@Processor(CHECK_SINGLE_QUEUE, { concurrency: 1 })
+export class CheckProcessor extends WorkerHost {
+  public constructor(private readonly checkService: CheckService) {
     super();
   }
 
@@ -22,40 +23,5 @@ abstract class CheckJobProcessor extends WorkerHost {
         await this.checkService.checkFinderById(job.data.checkId);
         return;
     }
-  }
-}
-
-@Processor(CHECK_QUEUES.GIBDD)
-export class GibddCheckProcessor extends CheckJobProcessor {
-  public constructor(checkService: CheckService) {
-    super(checkService);
-  }
-}
-
-@Processor(CHECK_QUEUES.GISTORGI)
-export class GistorgiCheckProcessor extends CheckJobProcessor {
-  public constructor(checkService: CheckService) {
-    super(checkService);
-  }
-}
-
-@Processor(CHECK_QUEUES.FSSP)
-export class FsspCheckProcessor extends CheckJobProcessor {
-  public constructor(checkService: CheckService) {
-    super(checkService);
-  }
-}
-
-@Processor(CHECK_QUEUES.BANKRUPTCY)
-export class BankruptcyCheckProcessor extends CheckJobProcessor {
-  public constructor(checkService: CheckService) {
-    super(checkService);
-  }
-}
-
-@Processor(CHECK_QUEUES.INN)
-export class InnCheckProcessor extends CheckJobProcessor {
-  public constructor(checkService: CheckService) {
-    super(checkService);
   }
 }
