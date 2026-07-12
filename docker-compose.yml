@@ -39,7 +39,7 @@ services:
     container_name: grot-backend
     build:
       context: .
-      dockerfile: DockerFile
+      dockerfile: Dockerfile
     restart: always
     depends_on:
       db:

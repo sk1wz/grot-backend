@@ -66,7 +66,7 @@ export class BalanceService {
       dto.amount,
       BalanceStatusEnums.BALANCE_PURCHASE,
       {
-        action: 'Списание с баланса',
+        action: 'Списание баланса',
       },
     );
   }
@@ -77,7 +77,7 @@ export class BalanceService {
       dto.amount,
       BalanceStatusEnums.BALANCE_TOPUP,
       {
-        action: 'Пополнение на баланс',
+        action: 'Пополнение баланса',
       },
     );
   }
