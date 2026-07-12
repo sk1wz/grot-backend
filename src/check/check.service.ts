@@ -75,7 +75,7 @@ export class CheckService {
         cost,
         BalanceStatusEnums.BALANCE_PURCHASE,
         {
-          action: `Оплата проверки модуль ${getCheckModuleLabel(module)}`,
+          action: `Оплата модуль ${getCheckModuleLabel(module)}`,
         },
         tx,
       );

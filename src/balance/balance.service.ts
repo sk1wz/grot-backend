@@ -66,7 +66,7 @@ export class BalanceService {
       dto.amount,
       BalanceStatusEnums.BALANCE_PURCHASE,
       {
-        action: 'Списание баланса',
+        action: 'Списание баланса администратором',
       },
     );
   }
@@ -77,7 +77,7 @@ export class BalanceService {
       dto.amount,
       BalanceStatusEnums.BALANCE_TOPUP,
       {
-        action: 'Пополнение баланса',
+        action: 'Пополнение баланса администратором',
       },
     );
   }
@@ -100,13 +100,13 @@ export class BalanceService {
     const response =
       BalanceChangeResponseTransform.fromBalanceChangeResponse(result);
 
-    if (!tx) {
-      await this.createBalanceNotification(
-        userId,
-        status,
-        response.transaction.amount,
-      );
-    }
+    // if (!tx) {
+    //   await this.createBalanceNotification(
+    //     userId,
+    //     status,
+    //     response.transaction.amount,
+    //   );
+    // }
 
     this.publish(userId, response);
     return response;
@@ -126,13 +126,13 @@ export class BalanceService {
     const response =
       BalanceChangeResponseTransform.fromBalanceChangeResponse(result);
 
-    if (!tx) {
-      await this.createBalanceNotification(
-        userId,
-        status,
-        response.transaction.amount,
-      );
-    }
+    // if (!tx) {
+    //   await this.createBalanceNotification(
+    //     userId,
+    //     status,
+    //     response.transaction.amount,
+    //   );
+    // }
 
     this.publish(userId, response);
     return response;
@@ -201,24 +201,24 @@ export class BalanceService {
     this.balanceGateway.emitBalanceUpdated(userId, result);
   }
 
-  private async createBalanceNotification(
-    userId: string,
-    status: BalanceStatusEnums,
-    amount: number,
-  ): Promise<void> {
-    const title =
-      status === BalanceStatusEnums.BALANCE_TOPUP
-        ? 'Пополнение баланса'
-        : 'Списание баланса';
-    const message =
-      status === BalanceStatusEnums.BALANCE_TOPUP
-        ? `Баланс пополнен на ${amount}`
-        : `С баланса списано ${amount}`;
+  // private async createBalanceNotification(
+  //   userId: string,
+  //   status: BalanceStatusEnums,
+  //   amount: number,
+  // ): Promise<void> {
+  //   const title =
+  //     status === BalanceStatusEnums.BALANCE_TOPUP
+  //       ? 'Пополнение баланса'
+  //       : 'Списание баланса';
+  //   const message =
+  //     status === BalanceStatusEnums.BALANCE_TOPUP
+  //       ? `Баланс пополнен на ${amount}`
+  //       : `С баланса списано ${amount}`;
 
-    await this.notificationService.create({
-      userId,
-      title,
-      message,
-    });
-  }
+  //   await this.notificationService.create({
+  //     userId,
+  //     title,
+  //     message,
+  //   });
+  // }
 }
