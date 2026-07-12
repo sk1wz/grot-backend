@@ -8,7 +8,6 @@ import { CheckModule } from '@/check/check.module';
 import { BalanceModule } from '@/balance/balance.module';
 import { ReportModule } from '@/report/report.module';
 import { QueueModule } from '@/queue/queue.module';
-import { NotificationModule } from '@/notification/notification.module';
 
 @Module({
   imports: [
@@ -20,7 +19,6 @@ import { NotificationModule } from '@/notification/notification.module';
     AuthModule,
     UserModule,
     BalanceModule,
-    NotificationModule,
     CheckModule,
     ReportModule,
     QueueModule,

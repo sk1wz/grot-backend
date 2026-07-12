@@ -26,7 +26,6 @@ import {
   toCheckError,
 } from '@/utils/stormfinder-map';
 import { CheckGateway } from './check.gateway';
-import { NotificationService } from '@/notification/notification.service';
 
 @Injectable()
 export class CheckService {
@@ -36,7 +35,6 @@ export class CheckService {
     private readonly checkQueueService: CheckQueueService,
     private readonly balanceService: BalanceService,
     private readonly checkGateway: CheckGateway,
-    private readonly notificationService: NotificationService,
   ) {}
 
   /* === API ENDPOINTS === */
@@ -214,7 +212,7 @@ export class CheckService {
     });
 
     if (updatedCheck) {
-      await this.publish(updatedCheck);
+      this.publish(updatedCheck);
     }
   }
 
@@ -249,10 +247,10 @@ export class CheckService {
       });
     });
 
-    await this.publish(updatedCheck);
+    this.publish(updatedCheck);
   }
 
-  private async publish(check: Check): Promise<void> {
+  private publish(check: Check): void {
     if (
       check.status !== CheckStatusEnums.DONE &&
       check.status !== CheckStatusEnums.FAILED
@@ -262,17 +260,6 @@ export class CheckService {
 
     const response = CheckResponseDto.fromCheck(check);
     this.checkGateway.emitCheckUpdated(check.userId, response);
-
-    const moduleLabel = getCheckModuleLabel(check.module);
-    const isSuccess = check.status === CheckStatusEnums.DONE;
-
-    await this.notificationService.create({
-      userId: check.userId,
-      title: isSuccess ? 'Проверка завершена' : 'Проверка не выполнена',
-      message: isSuccess
-        ? `Проверка «${moduleLabel}» успешно завершена`
-        : `Проверка «${moduleLabel}» завершилась с ошибкой`,
-    });
   }
 
   private async getCheckPrice(module: CheckModuleEnums): Promise<number> {

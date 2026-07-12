@@ -16,7 +16,6 @@ import { GistorgiController } from './gistorgi/gistrogi.controller';
 import { GistorgiService } from './gistorgi/gistorgi.service';
 import { InnController } from './inn/inn.controller';
 import { InnService } from './inn/inn.service';
-import { NotificationModule } from '@/notification/notification.module';
 import { CheckGateway } from './check.gateway';
 
 @Module({
@@ -25,7 +24,6 @@ import { CheckGateway } from './check.gateway';
     BalanceModule,
     PrismaModule,
     StormfinderModule,
-    NotificationModule,
     forwardRef(() => QueueModule),
   ],
   controllers: [

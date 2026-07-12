@@ -8,7 +8,6 @@ import {
 import { BalanceChangeMeta, BalanceStatusEnums, JsonValue, Prisma } from '@/db';
 import { BalanceGateway } from './balance.gateway';
 import { AdminBalanceChangeDto } from './dto';
-import { NotificationService } from '@/notification/notification.service';
 import {
   BalanceChangeResponse,
   BalanceChangeResponseTransform,
@@ -21,7 +20,6 @@ export class BalanceService {
   public constructor(
     private readonly prismaService: PrismaService,
     private readonly balanceGateway: BalanceGateway,
-    private readonly notificationService: NotificationService,
   ) {}
 
   /* ПОЛЬЗОВАТЕЛЬСКИЕ ФУНКЦИИ */
@@ -100,14 +98,6 @@ export class BalanceService {
     const response =
       BalanceChangeResponseTransform.fromBalanceChangeResponse(result);
 
-    if (!tx) {
-      await this.createBalanceNotification(
-        userId,
-        status,
-        response.transaction.amount,
-      );
-    }
-
     this.publish(userId, response);
     return response;
   }
@@ -125,14 +115,6 @@ export class BalanceService {
     );
     const response =
       BalanceChangeResponseTransform.fromBalanceChangeResponse(result);
-
-    if (!tx) {
-      await this.createBalanceNotification(
-        userId,
-        status,
-        response.transaction.amount,
-      );
-    }
 
     this.publish(userId, response);
     return response;
@@ -199,23 +181,5 @@ export class BalanceService {
 
   private publish(userId: string, result: BalanceChangeResponse): void {
     this.balanceGateway.emitBalanceUpdated(userId, result);
-  }
-
-  private async createBalanceNotification(
-    userId: string,
-    status: BalanceStatusEnums,
-    amount: number,
-  ): Promise<void> {
-    const isTopup = status === BalanceStatusEnums.BALANCE_TOPUP;
-    const title = isTopup ? 'Пополнение' : 'Списание';
-    const message = isTopup
-      ? `Пополнение на ${amount}`
-      : `Списание на ${amount}`;
-
-    await this.notificationService.create({
-      userId,
-      title,
-      message,
-    });
   }
 }

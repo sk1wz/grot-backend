@@ -251,7 +251,6 @@ export type UserWhereInput = {
   checks?: Prisma.CheckListRelationFilter
   reports?: Prisma.ReportListRelationFilter
   balanceTransactions?: Prisma.BalanceTransactionListRelationFilter
-  notifications?: Prisma.NotificationListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -267,7 +266,6 @@ export type UserOrderByWithRelationInput = {
   checks?: Prisma.CheckOrderByRelationAggregateInput
   reports?: Prisma.ReportOrderByRelationAggregateInput
   balanceTransactions?: Prisma.BalanceTransactionOrderByRelationAggregateInput
-  notifications?: Prisma.NotificationOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -286,7 +284,6 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   checks?: Prisma.CheckListRelationFilter
   reports?: Prisma.ReportListRelationFilter
   balanceTransactions?: Prisma.BalanceTransactionListRelationFilter
-  notifications?: Prisma.NotificationListRelationFilter
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -334,7 +331,6 @@ export type UserCreateInput = {
   checks?: Prisma.CheckCreateNestedManyWithoutUserInput
   reports?: Prisma.ReportCreateNestedManyWithoutUserInput
   balanceTransactions?: Prisma.BalanceTransactionCreateNestedManyWithoutUserInput
-  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -350,7 +346,6 @@ export type UserUncheckedCreateInput = {
   checks?: Prisma.CheckUncheckedCreateNestedManyWithoutUserInput
   reports?: Prisma.ReportUncheckedCreateNestedManyWithoutUserInput
   balanceTransactions?: Prisma.BalanceTransactionUncheckedCreateNestedManyWithoutUserInput
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -366,7 +361,6 @@ export type UserUpdateInput = {
   checks?: Prisma.CheckUpdateManyWithoutUserNestedInput
   reports?: Prisma.ReportUpdateManyWithoutUserNestedInput
   balanceTransactions?: Prisma.BalanceTransactionUpdateManyWithoutUserNestedInput
-  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -382,7 +376,6 @@ export type UserUncheckedUpdateInput = {
   checks?: Prisma.CheckUncheckedUpdateManyWithoutUserNestedInput
   reports?: Prisma.ReportUncheckedUpdateManyWithoutUserNestedInput
   balanceTransactions?: Prisma.BalanceTransactionUncheckedUpdateManyWithoutUserNestedInput
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -498,20 +491,6 @@ export type DateTimeFieldUpdateOperationsInput = {
   set?: Date | string
 }
 
-export type UserCreateNestedOneWithoutNotificationsInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutNotificationsInput, Prisma.UserUncheckedCreateWithoutNotificationsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutNotificationsInput
-  connect?: Prisma.UserWhereUniqueInput
-}
-
-export type UserUpdateOneRequiredWithoutNotificationsNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutNotificationsInput, Prisma.UserUncheckedCreateWithoutNotificationsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutNotificationsInput
-  upsert?: Prisma.UserUpsertWithoutNotificationsInput
-  connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutNotificationsInput, Prisma.UserUpdateWithoutNotificationsInput>, Prisma.UserUncheckedUpdateWithoutNotificationsInput>
-}
-
 export type UserCreateNestedOneWithoutChecksInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutChecksInput, Prisma.UserUncheckedCreateWithoutChecksInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutChecksInput
@@ -554,82 +533,6 @@ export type UserUpdateOneRequiredWithoutBalanceTransactionsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutBalanceTransactionsInput, Prisma.UserUpdateWithoutBalanceTransactionsInput>, Prisma.UserUncheckedUpdateWithoutBalanceTransactionsInput>
 }
 
-export type UserCreateWithoutNotificationsInput = {
-  id?: string
-  email: string
-  password: string
-  role?: $Enums.UserRole
-  balance?: number
-  picture?: string | null
-  method: $Enums.AuthMethod
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  checks?: Prisma.CheckCreateNestedManyWithoutUserInput
-  reports?: Prisma.ReportCreateNestedManyWithoutUserInput
-  balanceTransactions?: Prisma.BalanceTransactionCreateNestedManyWithoutUserInput
-}
-
-export type UserUncheckedCreateWithoutNotificationsInput = {
-  id?: string
-  email: string
-  password: string
-  role?: $Enums.UserRole
-  balance?: number
-  picture?: string | null
-  method: $Enums.AuthMethod
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  checks?: Prisma.CheckUncheckedCreateNestedManyWithoutUserInput
-  reports?: Prisma.ReportUncheckedCreateNestedManyWithoutUserInput
-  balanceTransactions?: Prisma.BalanceTransactionUncheckedCreateNestedManyWithoutUserInput
-}
-
-export type UserCreateOrConnectWithoutNotificationsInput = {
-  where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutNotificationsInput, Prisma.UserUncheckedCreateWithoutNotificationsInput>
-}
-
-export type UserUpsertWithoutNotificationsInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutNotificationsInput, Prisma.UserUncheckedUpdateWithoutNotificationsInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutNotificationsInput, Prisma.UserUncheckedCreateWithoutNotificationsInput>
-  where?: Prisma.UserWhereInput
-}
-
-export type UserUpdateToOneWithWhereWithoutNotificationsInput = {
-  where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutNotificationsInput, Prisma.UserUncheckedUpdateWithoutNotificationsInput>
-}
-
-export type UserUpdateWithoutNotificationsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-  balance?: Prisma.IntFieldUpdateOperationsInput | number
-  picture?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  method?: Prisma.EnumAuthMethodFieldUpdateOperationsInput | $Enums.AuthMethod
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  checks?: Prisma.CheckUpdateManyWithoutUserNestedInput
-  reports?: Prisma.ReportUpdateManyWithoutUserNestedInput
-  balanceTransactions?: Prisma.BalanceTransactionUpdateManyWithoutUserNestedInput
-}
-
-export type UserUncheckedUpdateWithoutNotificationsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-  balance?: Prisma.IntFieldUpdateOperationsInput | number
-  picture?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  method?: Prisma.EnumAuthMethodFieldUpdateOperationsInput | $Enums.AuthMethod
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  checks?: Prisma.CheckUncheckedUpdateManyWithoutUserNestedInput
-  reports?: Prisma.ReportUncheckedUpdateManyWithoutUserNestedInput
-  balanceTransactions?: Prisma.BalanceTransactionUncheckedUpdateManyWithoutUserNestedInput
-}
-
 export type UserCreateWithoutChecksInput = {
   id?: string
   email: string
@@ -642,7 +545,6 @@ export type UserCreateWithoutChecksInput = {
   updatedAt?: Date | string
   reports?: Prisma.ReportCreateNestedManyWithoutUserInput
   balanceTransactions?: Prisma.BalanceTransactionCreateNestedManyWithoutUserInput
-  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutChecksInput = {
@@ -657,7 +559,6 @@ export type UserUncheckedCreateWithoutChecksInput = {
   updatedAt?: Date | string
   reports?: Prisma.ReportUncheckedCreateNestedManyWithoutUserInput
   balanceTransactions?: Prisma.BalanceTransactionUncheckedCreateNestedManyWithoutUserInput
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutChecksInput = {
@@ -688,7 +589,6 @@ export type UserUpdateWithoutChecksInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   reports?: Prisma.ReportUpdateManyWithoutUserNestedInput
   balanceTransactions?: Prisma.BalanceTransactionUpdateManyWithoutUserNestedInput
-  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutChecksInput = {
@@ -703,7 +603,6 @@ export type UserUncheckedUpdateWithoutChecksInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   reports?: Prisma.ReportUncheckedUpdateManyWithoutUserNestedInput
   balanceTransactions?: Prisma.BalanceTransactionUncheckedUpdateManyWithoutUserNestedInput
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutReportsInput = {
@@ -718,7 +617,6 @@ export type UserCreateWithoutReportsInput = {
   updatedAt?: Date | string
   checks?: Prisma.CheckCreateNestedManyWithoutUserInput
   balanceTransactions?: Prisma.BalanceTransactionCreateNestedManyWithoutUserInput
-  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutReportsInput = {
@@ -733,7 +631,6 @@ export type UserUncheckedCreateWithoutReportsInput = {
   updatedAt?: Date | string
   checks?: Prisma.CheckUncheckedCreateNestedManyWithoutUserInput
   balanceTransactions?: Prisma.BalanceTransactionUncheckedCreateNestedManyWithoutUserInput
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutReportsInput = {
@@ -764,7 +661,6 @@ export type UserUpdateWithoutReportsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   checks?: Prisma.CheckUpdateManyWithoutUserNestedInput
   balanceTransactions?: Prisma.BalanceTransactionUpdateManyWithoutUserNestedInput
-  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReportsInput = {
@@ -779,7 +675,6 @@ export type UserUncheckedUpdateWithoutReportsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   checks?: Prisma.CheckUncheckedUpdateManyWithoutUserNestedInput
   balanceTransactions?: Prisma.BalanceTransactionUncheckedUpdateManyWithoutUserNestedInput
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutBalanceTransactionsInput = {
@@ -794,7 +689,6 @@ export type UserCreateWithoutBalanceTransactionsInput = {
   updatedAt?: Date | string
   checks?: Prisma.CheckCreateNestedManyWithoutUserInput
   reports?: Prisma.ReportCreateNestedManyWithoutUserInput
-  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutBalanceTransactionsInput = {
@@ -809,7 +703,6 @@ export type UserUncheckedCreateWithoutBalanceTransactionsInput = {
   updatedAt?: Date | string
   checks?: Prisma.CheckUncheckedCreateNestedManyWithoutUserInput
   reports?: Prisma.ReportUncheckedCreateNestedManyWithoutUserInput
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutBalanceTransactionsInput = {
@@ -840,7 +733,6 @@ export type UserUpdateWithoutBalanceTransactionsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   checks?: Prisma.CheckUpdateManyWithoutUserNestedInput
   reports?: Prisma.ReportUpdateManyWithoutUserNestedInput
-  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutBalanceTransactionsInput = {
@@ -855,7 +747,6 @@ export type UserUncheckedUpdateWithoutBalanceTransactionsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   checks?: Prisma.CheckUncheckedUpdateManyWithoutUserNestedInput
   reports?: Prisma.ReportUncheckedUpdateManyWithoutUserNestedInput
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -867,14 +758,12 @@ export type UserCountOutputType = {
   checks: number
   reports: number
   balanceTransactions: number
-  notifications: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   checks?: boolean | UserCountOutputTypeCountChecksArgs
   reports?: boolean | UserCountOutputTypeCountReportsArgs
   balanceTransactions?: boolean | UserCountOutputTypeCountBalanceTransactionsArgs
-  notifications?: boolean | UserCountOutputTypeCountNotificationsArgs
 }
 
 /**
@@ -908,13 +797,6 @@ export type UserCountOutputTypeCountBalanceTransactionsArgs<ExtArgs extends runt
   where?: Prisma.BalanceTransactionWhereInput
 }
 
-/**
- * UserCountOutputType without action
- */
-export type UserCountOutputTypeCountNotificationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.NotificationWhereInput
-}
-
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -929,7 +811,6 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   checks?: boolean | Prisma.User$checksArgs<ExtArgs>
   reports?: boolean | Prisma.User$reportsArgs<ExtArgs>
   balanceTransactions?: boolean | Prisma.User$balanceTransactionsArgs<ExtArgs>
-  notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -974,7 +855,6 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   checks?: boolean | Prisma.User$checksArgs<ExtArgs>
   reports?: boolean | Prisma.User$reportsArgs<ExtArgs>
   balanceTransactions?: boolean | Prisma.User$balanceTransactionsArgs<ExtArgs>
-  notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -986,7 +866,6 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     checks: Prisma.$CheckPayload<ExtArgs>[]
     reports: Prisma.$ReportPayload<ExtArgs>[]
     balanceTransactions: Prisma.$BalanceTransactionPayload<ExtArgs>[]
-    notifications: Prisma.$NotificationPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1395,7 +1274,6 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   checks<T extends Prisma.User$checksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$checksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CheckPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   reports<T extends Prisma.User$reportsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$reportsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   balanceTransactions<T extends Prisma.User$balanceTransactionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$balanceTransactionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BalanceTransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  notifications<T extends Prisma.User$notificationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1891,30 +1769,6 @@ export type User$balanceTransactionsArgs<ExtArgs extends runtime.Types.Extension
   take?: number
   skip?: number
   distinct?: Prisma.BalanceTransactionScalarFieldEnum | Prisma.BalanceTransactionScalarFieldEnum[]
-}
-
-/**
- * User.notifications
- */
-export type User$notificationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Notification
-   */
-  select?: Prisma.NotificationSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Notification
-   */
-  omit?: Prisma.NotificationOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.NotificationInclude<ExtArgs> | null
-  where?: Prisma.NotificationWhereInput
-  orderBy?: Prisma.NotificationOrderByWithRelationInput | Prisma.NotificationOrderByWithRelationInput[]
-  cursor?: Prisma.NotificationWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.NotificationScalarFieldEnum | Prisma.NotificationScalarFieldEnum[]
 }
 
 /**

@@ -45,11 +45,6 @@ export { Prisma }
  */
 export type User = Prisma.UserModel
 /**
- * Model Notification
- * 
- */
-export type Notification = Prisma.NotificationModel
-/**
  * Model CheckPrice
  * 
  */
