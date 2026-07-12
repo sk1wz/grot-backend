@@ -1,6 +1,5 @@
 export type {
   User,
-  Notification,
   CheckPrice,
   Check,
   Report,
