@@ -60,9 +60,16 @@ export class AuthService {
             ),
           );
         }
-        res.clearCookie(this.configService.getOrThrow<string>('SESSION_NAME'));
+
+        res.clearCookie(this.configService.getOrThrow<string>('SESSION_NAME'), {
+          domain: this.configService.getOrThrow<string>('SESSION_DOMAIN'),
+          path: '/',
+          httpOnly: true,
+          secure: false,
+          sameSite: 'lax',
+        });
+        resolve();
       });
-      resolve();
     });
   }
 
