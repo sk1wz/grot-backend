@@ -1,11 +1,12 @@
 import { User, UserRole } from '@/db';
+import { Decimal } from '@prisma/client/runtime/client';
 
 export class UserResponse {
   id: string;
   email: string;
   role: UserRole;
   picture: string | null;
-  balance: number;
+  balance: Decimal;
   createdAt: Date;
 
   static fromUser(user: User): UserResponse {

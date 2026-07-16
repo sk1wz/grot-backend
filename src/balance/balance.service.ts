@@ -22,9 +22,8 @@ export class BalanceService {
     private readonly balanceGateway: BalanceGateway,
   ) {}
 
-  /* ПОЛЬЗОВАТЕЛЬСКИЕ ФУНКЦИИ */
   public async getTransactions(userId: string) {
-    return this.prismaService.balanceTransaction.findMany({
+    const transactions = await this.prismaService.balanceTransaction.findMany({
       where: { userId },
       orderBy: { createdAt: 'desc' },
       select: {
@@ -35,17 +34,12 @@ export class BalanceService {
         createdAt: true,
       },
     });
-  }
 
-  /* АДМИНИСТРАТИВНЫЕ ФУНКЦИИ */
-  public async getAllTransactionsByAdmin() {
-    return this.prismaService.balanceTransaction.findMany({
-      orderBy: { createdAt: 'desc' },
-    });
+    return transactions;
   }
 
   public async getTransactionsByAdmin(userId: string) {
-    return this.prismaService.balanceTransaction.findMany({
+    const transactions = await this.prismaService.balanceTransaction.findMany({
       where: { userId },
       orderBy: { createdAt: 'desc' },
       select: {
@@ -56,6 +50,8 @@ export class BalanceService {
         createdAt: true,
       },
     });
+
+    return transactions;
   }
 
   public async debitByAdmin(dto: AdminBalanceChangeDto) {
@@ -138,7 +134,10 @@ export class BalanceService {
       throw new BadRequestException('Не удалось изменить баланс');
     }
 
-    if (options?.requireSufficientFunds && user.balance + signedAmount < 0) {
+    const delta = new Prisma.Decimal(signedAmount);
+    const nextBalance = new Prisma.Decimal(user.balance).plus(delta);
+
+    if (options?.requireSufficientFunds && nextBalance.isNegative()) {
       throw new HttpException(
         'Недостаточно средств на балансе',
         HttpStatus.PAYMENT_REQUIRED,
@@ -147,24 +146,25 @@ export class BalanceService {
 
     const updatedUser = await client.user.update({
       where: { id: userId },
-      data: { balance: { increment: signedAmount } },
+      data: { balance: { increment: delta } },
       select: { balance: true },
     });
-
-    const transactionAmount = Math.abs(signedAmount);
 
     const transaction = await client.balanceTransaction.create({
       data: {
         userId,
-        amount: transactionAmount,
+        amount: delta.abs(),
         status,
         meta: meta ? (meta as Prisma.InputJsonValue) : undefined,
       },
     });
 
     return {
-      balance: updatedUser.balance,
-      transaction,
+      balance: Number(updatedUser.balance),
+      transaction: {
+        ...transaction,
+        amount: Number(transaction.amount),
+      },
     };
   }
 

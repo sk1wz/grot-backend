@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer';
-import { IsInt, IsUUID, Min } from 'class-validator';
+import { IsNumber, IsUUID, Min } from 'class-validator';
 
 export class UserTransactionsByIdAdminDto {
   @IsUUID()
@@ -11,7 +11,13 @@ export class AdminBalanceChangeDto {
   userId: string;
 
   @Type(() => Number)
-  @IsInt({ message: 'Сумма должна быть положительным целым числом' })
-  @Min(1, { message: 'Сумма должна быть положительным целым числом' })
+  @IsNumber(
+    { maxDecimalPlaces: 2 },
+    {
+      message:
+        'Сумма должна быть положительным числом (до 2 знаков после запятой)',
+    },
+  )
+  @Min(0.01, { message: 'Сумма должна быть не меньше 0.01' })
   amount: number;
 }

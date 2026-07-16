@@ -13,11 +13,6 @@ export class BalanceController {
   public getTransactions(@Req() req: Request) {
     return this.balanceService.getTransactions(req.session.userId!);
   }
-  @Auth('ADMIN')
-  @Get('/admin/transactions')
-  public getTransactionsByAdmin() {
-    return this.balanceService.getAllTransactionsByAdmin();
-  }
 
   @Auth('ADMIN')
   @Get('/admin/transactions/:id')
