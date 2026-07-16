@@ -27,11 +27,11 @@ export type AggregateUser = {
 }
 
 export type UserAvgAggregateOutputType = {
-  balance: number | null
+  balance: runtime.Decimal | null
 }
 
 export type UserSumAggregateOutputType = {
-  balance: number | null
+  balance: runtime.Decimal | null
 }
 
 export type UserMinAggregateOutputType = {
@@ -39,7 +39,7 @@ export type UserMinAggregateOutputType = {
   email: string | null
   password: string | null
   role: $Enums.UserRole | null
-  balance: number | null
+  balance: runtime.Decimal | null
   picture: string | null
   method: $Enums.AuthMethod | null
   createdAt: Date | null
@@ -51,7 +51,7 @@ export type UserMaxAggregateOutputType = {
   email: string | null
   password: string | null
   role: $Enums.UserRole | null
-  balance: number | null
+  balance: runtime.Decimal | null
   picture: string | null
   method: $Enums.AuthMethod | null
   createdAt: Date | null
@@ -208,7 +208,7 @@ export type UserGroupByOutputType = {
   email: string
   password: string
   role: $Enums.UserRole
-  balance: number
+  balance: runtime.Decimal
   picture: string | null
   method: $Enums.AuthMethod
   createdAt: Date
@@ -243,7 +243,7 @@ export type UserWhereInput = {
   email?: Prisma.StringFilter<"User"> | string
   password?: Prisma.StringFilter<"User"> | string
   role?: Prisma.EnumUserRoleFilter<"User"> | $Enums.UserRole
-  balance?: Prisma.IntFilter<"User"> | number
+  balance?: Prisma.DecimalFilter<"User"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   picture?: Prisma.StringNullableFilter<"User"> | string | null
   method?: Prisma.EnumAuthMethodFilter<"User"> | $Enums.AuthMethod
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
@@ -276,7 +276,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   password?: Prisma.StringFilter<"User"> | string
   role?: Prisma.EnumUserRoleFilter<"User"> | $Enums.UserRole
-  balance?: Prisma.IntFilter<"User"> | number
+  balance?: Prisma.DecimalFilter<"User"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   picture?: Prisma.StringNullableFilter<"User"> | string | null
   method?: Prisma.EnumAuthMethodFilter<"User"> | $Enums.AuthMethod
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
@@ -311,7 +311,7 @@ export type UserScalarWhereWithAggregatesInput = {
   email?: Prisma.StringWithAggregatesFilter<"User"> | string
   password?: Prisma.StringWithAggregatesFilter<"User"> | string
   role?: Prisma.EnumUserRoleWithAggregatesFilter<"User"> | $Enums.UserRole
-  balance?: Prisma.IntWithAggregatesFilter<"User"> | number
+  balance?: Prisma.DecimalWithAggregatesFilter<"User"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   picture?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   method?: Prisma.EnumAuthMethodWithAggregatesFilter<"User"> | $Enums.AuthMethod
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
@@ -323,7 +323,7 @@ export type UserCreateInput = {
   email: string
   password: string
   role?: $Enums.UserRole
-  balance?: number
+  balance?: runtime.Decimal | runtime.DecimalJsLike | number | string
   picture?: string | null
   method: $Enums.AuthMethod
   createdAt?: Date | string
@@ -338,7 +338,7 @@ export type UserUncheckedCreateInput = {
   email: string
   password: string
   role?: $Enums.UserRole
-  balance?: number
+  balance?: runtime.Decimal | runtime.DecimalJsLike | number | string
   picture?: string | null
   method: $Enums.AuthMethod
   createdAt?: Date | string
@@ -353,7 +353,7 @@ export type UserUpdateInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-  balance?: Prisma.IntFieldUpdateOperationsInput | number
+  balance?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   picture?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   method?: Prisma.EnumAuthMethodFieldUpdateOperationsInput | $Enums.AuthMethod
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -368,7 +368,7 @@ export type UserUncheckedUpdateInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-  balance?: Prisma.IntFieldUpdateOperationsInput | number
+  balance?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   picture?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   method?: Prisma.EnumAuthMethodFieldUpdateOperationsInput | $Enums.AuthMethod
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -383,7 +383,7 @@ export type UserCreateManyInput = {
   email: string
   password: string
   role?: $Enums.UserRole
-  balance?: number
+  balance?: runtime.Decimal | runtime.DecimalJsLike | number | string
   picture?: string | null
   method: $Enums.AuthMethod
   createdAt?: Date | string
@@ -395,7 +395,7 @@ export type UserUpdateManyMutationInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-  balance?: Prisma.IntFieldUpdateOperationsInput | number
+  balance?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   picture?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   method?: Prisma.EnumAuthMethodFieldUpdateOperationsInput | $Enums.AuthMethod
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -407,7 +407,7 @@ export type UserUncheckedUpdateManyInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-  balance?: Prisma.IntFieldUpdateOperationsInput | number
+  balance?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   picture?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   method?: Prisma.EnumAuthMethodFieldUpdateOperationsInput | $Enums.AuthMethod
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -471,12 +471,12 @@ export type EnumUserRoleFieldUpdateOperationsInput = {
   set?: $Enums.UserRole
 }
 
-export type IntFieldUpdateOperationsInput = {
-  set?: number
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
+export type DecimalFieldUpdateOperationsInput = {
+  set?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  increment?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  decrement?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  multiply?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  divide?: runtime.Decimal | runtime.DecimalJsLike | number | string
 }
 
 export type NullableStringFieldUpdateOperationsInput = {
@@ -538,7 +538,7 @@ export type UserCreateWithoutChecksInput = {
   email: string
   password: string
   role?: $Enums.UserRole
-  balance?: number
+  balance?: runtime.Decimal | runtime.DecimalJsLike | number | string
   picture?: string | null
   method: $Enums.AuthMethod
   createdAt?: Date | string
@@ -552,7 +552,7 @@ export type UserUncheckedCreateWithoutChecksInput = {
   email: string
   password: string
   role?: $Enums.UserRole
-  balance?: number
+  balance?: runtime.Decimal | runtime.DecimalJsLike | number | string
   picture?: string | null
   method: $Enums.AuthMethod
   createdAt?: Date | string
@@ -582,7 +582,7 @@ export type UserUpdateWithoutChecksInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-  balance?: Prisma.IntFieldUpdateOperationsInput | number
+  balance?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   picture?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   method?: Prisma.EnumAuthMethodFieldUpdateOperationsInput | $Enums.AuthMethod
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -596,7 +596,7 @@ export type UserUncheckedUpdateWithoutChecksInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-  balance?: Prisma.IntFieldUpdateOperationsInput | number
+  balance?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   picture?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   method?: Prisma.EnumAuthMethodFieldUpdateOperationsInput | $Enums.AuthMethod
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -610,7 +610,7 @@ export type UserCreateWithoutReportsInput = {
   email: string
   password: string
   role?: $Enums.UserRole
-  balance?: number
+  balance?: runtime.Decimal | runtime.DecimalJsLike | number | string
   picture?: string | null
   method: $Enums.AuthMethod
   createdAt?: Date | string
@@ -624,7 +624,7 @@ export type UserUncheckedCreateWithoutReportsInput = {
   email: string
   password: string
   role?: $Enums.UserRole
-  balance?: number
+  balance?: runtime.Decimal | runtime.DecimalJsLike | number | string
   picture?: string | null
   method: $Enums.AuthMethod
   createdAt?: Date | string
@@ -654,7 +654,7 @@ export type UserUpdateWithoutReportsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-  balance?: Prisma.IntFieldUpdateOperationsInput | number
+  balance?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   picture?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   method?: Prisma.EnumAuthMethodFieldUpdateOperationsInput | $Enums.AuthMethod
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -668,7 +668,7 @@ export type UserUncheckedUpdateWithoutReportsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-  balance?: Prisma.IntFieldUpdateOperationsInput | number
+  balance?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   picture?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   method?: Prisma.EnumAuthMethodFieldUpdateOperationsInput | $Enums.AuthMethod
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -682,7 +682,7 @@ export type UserCreateWithoutBalanceTransactionsInput = {
   email: string
   password: string
   role?: $Enums.UserRole
-  balance?: number
+  balance?: runtime.Decimal | runtime.DecimalJsLike | number | string
   picture?: string | null
   method: $Enums.AuthMethod
   createdAt?: Date | string
@@ -696,7 +696,7 @@ export type UserUncheckedCreateWithoutBalanceTransactionsInput = {
   email: string
   password: string
   role?: $Enums.UserRole
-  balance?: number
+  balance?: runtime.Decimal | runtime.DecimalJsLike | number | string
   picture?: string | null
   method: $Enums.AuthMethod
   createdAt?: Date | string
@@ -726,7 +726,7 @@ export type UserUpdateWithoutBalanceTransactionsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-  balance?: Prisma.IntFieldUpdateOperationsInput | number
+  balance?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   picture?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   method?: Prisma.EnumAuthMethodFieldUpdateOperationsInput | $Enums.AuthMethod
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -740,7 +740,7 @@ export type UserUncheckedUpdateWithoutBalanceTransactionsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-  balance?: Prisma.IntFieldUpdateOperationsInput | number
+  balance?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   picture?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   method?: Prisma.EnumAuthMethodFieldUpdateOperationsInput | $Enums.AuthMethod
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -872,7 +872,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     email: string
     password: string
     role: $Enums.UserRole
-    balance: number
+    balance: runtime.Decimal
     picture: string | null
     method: $Enums.AuthMethod
     createdAt: Date
@@ -1307,7 +1307,7 @@ export interface UserFieldRefs {
   readonly email: Prisma.FieldRef<"User", 'String'>
   readonly password: Prisma.FieldRef<"User", 'String'>
   readonly role: Prisma.FieldRef<"User", 'UserRole'>
-  readonly balance: Prisma.FieldRef<"User", 'Int'>
+  readonly balance: Prisma.FieldRef<"User", 'Decimal'>
   readonly picture: Prisma.FieldRef<"User", 'String'>
   readonly method: Prisma.FieldRef<"User", 'AuthMethod'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>

@@ -13,7 +13,7 @@ model User {
   email    String   @unique
   password String
   role     UserRole @default(REGULAR)
-  balance  Int      @default(0)
+  balance  Decimal  @default(0) @db.Decimal(12, 2)
 
   picture   String?
   method    AuthMethod
@@ -84,7 +84,7 @@ model BalanceTransaction {
   id        String             @id @default(uuid())
   userId    String             @map("user_id")
   user      User               @relation(fields: [userId], references: [id], onDelete: Cascade)
-  amount    Int
+  amount    Decimal            @db.Decimal(12, 2)
   status    BalanceStatusEnums
   meta      Json?
   createdAt DateTime           @default(now()) @map("created_at")
