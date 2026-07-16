@@ -64,10 +64,10 @@ export class CheckService {
     module: CheckModuleEnums,
     body: CheckBody,
   ) {
-    const cost = await this.getCheckPrice(module);
-    const idempotencyKey = randomUUID();
-
     const check = await this.prismaService.$transaction(async (tx) => {
+      const cost = await this.getCheckPrice(module);
+      const idempotencyKey = randomUUID();
+
       await this.balanceService.debit(
         userId,
         cost,
