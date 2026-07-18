@@ -85,7 +85,7 @@ export class BalanceService {
     status: BalanceStatusEnums,
     meta?: BalanceChangeMeta,
     tx?: TransactionClient,
-  ) {
+  ): Promise<BalanceChangeResponse> {
     const result = await this.runInTransaction(tx, (client) =>
       this.applyChange(client, userId, -amount, status, meta, {
         requireSufficientFunds: true,
