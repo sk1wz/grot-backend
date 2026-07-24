@@ -12,7 +12,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const config = app.get(ConfigService);
 
-  app.setGlobalPrefix('api');
+  // app.setGlobalPrefix('api');
 
   const redis = createClient({ url: config.getOrThrow('REDIS_URI') });
   await redis.connect();
