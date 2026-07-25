@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common';
 import { AuthMethod } from '@/db';
 import { hash } from 'argon2';
+import { UserResponseDto } from './response/user.response';
 @Injectable()
 export class UserService {
   public constructor(private readonly prismaService: PrismaService) {}
@@ -20,7 +21,7 @@ export class UserService {
       throw new UnauthorizedException('Вы не авторизованы.');
     }
 
-    return user;
+    return UserResponseDto.fromUser(user);
   }
   public async findById(id: string) {
     const user = await this.prismaService.user.findUnique({

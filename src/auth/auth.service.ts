@@ -10,7 +10,7 @@ import { AuthMethod, User } from '@/db';
 import { LoginDto, RegisterDto } from './dto';
 import { verify } from 'argon2';
 import { ConfigService } from '@nestjs/config';
-import { UserResponse } from '@/user/response/user.response';
+import { UserResponseDto } from '@/user/response/user.response';
 
 @Injectable()
 export class AuthService {
@@ -84,7 +84,7 @@ export class AuthService {
           );
         }
         resolve({
-          user: UserResponse.fromUser(user),
+          user: UserResponseDto.fromUser(user),
           message,
         });
       });
