@@ -83,7 +83,7 @@ export class CheckService {
           userId,
           module,
           status: CheckStatusEnums.PENDING,
-          subject: this.toStoredSubject(body),
+          subject: body as unknown as Prisma.InputJsonValue,
           cost,
           idempotencyKey,
         },
@@ -123,7 +123,7 @@ export class CheckService {
     try {
       const response = await this.stormfinderService.createCheck(
         path,
-        this.toStormfinderBody(check.subject),
+        check.subject as unknown as CheckBody,
         check.idempotencyKey,
       );
 
@@ -272,31 +272,5 @@ export class CheckService {
     }
 
     return row.price;
-  }
-
-  /** В БД кладём сам subject; для FSSP ещё и mode (нужен Stormfinder). */
-  private toStoredSubject(body: CheckBody): Prisma.InputJsonValue {
-    if ('mode' in body) {
-      return {
-        mode: body.mode,
-        subject: body.subject,
-      } as unknown as Prisma.InputJsonValue;
-    }
-
-    return body.subject as unknown as Prisma.InputJsonValue;
-  }
-
-  /** Собираем тело для Stormfinder из того, что лежит в subject. */
-  private toStormfinderBody(stored: unknown): CheckBody {
-    if (
-      stored &&
-      typeof stored === 'object' &&
-      !Array.isArray(stored) &&
-      'subject' in stored
-    ) {
-      return stored as CheckBody;
-    }
-
-    return { subject: stored } as CheckBody;
   }
 }

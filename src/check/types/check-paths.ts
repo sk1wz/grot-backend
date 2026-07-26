@@ -4,7 +4,7 @@ export const STORMFINDER_CHECK_PATHS = {
   [CheckModuleEnums.GIBDD]: '/checks/gibdd',
   [CheckModuleEnums.GISTORGI]: '/checks/gistorgi',
   [CheckModuleEnums.FSSP]: '/checks/fssp',
-  [CheckModuleEnums.BANKRUPTCY]: '/checks/bankruptcy',
+  [CheckModuleEnums.BANKRUPTCY]: '/checks/bancrupcy',
   [CheckModuleEnums.INN]: '/checks/inn',
 } as const;
 
