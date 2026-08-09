@@ -1,27 +1,37 @@
 import { Type } from 'class-transformer';
 import {
+  IsIn,
   IsOptional,
   IsString,
   Validate,
   ValidateNested,
+  ValidationArguments,
   ValidatorConstraint,
   ValidatorConstraintInterface,
 } from 'class-validator';
 
-@ValidatorConstraint({ name: 'innSubject', async: false })
-class InnSubjectValidator implements ValidatorConstraintInterface {
-  public validate(subject: InnSubjectDto): boolean {
-    if (subject?.text?.trim()) {
-      return true;
+@ValidatorConstraint({ name: 'innSubjectBody', async: false })
+class InnSubjectBodyValidator implements ValidatorConstraintInterface {
+  public validate(
+    subjectBody: InnSubjectDto,
+    args: ValidationArguments,
+  ): boolean {
+    const dto = args.object as InnDto;
+
+    if (dto.type === 'for_text') return Boolean(subjectBody?.text?.trim());
+    if (dto.type === 'for_structured') {
+      return Boolean(
+        subjectBody?.fio?.trim() &&
+          subjectBody?.dob?.trim() &&
+          subjectBody?.passport?.trim(),
+      );
     }
 
-    return Boolean(
-      subject?.fio?.trim() && subject?.dob?.trim() && subject?.passport?.trim(),
-    );
+    return false;
   }
 
   public defaultMessage(): string {
-    return 'Укажите subject.text или subject.fio + subject.dob + subject.passport';
+    return 'subjectBody не соответствует выбранному type';
   }
 }
 
@@ -44,8 +54,11 @@ export class InnSubjectDto {
 }
 
 export class InnDto {
+  @IsIn(['for_structured', 'for_text'])
+  type: 'for_structured' | 'for_text';
+
   @ValidateNested()
-  @Validate(InnSubjectValidator)
+  @Validate(InnSubjectBodyValidator)
   @Type(() => InnSubjectDto)
-  subject: InnSubjectDto;
+  subjectBody: InnSubjectDto;
 }

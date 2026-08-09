@@ -2,6 +2,7 @@ export {
   AuthMethod,
   BalanceStatusEnums,
   CheckModuleEnums,
+  CheckProviderEnums,
   CheckStatusEnums,
   ReportStatusEnums,
   TokenType,

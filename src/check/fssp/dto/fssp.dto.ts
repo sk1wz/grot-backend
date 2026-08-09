@@ -7,42 +7,41 @@ import {
   ValidatorConstraintInterface,
 } from 'class-validator';
 
-export type FsspCheckMode = 'fio_dob' | 'inn' | 'ip' | 'doc_id';
+export type FsspCheckType =
+  | 'for_fio_dob'
+  | 'for_inn'
+  | 'for_ip'
+  | 'for_doc_id';
 
-@ValidatorConstraint({ name: 'fsspSubject', async: false })
-class FsspSubjectValidator implements ValidatorConstraintInterface {
-  public validate(_subject: unknown, args: ValidationArguments): boolean {
-    const dto = args.object as FsspCheckDto;
-    const { mode, subject } = dto;
+@ValidatorConstraint({ name: 'fsspSubjectBody', async: false })
+class FsspSubjectBodyValidator implements ValidatorConstraintInterface {
+  public validate(_value: unknown, args: ValidationArguments): boolean {
+    const { type, subjectBody } = args.object as FsspCheckDto;
 
-    if (!subject || typeof subject !== 'object') {
-      return false;
-    }
+    if (!subjectBody || typeof subjectBody !== 'object') return false;
 
-    switch (mode) {
-      case 'fio_dob':
-        return Boolean(subject.fio?.trim() && subject.dob?.trim());
-      case 'inn':
-        return /^\d{10}$|^\d{12}$/.test(subject.inn ?? '');
-      case 'ip':
-        return Boolean(subject.ip?.trim());
-      case 'doc_id':
-        return Boolean(subject.doc_id?.trim());
-      default:
-        return false;
+    switch (type) {
+      case 'for_fio_dob':
+        return Boolean(subjectBody.fio?.trim() && subjectBody.dob?.trim());
+      case 'for_inn':
+        return /^\d{10}$|^\d{12}$/.test(subjectBody.inn ?? '');
+      case 'for_ip':
+        return Boolean(subjectBody.ip?.trim());
+      case 'for_doc_id':
+        return Boolean(subjectBody.doc_id?.trim());
     }
   }
 
   public defaultMessage(): string {
-    return 'subject не соответствует выбранному mode';
+    return 'subjectBody не соответствует выбранному type';
   }
 }
 
 export class FsspCheckDto {
-  @IsIn(['fio_dob', 'inn', 'ip', 'doc_id'])
-  mode: FsspCheckMode;
+  @IsIn(['for_fio_dob', 'for_inn', 'for_ip', 'for_doc_id'])
+  type: FsspCheckType;
 
   @IsObject()
-  @Validate(FsspSubjectValidator)
-  subject: Record<string, string>;
+  @Validate(FsspSubjectBodyValidator)
+  subjectBody: Record<string, string>;
 }

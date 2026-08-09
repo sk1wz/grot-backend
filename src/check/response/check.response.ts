@@ -4,7 +4,8 @@ export type CheckResponse = {
   id: string;
   module: CheckModuleEnums;
   status: CheckStatusEnums;
-  subject: unknown;
+  subjectBody: unknown;
+  subjectBodyText: string;
   cost: number;
   result: unknown;
   error: unknown;
@@ -19,7 +20,8 @@ export class CheckResponseDto {
       id: check.id,
       module: check.module,
       status: check.status,
-      subject: check.subject,
+      subjectBody: check.subjectBody,
+      subjectBodyText: check.subjectBodyText,
       cost: check.cost,
       result: check.result,
       error: check.error,

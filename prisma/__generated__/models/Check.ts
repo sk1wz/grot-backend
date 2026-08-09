@@ -38,10 +38,12 @@ export type CheckMinAggregateOutputType = {
   id: string | null
   userId: string | null
   serviceId: string | null
+  provider: $Enums.CheckProviderEnums | null
   module: $Enums.CheckModuleEnums | null
   status: $Enums.CheckStatusEnums | null
   cost: number | null
   balanceRefund: boolean | null
+  subjectBodyText: string | null
   idempotencyKey: string | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -52,10 +54,12 @@ export type CheckMaxAggregateOutputType = {
   id: string | null
   userId: string | null
   serviceId: string | null
+  provider: $Enums.CheckProviderEnums | null
   module: $Enums.CheckModuleEnums | null
   status: $Enums.CheckStatusEnums | null
   cost: number | null
   balanceRefund: boolean | null
+  subjectBodyText: string | null
   idempotencyKey: string | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -66,11 +70,13 @@ export type CheckCountAggregateOutputType = {
   id: number
   userId: number
   serviceId: number
+  provider: number
   module: number
   status: number
   cost: number
   balanceRefund: number
-  subject: number
+  subjectBody: number
+  subjectBodyText: number
   result: number
   error: number
   idempotencyKey: number
@@ -93,10 +99,12 @@ export type CheckMinAggregateInputType = {
   id?: true
   userId?: true
   serviceId?: true
+  provider?: true
   module?: true
   status?: true
   cost?: true
   balanceRefund?: true
+  subjectBodyText?: true
   idempotencyKey?: true
   createdAt?: true
   updatedAt?: true
@@ -107,10 +115,12 @@ export type CheckMaxAggregateInputType = {
   id?: true
   userId?: true
   serviceId?: true
+  provider?: true
   module?: true
   status?: true
   cost?: true
   balanceRefund?: true
+  subjectBodyText?: true
   idempotencyKey?: true
   createdAt?: true
   updatedAt?: true
@@ -121,11 +131,13 @@ export type CheckCountAggregateInputType = {
   id?: true
   userId?: true
   serviceId?: true
+  provider?: true
   module?: true
   status?: true
   cost?: true
   balanceRefund?: true
-  subject?: true
+  subjectBody?: true
+  subjectBodyText?: true
   result?: true
   error?: true
   idempotencyKey?: true
@@ -225,11 +237,13 @@ export type CheckGroupByOutputType = {
   id: string
   userId: string
   serviceId: string | null
+  provider: $Enums.CheckProviderEnums
   module: $Enums.CheckModuleEnums
   status: $Enums.CheckStatusEnums
   cost: number
   balanceRefund: boolean
-  subject: runtime.JsonValue
+  subjectBody: runtime.JsonValue
+  subjectBodyText: string
   result: runtime.JsonValue | null
   error: runtime.JsonValue | null
   idempotencyKey: string
@@ -265,11 +279,13 @@ export type CheckWhereInput = {
   id?: Prisma.StringFilter<"Check"> | string
   userId?: Prisma.StringFilter<"Check"> | string
   serviceId?: Prisma.StringNullableFilter<"Check"> | string | null
+  provider?: Prisma.EnumCheckProviderEnumsFilter<"Check"> | $Enums.CheckProviderEnums
   module?: Prisma.EnumCheckModuleEnumsFilter<"Check"> | $Enums.CheckModuleEnums
   status?: Prisma.EnumCheckStatusEnumsFilter<"Check"> | $Enums.CheckStatusEnums
   cost?: Prisma.IntFilter<"Check"> | number
   balanceRefund?: Prisma.BoolFilter<"Check"> | boolean
-  subject?: Prisma.JsonFilter<"Check">
+  subjectBody?: Prisma.JsonFilter<"Check">
+  subjectBodyText?: Prisma.StringFilter<"Check"> | string
   result?: Prisma.JsonNullableFilter<"Check">
   error?: Prisma.JsonNullableFilter<"Check">
   idempotencyKey?: Prisma.StringFilter<"Check"> | string
@@ -284,11 +300,13 @@ export type CheckOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   serviceId?: Prisma.SortOrderInput | Prisma.SortOrder
+  provider?: Prisma.SortOrder
   module?: Prisma.SortOrder
   status?: Prisma.SortOrder
   cost?: Prisma.SortOrder
   balanceRefund?: Prisma.SortOrder
-  subject?: Prisma.SortOrder
+  subjectBody?: Prisma.SortOrder
+  subjectBodyText?: Prisma.SortOrder
   result?: Prisma.SortOrderInput | Prisma.SortOrder
   error?: Prisma.SortOrderInput | Prisma.SortOrder
   idempotencyKey?: Prisma.SortOrder
@@ -307,11 +325,13 @@ export type CheckWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.CheckWhereInput | Prisma.CheckWhereInput[]
   userId?: Prisma.StringFilter<"Check"> | string
   serviceId?: Prisma.StringNullableFilter<"Check"> | string | null
+  provider?: Prisma.EnumCheckProviderEnumsFilter<"Check"> | $Enums.CheckProviderEnums
   module?: Prisma.EnumCheckModuleEnumsFilter<"Check"> | $Enums.CheckModuleEnums
   status?: Prisma.EnumCheckStatusEnumsFilter<"Check"> | $Enums.CheckStatusEnums
   cost?: Prisma.IntFilter<"Check"> | number
   balanceRefund?: Prisma.BoolFilter<"Check"> | boolean
-  subject?: Prisma.JsonFilter<"Check">
+  subjectBody?: Prisma.JsonFilter<"Check">
+  subjectBodyText?: Prisma.StringFilter<"Check"> | string
   result?: Prisma.JsonNullableFilter<"Check">
   error?: Prisma.JsonNullableFilter<"Check">
   createdAt?: Prisma.DateTimeFilter<"Check"> | Date | string
@@ -325,11 +345,13 @@ export type CheckOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   serviceId?: Prisma.SortOrderInput | Prisma.SortOrder
+  provider?: Prisma.SortOrder
   module?: Prisma.SortOrder
   status?: Prisma.SortOrder
   cost?: Prisma.SortOrder
   balanceRefund?: Prisma.SortOrder
-  subject?: Prisma.SortOrder
+  subjectBody?: Prisma.SortOrder
+  subjectBodyText?: Prisma.SortOrder
   result?: Prisma.SortOrderInput | Prisma.SortOrder
   error?: Prisma.SortOrderInput | Prisma.SortOrder
   idempotencyKey?: Prisma.SortOrder
@@ -350,11 +372,13 @@ export type CheckScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"Check"> | string
   userId?: Prisma.StringWithAggregatesFilter<"Check"> | string
   serviceId?: Prisma.StringNullableWithAggregatesFilter<"Check"> | string | null
+  provider?: Prisma.EnumCheckProviderEnumsWithAggregatesFilter<"Check"> | $Enums.CheckProviderEnums
   module?: Prisma.EnumCheckModuleEnumsWithAggregatesFilter<"Check"> | $Enums.CheckModuleEnums
   status?: Prisma.EnumCheckStatusEnumsWithAggregatesFilter<"Check"> | $Enums.CheckStatusEnums
   cost?: Prisma.IntWithAggregatesFilter<"Check"> | number
   balanceRefund?: Prisma.BoolWithAggregatesFilter<"Check"> | boolean
-  subject?: Prisma.JsonWithAggregatesFilter<"Check">
+  subjectBody?: Prisma.JsonWithAggregatesFilter<"Check">
+  subjectBodyText?: Prisma.StringWithAggregatesFilter<"Check"> | string
   result?: Prisma.JsonNullableWithAggregatesFilter<"Check">
   error?: Prisma.JsonNullableWithAggregatesFilter<"Check">
   idempotencyKey?: Prisma.StringWithAggregatesFilter<"Check"> | string
@@ -366,11 +390,13 @@ export type CheckScalarWhereWithAggregatesInput = {
 export type CheckCreateInput = {
   id?: string
   serviceId?: string | null
+  provider?: $Enums.CheckProviderEnums
   module: $Enums.CheckModuleEnums
   status?: $Enums.CheckStatusEnums
   cost: number
   balanceRefund?: boolean
-  subject: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  subjectBody: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  subjectBodyText: string
   result?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   error?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   idempotencyKey: string
@@ -385,11 +411,13 @@ export type CheckUncheckedCreateInput = {
   id?: string
   userId: string
   serviceId?: string | null
+  provider?: $Enums.CheckProviderEnums
   module: $Enums.CheckModuleEnums
   status?: $Enums.CheckStatusEnums
   cost: number
   balanceRefund?: boolean
-  subject: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  subjectBody: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  subjectBodyText: string
   result?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   error?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   idempotencyKey: string
@@ -402,11 +430,13 @@ export type CheckUncheckedCreateInput = {
 export type CheckUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   serviceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  provider?: Prisma.EnumCheckProviderEnumsFieldUpdateOperationsInput | $Enums.CheckProviderEnums
   module?: Prisma.EnumCheckModuleEnumsFieldUpdateOperationsInput | $Enums.CheckModuleEnums
   status?: Prisma.EnumCheckStatusEnumsFieldUpdateOperationsInput | $Enums.CheckStatusEnums
   cost?: Prisma.IntFieldUpdateOperationsInput | number
   balanceRefund?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  subject?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  subjectBody?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  subjectBodyText?: Prisma.StringFieldUpdateOperationsInput | string
   result?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   error?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   idempotencyKey?: Prisma.StringFieldUpdateOperationsInput | string
@@ -421,11 +451,13 @@ export type CheckUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   serviceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  provider?: Prisma.EnumCheckProviderEnumsFieldUpdateOperationsInput | $Enums.CheckProviderEnums
   module?: Prisma.EnumCheckModuleEnumsFieldUpdateOperationsInput | $Enums.CheckModuleEnums
   status?: Prisma.EnumCheckStatusEnumsFieldUpdateOperationsInput | $Enums.CheckStatusEnums
   cost?: Prisma.IntFieldUpdateOperationsInput | number
   balanceRefund?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  subject?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  subjectBody?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  subjectBodyText?: Prisma.StringFieldUpdateOperationsInput | string
   result?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   error?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   idempotencyKey?: Prisma.StringFieldUpdateOperationsInput | string
@@ -439,11 +471,13 @@ export type CheckCreateManyInput = {
   id?: string
   userId: string
   serviceId?: string | null
+  provider?: $Enums.CheckProviderEnums
   module: $Enums.CheckModuleEnums
   status?: $Enums.CheckStatusEnums
   cost: number
   balanceRefund?: boolean
-  subject: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  subjectBody: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  subjectBodyText: string
   result?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   error?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   idempotencyKey: string
@@ -455,11 +489,13 @@ export type CheckCreateManyInput = {
 export type CheckUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   serviceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  provider?: Prisma.EnumCheckProviderEnumsFieldUpdateOperationsInput | $Enums.CheckProviderEnums
   module?: Prisma.EnumCheckModuleEnumsFieldUpdateOperationsInput | $Enums.CheckModuleEnums
   status?: Prisma.EnumCheckStatusEnumsFieldUpdateOperationsInput | $Enums.CheckStatusEnums
   cost?: Prisma.IntFieldUpdateOperationsInput | number
   balanceRefund?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  subject?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  subjectBody?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  subjectBodyText?: Prisma.StringFieldUpdateOperationsInput | string
   result?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   error?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   idempotencyKey?: Prisma.StringFieldUpdateOperationsInput | string
@@ -472,11 +508,13 @@ export type CheckUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   serviceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  provider?: Prisma.EnumCheckProviderEnumsFieldUpdateOperationsInput | $Enums.CheckProviderEnums
   module?: Prisma.EnumCheckModuleEnumsFieldUpdateOperationsInput | $Enums.CheckModuleEnums
   status?: Prisma.EnumCheckStatusEnumsFieldUpdateOperationsInput | $Enums.CheckStatusEnums
   cost?: Prisma.IntFieldUpdateOperationsInput | number
   balanceRefund?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  subject?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  subjectBody?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  subjectBodyText?: Prisma.StringFieldUpdateOperationsInput | string
   result?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   error?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   idempotencyKey?: Prisma.StringFieldUpdateOperationsInput | string
@@ -499,11 +537,13 @@ export type CheckCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   serviceId?: Prisma.SortOrder
+  provider?: Prisma.SortOrder
   module?: Prisma.SortOrder
   status?: Prisma.SortOrder
   cost?: Prisma.SortOrder
   balanceRefund?: Prisma.SortOrder
-  subject?: Prisma.SortOrder
+  subjectBody?: Prisma.SortOrder
+  subjectBodyText?: Prisma.SortOrder
   result?: Prisma.SortOrder
   error?: Prisma.SortOrder
   idempotencyKey?: Prisma.SortOrder
@@ -520,10 +560,12 @@ export type CheckMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   serviceId?: Prisma.SortOrder
+  provider?: Prisma.SortOrder
   module?: Prisma.SortOrder
   status?: Prisma.SortOrder
   cost?: Prisma.SortOrder
   balanceRefund?: Prisma.SortOrder
+  subjectBodyText?: Prisma.SortOrder
   idempotencyKey?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -534,10 +576,12 @@ export type CheckMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   serviceId?: Prisma.SortOrder
+  provider?: Prisma.SortOrder
   module?: Prisma.SortOrder
   status?: Prisma.SortOrder
   cost?: Prisma.SortOrder
   balanceRefund?: Prisma.SortOrder
+  subjectBodyText?: Prisma.SortOrder
   idempotencyKey?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -595,6 +639,10 @@ export type CheckUncheckedUpdateManyWithoutUserNestedInput = {
   deleteMany?: Prisma.CheckScalarWhereInput | Prisma.CheckScalarWhereInput[]
 }
 
+export type EnumCheckProviderEnumsFieldUpdateOperationsInput = {
+  set?: $Enums.CheckProviderEnums
+}
+
 export type EnumCheckStatusEnumsFieldUpdateOperationsInput = {
   set?: $Enums.CheckStatusEnums
 }
@@ -624,11 +672,13 @@ export type CheckUpdateOneRequiredWithoutReportsNestedInput = {
 export type CheckCreateWithoutUserInput = {
   id?: string
   serviceId?: string | null
+  provider?: $Enums.CheckProviderEnums
   module: $Enums.CheckModuleEnums
   status?: $Enums.CheckStatusEnums
   cost: number
   balanceRefund?: boolean
-  subject: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  subjectBody: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  subjectBodyText: string
   result?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   error?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   idempotencyKey: string
@@ -641,11 +691,13 @@ export type CheckCreateWithoutUserInput = {
 export type CheckUncheckedCreateWithoutUserInput = {
   id?: string
   serviceId?: string | null
+  provider?: $Enums.CheckProviderEnums
   module: $Enums.CheckModuleEnums
   status?: $Enums.CheckStatusEnums
   cost: number
   balanceRefund?: boolean
-  subject: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  subjectBody: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  subjectBodyText: string
   result?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   error?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   idempotencyKey: string
@@ -688,11 +740,13 @@ export type CheckScalarWhereInput = {
   id?: Prisma.StringFilter<"Check"> | string
   userId?: Prisma.StringFilter<"Check"> | string
   serviceId?: Prisma.StringNullableFilter<"Check"> | string | null
+  provider?: Prisma.EnumCheckProviderEnumsFilter<"Check"> | $Enums.CheckProviderEnums
   module?: Prisma.EnumCheckModuleEnumsFilter<"Check"> | $Enums.CheckModuleEnums
   status?: Prisma.EnumCheckStatusEnumsFilter<"Check"> | $Enums.CheckStatusEnums
   cost?: Prisma.IntFilter<"Check"> | number
   balanceRefund?: Prisma.BoolFilter<"Check"> | boolean
-  subject?: Prisma.JsonFilter<"Check">
+  subjectBody?: Prisma.JsonFilter<"Check">
+  subjectBodyText?: Prisma.StringFilter<"Check"> | string
   result?: Prisma.JsonNullableFilter<"Check">
   error?: Prisma.JsonNullableFilter<"Check">
   idempotencyKey?: Prisma.StringFilter<"Check"> | string
@@ -704,11 +758,13 @@ export type CheckScalarWhereInput = {
 export type CheckCreateWithoutReportsInput = {
   id?: string
   serviceId?: string | null
+  provider?: $Enums.CheckProviderEnums
   module: $Enums.CheckModuleEnums
   status?: $Enums.CheckStatusEnums
   cost: number
   balanceRefund?: boolean
-  subject: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  subjectBody: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  subjectBodyText: string
   result?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   error?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   idempotencyKey: string
@@ -722,11 +778,13 @@ export type CheckUncheckedCreateWithoutReportsInput = {
   id?: string
   userId: string
   serviceId?: string | null
+  provider?: $Enums.CheckProviderEnums
   module: $Enums.CheckModuleEnums
   status?: $Enums.CheckStatusEnums
   cost: number
   balanceRefund?: boolean
-  subject: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  subjectBody: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  subjectBodyText: string
   result?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   error?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   idempotencyKey: string
@@ -754,11 +812,13 @@ export type CheckUpdateToOneWithWhereWithoutReportsInput = {
 export type CheckUpdateWithoutReportsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   serviceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  provider?: Prisma.EnumCheckProviderEnumsFieldUpdateOperationsInput | $Enums.CheckProviderEnums
   module?: Prisma.EnumCheckModuleEnumsFieldUpdateOperationsInput | $Enums.CheckModuleEnums
   status?: Prisma.EnumCheckStatusEnumsFieldUpdateOperationsInput | $Enums.CheckStatusEnums
   cost?: Prisma.IntFieldUpdateOperationsInput | number
   balanceRefund?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  subject?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  subjectBody?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  subjectBodyText?: Prisma.StringFieldUpdateOperationsInput | string
   result?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   error?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   idempotencyKey?: Prisma.StringFieldUpdateOperationsInput | string
@@ -772,11 +832,13 @@ export type CheckUncheckedUpdateWithoutReportsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   serviceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  provider?: Prisma.EnumCheckProviderEnumsFieldUpdateOperationsInput | $Enums.CheckProviderEnums
   module?: Prisma.EnumCheckModuleEnumsFieldUpdateOperationsInput | $Enums.CheckModuleEnums
   status?: Prisma.EnumCheckStatusEnumsFieldUpdateOperationsInput | $Enums.CheckStatusEnums
   cost?: Prisma.IntFieldUpdateOperationsInput | number
   balanceRefund?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  subject?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  subjectBody?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  subjectBodyText?: Prisma.StringFieldUpdateOperationsInput | string
   result?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   error?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   idempotencyKey?: Prisma.StringFieldUpdateOperationsInput | string
@@ -788,11 +850,13 @@ export type CheckUncheckedUpdateWithoutReportsInput = {
 export type CheckCreateManyUserInput = {
   id?: string
   serviceId?: string | null
+  provider?: $Enums.CheckProviderEnums
   module: $Enums.CheckModuleEnums
   status?: $Enums.CheckStatusEnums
   cost: number
   balanceRefund?: boolean
-  subject: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  subjectBody: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  subjectBodyText: string
   result?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   error?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   idempotencyKey: string
@@ -804,11 +868,13 @@ export type CheckCreateManyUserInput = {
 export type CheckUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   serviceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  provider?: Prisma.EnumCheckProviderEnumsFieldUpdateOperationsInput | $Enums.CheckProviderEnums
   module?: Prisma.EnumCheckModuleEnumsFieldUpdateOperationsInput | $Enums.CheckModuleEnums
   status?: Prisma.EnumCheckStatusEnumsFieldUpdateOperationsInput | $Enums.CheckStatusEnums
   cost?: Prisma.IntFieldUpdateOperationsInput | number
   balanceRefund?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  subject?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  subjectBody?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  subjectBodyText?: Prisma.StringFieldUpdateOperationsInput | string
   result?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   error?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   idempotencyKey?: Prisma.StringFieldUpdateOperationsInput | string
@@ -821,11 +887,13 @@ export type CheckUpdateWithoutUserInput = {
 export type CheckUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   serviceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  provider?: Prisma.EnumCheckProviderEnumsFieldUpdateOperationsInput | $Enums.CheckProviderEnums
   module?: Prisma.EnumCheckModuleEnumsFieldUpdateOperationsInput | $Enums.CheckModuleEnums
   status?: Prisma.EnumCheckStatusEnumsFieldUpdateOperationsInput | $Enums.CheckStatusEnums
   cost?: Prisma.IntFieldUpdateOperationsInput | number
   balanceRefund?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  subject?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  subjectBody?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  subjectBodyText?: Prisma.StringFieldUpdateOperationsInput | string
   result?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   error?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   idempotencyKey?: Prisma.StringFieldUpdateOperationsInput | string
@@ -838,11 +906,13 @@ export type CheckUncheckedUpdateWithoutUserInput = {
 export type CheckUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   serviceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  provider?: Prisma.EnumCheckProviderEnumsFieldUpdateOperationsInput | $Enums.CheckProviderEnums
   module?: Prisma.EnumCheckModuleEnumsFieldUpdateOperationsInput | $Enums.CheckModuleEnums
   status?: Prisma.EnumCheckStatusEnumsFieldUpdateOperationsInput | $Enums.CheckStatusEnums
   cost?: Prisma.IntFieldUpdateOperationsInput | number
   balanceRefund?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  subject?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  subjectBody?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  subjectBodyText?: Prisma.StringFieldUpdateOperationsInput | string
   result?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   error?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   idempotencyKey?: Prisma.StringFieldUpdateOperationsInput | string
@@ -886,11 +956,13 @@ export type CheckSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   id?: boolean
   userId?: boolean
   serviceId?: boolean
+  provider?: boolean
   module?: boolean
   status?: boolean
   cost?: boolean
   balanceRefund?: boolean
-  subject?: boolean
+  subjectBody?: boolean
+  subjectBodyText?: boolean
   result?: boolean
   error?: boolean
   idempotencyKey?: boolean
@@ -906,11 +978,13 @@ export type CheckSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   id?: boolean
   userId?: boolean
   serviceId?: boolean
+  provider?: boolean
   module?: boolean
   status?: boolean
   cost?: boolean
   balanceRefund?: boolean
-  subject?: boolean
+  subjectBody?: boolean
+  subjectBodyText?: boolean
   result?: boolean
   error?: boolean
   idempotencyKey?: boolean
@@ -924,11 +998,13 @@ export type CheckSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   id?: boolean
   userId?: boolean
   serviceId?: boolean
+  provider?: boolean
   module?: boolean
   status?: boolean
   cost?: boolean
   balanceRefund?: boolean
-  subject?: boolean
+  subjectBody?: boolean
+  subjectBodyText?: boolean
   result?: boolean
   error?: boolean
   idempotencyKey?: boolean
@@ -942,11 +1018,13 @@ export type CheckSelectScalar = {
   id?: boolean
   userId?: boolean
   serviceId?: boolean
+  provider?: boolean
   module?: boolean
   status?: boolean
   cost?: boolean
   balanceRefund?: boolean
-  subject?: boolean
+  subjectBody?: boolean
+  subjectBodyText?: boolean
   result?: boolean
   error?: boolean
   idempotencyKey?: boolean
@@ -955,7 +1033,7 @@ export type CheckSelectScalar = {
   completedAt?: boolean
 }
 
-export type CheckOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "serviceId" | "module" | "status" | "cost" | "balanceRefund" | "subject" | "result" | "error" | "idempotencyKey" | "createdAt" | "updatedAt" | "completedAt", ExtArgs["result"]["check"]>
+export type CheckOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "serviceId" | "provider" | "module" | "status" | "cost" | "balanceRefund" | "subjectBody" | "subjectBodyText" | "result" | "error" | "idempotencyKey" | "createdAt" | "updatedAt" | "completedAt", ExtArgs["result"]["check"]>
 export type CheckInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   reports?: boolean | Prisma.Check$reportsArgs<ExtArgs>
@@ -978,11 +1056,13 @@ export type $CheckPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     id: string
     userId: string
     serviceId: string | null
+    provider: $Enums.CheckProviderEnums
     module: $Enums.CheckModuleEnums
     status: $Enums.CheckStatusEnums
     cost: number
     balanceRefund: boolean
-    subject: runtime.JsonValue
+    subjectBody: runtime.JsonValue
+    subjectBodyText: string
     result: runtime.JsonValue | null
     error: runtime.JsonValue | null
     idempotencyKey: string
@@ -1417,11 +1497,13 @@ export interface CheckFieldRefs {
   readonly id: Prisma.FieldRef<"Check", 'String'>
   readonly userId: Prisma.FieldRef<"Check", 'String'>
   readonly serviceId: Prisma.FieldRef<"Check", 'String'>
+  readonly provider: Prisma.FieldRef<"Check", 'CheckProviderEnums'>
   readonly module: Prisma.FieldRef<"Check", 'CheckModuleEnums'>
   readonly status: Prisma.FieldRef<"Check", 'CheckStatusEnums'>
   readonly cost: Prisma.FieldRef<"Check", 'Int'>
   readonly balanceRefund: Prisma.FieldRef<"Check", 'Boolean'>
-  readonly subject: Prisma.FieldRef<"Check", 'Json'>
+  readonly subjectBody: Prisma.FieldRef<"Check", 'Json'>
+  readonly subjectBodyText: Prisma.FieldRef<"Check", 'String'>
   readonly result: Prisma.FieldRef<"Check", 'Json'>
   readonly error: Prisma.FieldRef<"Check", 'Json'>
   readonly idempotencyKey: Prisma.FieldRef<"Check", 'String'>

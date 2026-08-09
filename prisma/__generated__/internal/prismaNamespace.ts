@@ -922,11 +922,13 @@ export const CheckScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   serviceId: 'serviceId',
+  provider: 'provider',
   module: 'module',
   status: 'status',
   cost: 'cost',
   balanceRefund: 'balanceRefund',
-  subject: 'subject',
+  subjectBody: 'subjectBody',
+  subjectBodyText: 'subjectBodyText',
   result: 'result',
   error: 'error',
   idempotencyKey: 'idempotencyKey',
@@ -1125,6 +1127,20 @@ export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'In
  * Reference to a field of type 'Int[]'
  */
 export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+/**
+ * Reference to a field of type 'CheckProviderEnums'
+ */
+export type EnumCheckProviderEnumsFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CheckProviderEnums'>
+    
+
+
+/**
+ * Reference to a field of type 'CheckProviderEnums[]'
+ */
+export type ListEnumCheckProviderEnumsFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CheckProviderEnums[]'>
     
 
 

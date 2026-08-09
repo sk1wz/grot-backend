@@ -1,21 +1,30 @@
 import { Type } from 'class-transformer';
 import {
+  IsIn,
   IsOptional,
   IsString,
   Validate,
   ValidateNested,
+  ValidationArguments,
   ValidatorConstraint,
   ValidatorConstraintInterface,
 } from 'class-validator';
 
-@ValidatorConstraint({ name: 'bankruptcySubject', async: false })
-class BankruptcySubjectValidator implements ValidatorConstraintInterface {
-  public validate(subject: BankruptcySubjectDto): boolean {
-    return Boolean(subject?.inn?.trim() || subject?.fio?.trim());
+@ValidatorConstraint({ name: 'bankruptcySubjectBody', async: false })
+class BankruptcySubjectBodyValidator implements ValidatorConstraintInterface {
+  public validate(
+    subjectBody: BankruptcySubjectDto,
+    args: ValidationArguments,
+  ): boolean {
+    const dto = args.object as BankruptcyDto;
+
+    if (dto.type === 'for_inn') return Boolean(subjectBody?.inn?.trim());
+    if (dto.type === 'for_fio') return Boolean(subjectBody?.fio?.trim());
+    return false;
   }
 
   public defaultMessage(): string {
-    return 'Укажите inn или fio в subject';
+    return 'subjectBody не соответствует выбранному type';
   }
 }
 
@@ -30,8 +39,11 @@ export class BankruptcySubjectDto {
 }
 
 export class BankruptcyDto {
+  @IsIn(['for_inn', 'for_fio'])
+  type: 'for_inn' | 'for_fio';
+
   @ValidateNested()
-  @Validate(BankruptcySubjectValidator)
+  @Validate(BankruptcySubjectBodyValidator)
   @Type(() => BankruptcySubjectDto)
-  subject: BankruptcySubjectDto;
+  subjectBody: BankruptcySubjectDto;
 }

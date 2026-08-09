@@ -2,7 +2,7 @@ import { Check } from '@/db';
 import { formatDate, formatJson } from './template-helpers';
 
 export function renderDefaultTemplate(check: Check): string {
-  const subject = formatJson(check.subject);
+  const subject = formatJson(check.subjectBody);
   const result = formatJson(check.result);
   const completedAt = formatDate(check);
 

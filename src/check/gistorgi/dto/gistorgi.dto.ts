@@ -5,5 +5,5 @@ import { ValidateNested } from 'class-validator';
 export class GistorgiDto {
   @ValidateNested()
   @Type(() => VinSubjectDto)
-  subject: VinSubjectDto;
+  subjectBody: VinSubjectDto;
 }

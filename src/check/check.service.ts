@@ -11,11 +11,18 @@ import {
   BalanceStatusEnums,
   Check,
   CheckModuleEnums,
+  CheckProviderEnums,
   CheckStatusEnums,
   Prisma,
 } from '@/db';
 import { randomUUID } from 'crypto';
-import { STORMFINDER_CHECK_PATHS, CheckBody } from './types';
+import {
+  STORMFINDER_CHECK_PATHS,
+  CheckBody,
+  buildSubjectBodyText,
+  toProviderCheckBody,
+  toStoredSubjectBody,
+} from './types';
 import { CheckQueueService } from '@/queue/check/check-queue.service';
 import { CheckResponseDto } from './response/check.response';
 import { getCheckModuleLabel } from '@/utils/check-module-label';
@@ -78,12 +85,16 @@ export class CheckService {
         tx,
       );
 
+      const subjectBody = toStoredSubjectBody(body);
+
       return tx.check.create({
         data: {
           userId,
           module,
+          provider: CheckProviderEnums.STORMFINDER,
           status: CheckStatusEnums.PENDING,
-          subject: body as unknown as Prisma.InputJsonValue,
+          subjectBody: subjectBody as Prisma.InputJsonValue,
+          subjectBodyText: buildSubjectBodyText(module, subjectBody),
           cost,
           idempotencyKey,
         },
@@ -115,6 +126,11 @@ export class CheckService {
       return;
     }
 
+    if (check.provider !== CheckProviderEnums.STORMFINDER) {
+      await this.failCheck(check, new Error('Провайдер проверки не поддержан'));
+      return;
+    }
+
     const path =
       STORMFINDER_CHECK_PATHS[
         check.module as keyof typeof STORMFINDER_CHECK_PATHS
@@ -123,7 +139,7 @@ export class CheckService {
     try {
       const response = await this.stormfinderService.createCheck(
         path,
-        check.subject as unknown as CheckBody,
+        toProviderCheckBody(check.subjectBody as Record<string, unknown>),
         check.idempotencyKey,
       );
 

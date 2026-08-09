@@ -53,6 +53,13 @@ export const CheckStatusEnums = {
 export type CheckStatusEnums = (typeof CheckStatusEnums)[keyof typeof CheckStatusEnums]
 
 
+export const CheckProviderEnums = {
+  STORMFINDER: 'STORMFINDER'
+} as const
+
+export type CheckProviderEnums = (typeof CheckProviderEnums)[keyof typeof CheckProviderEnums]
+
+
 export const BalanceStatusEnums = {
   BALANCE_PURCHASE: 'BALANCE_PURCHASE',
   BALANCE_REFUND: 'BALANCE_REFUND',

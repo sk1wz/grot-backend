@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { CheckModuleEnums } from '@/db';
 import { CheckService } from '../check.service';
-import { bodyFromDto } from '../types/check-body.type';
 import { GibddDto } from './dto';
 
 @Injectable()
@@ -12,7 +11,7 @@ export class GibddService {
     return this.checkService.createCheck(
       userId,
       CheckModuleEnums.GIBDD,
-      bodyFromDto({ subject: dto.subject }),
+      { subjectBody: dto.subjectBody },
     );
   }
 

@@ -215,6 +215,13 @@ export type IntWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedIntFilter<$PrismaModel>
 }
 
+export type EnumCheckProviderEnumsFilter<$PrismaModel = never> = {
+  equals?: $Enums.CheckProviderEnums | Prisma.EnumCheckProviderEnumsFieldRefInput<$PrismaModel>
+  in?: $Enums.CheckProviderEnums[] | Prisma.ListEnumCheckProviderEnumsFieldRefInput<$PrismaModel>
+  notIn?: $Enums.CheckProviderEnums[] | Prisma.ListEnumCheckProviderEnumsFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumCheckProviderEnumsFilter<$PrismaModel> | $Enums.CheckProviderEnums
+}
+
 export type EnumCheckStatusEnumsFilter<$PrismaModel = never> = {
   equals?: $Enums.CheckStatusEnums | Prisma.EnumCheckStatusEnumsFieldRefInput<$PrismaModel>
   in?: $Enums.CheckStatusEnums[] | Prisma.ListEnumCheckStatusEnumsFieldRefInput<$PrismaModel>
@@ -284,6 +291,16 @@ export type DateTimeNullableFilter<$PrismaModel = never> = {
   gt?: Date | string | Prisma.DateTimeFieldRefInput<$PrismaModel>
   gte?: Date | string | Prisma.DateTimeFieldRefInput<$PrismaModel>
   not?: Prisma.NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+}
+
+export type EnumCheckProviderEnumsWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.CheckProviderEnums | Prisma.EnumCheckProviderEnumsFieldRefInput<$PrismaModel>
+  in?: $Enums.CheckProviderEnums[] | Prisma.ListEnumCheckProviderEnumsFieldRefInput<$PrismaModel>
+  notIn?: $Enums.CheckProviderEnums[] | Prisma.ListEnumCheckProviderEnumsFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumCheckProviderEnumsWithAggregatesFilter<$PrismaModel> | $Enums.CheckProviderEnums
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumCheckProviderEnumsFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumCheckProviderEnumsFilter<$PrismaModel>
 }
 
 export type EnumCheckStatusEnumsWithAggregatesFilter<$PrismaModel = never> = {
@@ -637,6 +654,13 @@ export type NestedFloatFilter<$PrismaModel = never> = {
   not?: Prisma.NestedFloatFilter<$PrismaModel> | number
 }
 
+export type NestedEnumCheckProviderEnumsFilter<$PrismaModel = never> = {
+  equals?: $Enums.CheckProviderEnums | Prisma.EnumCheckProviderEnumsFieldRefInput<$PrismaModel>
+  in?: $Enums.CheckProviderEnums[] | Prisma.ListEnumCheckProviderEnumsFieldRefInput<$PrismaModel>
+  notIn?: $Enums.CheckProviderEnums[] | Prisma.ListEnumCheckProviderEnumsFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumCheckProviderEnumsFilter<$PrismaModel> | $Enums.CheckProviderEnums
+}
+
 export type NestedEnumCheckStatusEnumsFilter<$PrismaModel = never> = {
   equals?: $Enums.CheckStatusEnums | Prisma.EnumCheckStatusEnumsFieldRefInput<$PrismaModel>
   in?: $Enums.CheckStatusEnums[] | Prisma.ListEnumCheckStatusEnumsFieldRefInput<$PrismaModel>
@@ -658,6 +682,16 @@ export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
   gt?: Date | string | Prisma.DateTimeFieldRefInput<$PrismaModel>
   gte?: Date | string | Prisma.DateTimeFieldRefInput<$PrismaModel>
   not?: Prisma.NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+}
+
+export type NestedEnumCheckProviderEnumsWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.CheckProviderEnums | Prisma.EnumCheckProviderEnumsFieldRefInput<$PrismaModel>
+  in?: $Enums.CheckProviderEnums[] | Prisma.ListEnumCheckProviderEnumsFieldRefInput<$PrismaModel>
+  notIn?: $Enums.CheckProviderEnums[] | Prisma.ListEnumCheckProviderEnumsFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumCheckProviderEnumsWithAggregatesFilter<$PrismaModel> | $Enums.CheckProviderEnums
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumCheckProviderEnumsFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumCheckProviderEnumsFilter<$PrismaModel>
 }
 
 export type NestedEnumCheckStatusEnumsWithAggregatesFilter<$PrismaModel = never> = {

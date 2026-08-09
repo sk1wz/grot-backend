@@ -10,7 +10,6 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { CheckBody } from '@/check/types/check-body.type';
 import {
   StormfinderCheckResponse,
   StormfinderCreateCheckResponse,
@@ -31,7 +30,7 @@ export class StormfinderService {
 
   public async createCheck(
     path: string,
-    body: CheckBody,
+    body: unknown,
     idempotencyKey: string,
   ): Promise<StormfinderCreateCheckResponse> {
     return this.request<StormfinderCreateCheckResponse>('POST', path, {
@@ -51,7 +50,7 @@ export class StormfinderService {
     method: 'GET' | 'POST',
     path: string,
     options?: {
-      body?: CheckBody;
+      body?: unknown;
       idempotencyKey?: string;
     },
   ): Promise<T> {

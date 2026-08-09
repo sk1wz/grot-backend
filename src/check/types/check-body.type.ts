@@ -1,42 +1,31 @@
-import { FsspCheckMode } from '../fssp/dto/fssp.dto';
-import { VinSubjectDto } from './vin.type';
+export type CheckType =
+  | 'for_fio_dob'
+  | 'for_inn'
+  | 'for_ip'
+  | 'for_doc_id'
+  | 'for_fio'
+  | 'for_structured'
+  | 'for_text';
 
-export type GibddCheckBody = {
-  subject: VinSubjectDto;
+export type CheckBody = {
+  type?: CheckType;
+  subjectBody: object;
 };
 
-export type GistorgiCheckBody = {
-  subject: VinSubjectDto;
-};
+export type StoredSubjectBody = Record<string, unknown>;
 
-export type FsspCheckBody = {
-  mode: FsspCheckMode;
-  subject: Record<string, string>;
-};
+export function toStoredSubjectBody({
+  type,
+  subjectBody,
+}: CheckBody): StoredSubjectBody {
+  return type ? { type, ...subjectBody } : { ...subjectBody };
+}
 
-export type BankruptcyCheckBody = {
-  subject: {
-    inn?: string;
-    fio?: string;
+export function toProviderCheckBody(subjectBody: StoredSubjectBody): CheckBody {
+  const { type, ...payload } = subjectBody;
+
+  return {
+    ...(typeof type === 'string' ? { type: type as CheckType } : {}),
+    subjectBody: payload,
   };
-};
-
-export type InnCheckBody = {
-  subject: {
-    fio?: string;
-    dob?: string;
-    passport?: string;
-    text?: string;
-  };
-};
-
-export type CheckBody =
-  | GibddCheckBody
-  | GistorgiCheckBody
-  | FsspCheckBody
-  | BankruptcyCheckBody
-  | InnCheckBody;
-
-export function bodyFromDto<B extends Record<string, unknown>>(body: B): B {
-  return body;
 }

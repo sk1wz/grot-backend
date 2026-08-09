@@ -1,4 +1,11 @@
-import { Matches, IsNotEmpty, IsString, Length } from 'class-validator';
+import {
+  Equals,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  Length,
+  Matches,
+} from 'class-validator';
 
 export class VinSubjectDto {
   @IsString({ message: 'VIN должен быть строкой' })
@@ -8,4 +15,8 @@ export class VinSubjectDto {
     message: 'VIN невалиден: 17 символов, без I, O и Q',
   })
   vin: string;
+
+  @IsOptional()
+  @Equals(true, { message: 'osago может принимать только значение true' })
+  osago?: true;
 }

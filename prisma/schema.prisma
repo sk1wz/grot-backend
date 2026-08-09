@@ -38,21 +38,23 @@ model CheckPrice {
 }
 
 model Check {
-  id             String           @id @default(uuid())
-  userId         String           @map("user_id")
-  user           User             @relation(fields: [userId], references: [id], onDelete: Cascade)
-  serviceId      String?          @map("service_id")
-  module         CheckModuleEnums
-  status         CheckStatusEnums @default(PENDING)
-  cost           Int
-  balanceRefund  Boolean          @default(false) @map("balance_refund")
-  subject        Json
-  result         Json?
-  error          Json?
-  idempotencyKey String           @unique @map("idempotency_key")
-  createdAt      DateTime         @default(now()) @map("created_at")
-  updatedAt      DateTime         @updatedAt() @map("updated_at")
-  completedAt    DateTime?        @map("completed_at")
+  id              String           @id @default(uuid())
+  userId          String           @map("user_id")
+  user            User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  serviceId       String?          @map("service_id")
+  provider        CheckProviderEnums @default(STORMFINDER)
+  module          CheckModuleEnums
+  status          CheckStatusEnums @default(PENDING)
+  cost            Int
+  balanceRefund   Boolean          @default(false) @map("balance_refund")
+  subjectBody     Json
+  subjectBodyText String
+  result          Json?
+  error           Json?
+  idempotencyKey  String           @unique @map("idempotency_key")
+  createdAt       DateTime         @default(now()) @map("created_at")
+  updatedAt       DateTime         @updatedAt() @map("updated_at")
+  completedAt     DateTime?        @map("completed_at")
 
   reports Report[]
 
@@ -130,6 +132,10 @@ enum CheckStatusEnums {
   RUNNING
   DONE
   FAILED
+}
+
+enum CheckProviderEnums {
+  STORMFINDER
 }
 
 enum BalanceStatusEnums {
