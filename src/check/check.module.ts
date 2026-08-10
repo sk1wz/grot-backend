@@ -17,6 +17,8 @@ import { GistorgiService } from './gistorgi/gistorgi.service';
 import { InnController } from './inn/inn.controller';
 import { InnService } from './inn/inn.service';
 import { CheckGateway } from './check.gateway';
+import { CheckProviderRegistry } from './providers/provider.registry';
+import { StormfinderCheckHandler } from './providers/stormfinder/stormfinder.check-handler';
 
 @Module({
   imports: [
@@ -42,6 +44,8 @@ import { CheckGateway } from './check.gateway';
     BankruptcyService,
     InnService,
     CheckGateway,
+    CheckProviderRegistry,
+    StormfinderCheckHandler,
   ],
   exports: [CheckService],
 })
