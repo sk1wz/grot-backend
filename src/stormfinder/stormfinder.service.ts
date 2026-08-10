@@ -33,6 +33,7 @@ export class StormfinderService {
     body: unknown,
     idempotencyKey: string,
   ): Promise<StormfinderCreateCheckResponse> {
+    console.log(body);
     return this.request<StormfinderCreateCheckResponse>('POST', path, {
       body,
       idempotencyKey,

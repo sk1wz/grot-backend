@@ -22,19 +22,27 @@ class FsspSubjectBodyValidator implements ValidatorConstraintInterface {
 
     switch (type) {
       case 'for_fio_dob':
-        return Boolean(subjectBody.fio?.trim() && subjectBody.dob?.trim());
+        return nonEmptyString(subjectBody.fio) && nonEmptyString(subjectBody.dob);
       case 'for_inn':
-        return /^\d{10}$|^\d{12}$/.test(subjectBody.inn ?? '');
+        return isInn(subjectBody.inn);
       case 'for_ip':
-        return Boolean(subjectBody.ip?.trim());
+        return nonEmptyString(subjectBody.ip);
       case 'for_doc_id':
-        return Boolean(subjectBody.doc_id?.trim());
+        return nonEmptyString(subjectBody.doc_id);
     }
   }
 
   public defaultMessage(): string {
     return 'subjectBody не соответствует выбранному type';
   }
+}
+
+function nonEmptyString(value: unknown): boolean {
+  return typeof value === 'string' && value.trim().length > 0;
+}
+
+function isInn(value: unknown): boolean {
+  return typeof value === 'string' && /^(?:\d{10}|\d{12})$/.test(value);
 }
 
 export class FsspCheckDto {

@@ -18,14 +18,18 @@ class BankruptcySubjectBodyValidator implements ValidatorConstraintInterface {
   ): boolean {
     const dto = args.object as BankruptcyDto;
 
-    if (dto.type === 'for_inn') return Boolean(subjectBody?.inn?.trim());
-    if (dto.type === 'for_fio') return Boolean(subjectBody?.fio?.trim());
+    if (dto.type === 'for_inn') return nonEmptyString(subjectBody?.inn);
+    if (dto.type === 'for_fio') return nonEmptyString(subjectBody?.fio);
     return false;
   }
 
   public defaultMessage(): string {
     return 'subjectBody не соответствует выбранному type';
   }
+}
+
+function nonEmptyString(value: unknown): boolean {
+  return typeof value === 'string' && value.trim().length > 0;
 }
 
 export class BankruptcySubjectDto {

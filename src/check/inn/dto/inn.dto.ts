@@ -18,12 +18,12 @@ class InnSubjectBodyValidator implements ValidatorConstraintInterface {
   ): boolean {
     const dto = args.object as InnDto;
 
-    if (dto.type === 'for_text') return Boolean(subjectBody?.text?.trim());
+    if (dto.type === 'for_text') return nonEmptyString(subjectBody?.text);
     if (dto.type === 'for_structured') {
       return Boolean(
-        subjectBody?.fio?.trim() &&
-          subjectBody?.dob?.trim() &&
-          subjectBody?.passport?.trim(),
+        nonEmptyString(subjectBody?.fio) &&
+          nonEmptyString(subjectBody?.dob) &&
+          nonEmptyString(subjectBody?.passport),
       );
     }
 
@@ -33,6 +33,10 @@ class InnSubjectBodyValidator implements ValidatorConstraintInterface {
   public defaultMessage(): string {
     return 'subjectBody не соответствует выбранному type';
   }
+}
+
+function nonEmptyString(value: unknown): boolean {
+  return typeof value === 'string' && value.trim().length > 0;
 }
 
 export class InnSubjectDto {
