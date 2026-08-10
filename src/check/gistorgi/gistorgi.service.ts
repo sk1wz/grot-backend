@@ -8,10 +8,12 @@ export class GistorgiService {
   public constructor(private readonly checkService: CheckService) {}
 
   public createSingle(userId: string, dto: GistorgiDto) {
+    const body = { subjectBody: dto.subjectBody };
+
     return this.checkService.createCheck(
       userId,
       CheckModuleEnums.GISTORGI,
-      { subjectBody: dto.subjectBody },
+      body,
     );
   }
 

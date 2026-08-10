@@ -1,6 +1,5 @@
 import { PrismaService } from '@/prisma/prisma.service';
 import { StormfinderService } from '@/stormfinder/stormfinder.service';
-import { StormfinderCheckResponse } from '@/stormfinder/stormfinder.types';
 import { BalanceService } from '@/balance/balance.service';
 import {
   BadRequestException,
@@ -16,30 +15,19 @@ import {
   Prisma,
 } from '@/db';
 import { randomUUID } from 'crypto';
-import {
-  STORMFINDER_CHECK_PATHS,
-  CheckBody,
-  buildSubjectBodyText,
-  toProviderCheckBody,
-  toStoredSubjectBody,
-} from './types';
 import { CheckQueueService } from '@/queue/check/check-queue.service';
 import { CheckResponseDto } from './response/check.response';
 import { getCheckModuleLabel } from '@/utils/check-module-label';
-import {
-  isActiveCheckStatus,
-  mapStormfinderResponseToCheckData,
-  mapStormfinderStatus,
-  toCheckError,
-} from '@/utils/stormfinder-map';
 import { CheckGateway } from './check.gateway';
+import { buildSubjectBodyText } from './utils/subject-body-text';
+import { toStoredSubjectBody } from './utils/subject-body';
+import { getCheckProvider } from './utils/provider-map';
+import { CheckBody } from './types';
 
 @Injectable()
 export class CheckService {
   public constructor(
     private readonly prismaService: PrismaService,
-    private readonly stormfinderService: StormfinderService,
-    private readonly checkQueueService: CheckQueueService,
     private readonly balanceService: BalanceService,
     private readonly checkGateway: CheckGateway,
   ) {}
@@ -85,13 +73,14 @@ export class CheckService {
         tx,
       );
 
+      const provider = getCheckProvider(module);
       const subjectBody = toStoredSubjectBody(body);
 
       return tx.check.create({
         data: {
           userId,
           module,
-          provider: CheckProviderEnums.STORMFINDER,
+          provider: provider,
           status: CheckStatusEnums.PENDING,
           subjectBody: subjectBody as Prisma.InputJsonValue,
           subjectBodyText: buildSubjectBodyText(module, subjectBody),
@@ -101,169 +90,9 @@ export class CheckService {
       });
     });
 
-    try {
-      await this.checkQueueService.enqueueSubmit(check.id);
-    } catch (error) {
-      await this.failCheck(check, error);
-      throw error;
-    }
-
+    this.publish(check);
+    console.log(check);
     return CheckResponseDto.fromCheck(check);
-  }
-  /* === ======================== === */
-
-  /* ФУНКЦИЯ ДЛЯ ОТПРАВКИ ПРОВЕРКИ В STORMFINDER */
-  public async submitFinder(checkId: string): Promise<void> {
-    const check = await this.prismaService.check.findUnique({
-      where: { id: checkId },
-    });
-
-    if (
-      !check ||
-      check.status !== CheckStatusEnums.PENDING ||
-      check.serviceId
-    ) {
-      return;
-    }
-
-    if (check.provider !== CheckProviderEnums.STORMFINDER) {
-      await this.failCheck(check, new Error('Провайдер проверки не поддержан'));
-      return;
-    }
-
-    const path =
-      STORMFINDER_CHECK_PATHS[
-        check.module as keyof typeof STORMFINDER_CHECK_PATHS
-      ];
-
-    try {
-      const response = await this.stormfinderService.createCheck(
-        path,
-        toProviderCheckBody(check.subjectBody as Record<string, unknown>),
-        check.idempotencyKey,
-      );
-
-      await this.prismaService.check.update({
-        where: { id: check.id },
-        data: mapStormfinderResponseToCheckData(response),
-      });
-
-      if (isActiveCheckStatus(mapStormfinderStatus(response.status))) {
-        await this.checkQueueService.enqueueSync(check.id);
-      }
-    } catch (error) {
-      await this.failCheck(check, error);
-    }
-  }
-
-  /* ФУНКЦИЯ ДЛЯ ОПРОСА ПРОВЕРКИ ПРОВЕРКИ В STORMFINDER */
-  public async checkFinderById(checkId: string): Promise<void> {
-    const check = await this.prismaService.check.findUnique({
-      where: { id: checkId },
-    });
-
-    if (!check?.serviceId) {
-      return;
-    }
-
-    if (
-      check.status === CheckStatusEnums.DONE ||
-      check.status === CheckStatusEnums.FAILED
-    ) {
-      return;
-    }
-
-    try {
-      const response = await this.stormfinderService.getCheck(check.serviceId);
-      await this.persistFinderResponse(check, response);
-
-      if (isActiveCheckStatus(mapStormfinderStatus(response.status))) {
-        await this.checkQueueService.enqueueSync(check.id);
-      }
-    } catch {
-      await this.checkQueueService.enqueueSync(check.id);
-    }
-  }
-
-  /* ФУНКЦИЯ ДЛЯ ОБРАБОТКИ ОШИБКИ ПРОВЕРКИ */
-  public async failCheck(check: Check, error: unknown): Promise<void> {
-    const updatedCheck = await this.prismaService.$transaction(async (tx) => {
-      const current = await tx.check.findUnique({
-        where: { id: check.id },
-      });
-
-      if (!current) {
-        return null;
-      }
-
-      const shouldRefund =
-        current.status !== CheckStatusEnums.DONE &&
-        current.status !== CheckStatusEnums.FAILED;
-
-      if (shouldRefund) {
-        await this.balanceService.credit(
-          current.userId,
-          current.cost,
-          BalanceStatusEnums.BALANCE_REFUND,
-          {
-            action: `Возврат средств модуль ${getCheckModuleLabel(current.module)}`,
-          },
-          tx,
-        );
-      }
-
-      if (current.status === CheckStatusEnums.FAILED) {
-        return null;
-      }
-
-      return tx.check.update({
-        where: { id: current.id },
-        data: {
-          status: CheckStatusEnums.FAILED,
-          completedAt: new Date(),
-          error: toCheckError(error),
-          ...(shouldRefund ? { balanceRefund: true } : {}),
-        },
-      });
-    });
-
-    if (updatedCheck) {
-      this.publish(updatedCheck);
-    }
-  }
-
-  /* ФУНКЦИЯ */
-  private async persistFinderResponse(
-    check: Check,
-    response: StormfinderCheckResponse,
-  ): Promise<void> {
-    const status = mapStormfinderStatus(response.status);
-    const shouldRefund =
-      status === CheckStatusEnums.FAILED &&
-      check.status !== CheckStatusEnums.FAILED;
-    const updatedCheck = await this.prismaService.$transaction(async (tx) => {
-      if (shouldRefund) {
-        await this.balanceService.credit(
-          check.userId,
-          check.cost,
-          BalanceStatusEnums.BALANCE_REFUND,
-          {
-            action: `Возврат средств модуль ${getCheckModuleLabel(check.module)}`,
-          },
-          tx,
-        );
-      }
-
-      return tx.check.update({
-        where: { id: check.id },
-        data: {
-          ...mapStormfinderResponseToCheckData(response),
-          ...(shouldRefund ? { balanceRefund: true } : {}),
-        },
-      });
-    });
-
-    this.publish(updatedCheck);
   }
 
   private publish(check: Check): void {

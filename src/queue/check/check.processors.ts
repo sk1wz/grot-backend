@@ -17,10 +17,8 @@ export class CheckProcessor extends WorkerHost {
   public async process(job: Job<CheckJobData>): Promise<void> {
     switch (job.name) {
       case CHECK_SUBMIT_JOB:
-        await this.checkService.submitFinder(job.data.checkId);
         return;
       case CHECK_SYNC_JOB:
-        await this.checkService.checkFinderById(job.data.checkId);
         return;
     }
   }
