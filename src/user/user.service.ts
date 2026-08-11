@@ -5,8 +5,9 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { AuthMethod } from '@/db';
-import { hash } from 'argon2';
+import { hash, verify } from 'argon2';
 import { UserResponseDto } from './response/user.response';
+import { ChangePasswordDto } from './dto/change-password.dto';
 @Injectable()
 export class UserService {
   public constructor(private readonly prismaService: PrismaService) {}
@@ -72,5 +73,24 @@ export class UserService {
     });
 
     return user;
+  }
+
+  public async changePassword(userId: string, dto: ChangePasswordDto) {
+    const user = await this.findById(userId);
+    const isCurrentPasswordValid = await verify(
+      user.password,
+      dto.currentPassword,
+    );
+
+    if (!isCurrentPasswordValid) {
+      throw new UnauthorizedException('Текущий пароль указан неверно.');
+    }
+
+    await this.prismaService.user.update({
+      where: { id: userId },
+      data: { password: await hash(dto.newPassword) },
+    });
+
+    return { message: 'Пароль успешно изменён.' };
   }
 }
