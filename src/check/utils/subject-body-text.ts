@@ -19,7 +19,7 @@ export function buildSubjectBodyText(
       if (value('doc_id')) return `${value('doc_id')}`;
       return [value('fio'), value('dob')].filter(Boolean).join(', ');
     case CheckModuleEnums.BANKRUPTCY:
-      return value('inn') ? `ИНН ${value('inn')}` : value('fio');
+      return value('inn') ? `${value('inn')}` : value('fio');
     case CheckModuleEnums.INN:
       return (
         value('text') ||
