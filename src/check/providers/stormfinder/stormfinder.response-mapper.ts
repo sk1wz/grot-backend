@@ -2,6 +2,7 @@ import { CheckModuleEnums, CheckStatusEnums, Prisma } from '@/db';
 import { StormfinderCheckResponse } from '@/stormfinder/stormfinder.types';
 import { ProviderCheckResult } from '../provider.types';
 import { mapStormfinderGibddResult } from './gibdd/stormfinder-gibdd-result.mapper';
+import { mapStormfinderInnResult } from './inn/stormfinder-inn-result.mapper';
 
 export function mapStormfinderResponse(
   response: StormfinderCheckResponse,
@@ -30,6 +31,10 @@ function mapStormfinderResult(
 ): Prisma.InputJsonValue {
   if (module === CheckModuleEnums.GIBDD) {
     return mapStormfinderGibddResult(result) as Prisma.InputJsonValue;
+  }
+
+  if (module === CheckModuleEnums.INN) {
+    return mapStormfinderInnResult(result) as Prisma.InputJsonValue;
   }
 
   return result as Prisma.InputJsonValue;
