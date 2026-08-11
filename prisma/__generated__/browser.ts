@@ -33,11 +33,6 @@ export type CheckPrice = Prisma.CheckPriceModel
  */
 export type Check = Prisma.CheckModel
 /**
- * Model Report
- * 
- */
-export type Report = Prisma.ReportModel
-/**
  * Model BalanceTransaction
  * 
  */

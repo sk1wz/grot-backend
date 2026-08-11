@@ -293,7 +293,6 @@ export type CheckWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"Check"> | Date | string
   completedAt?: Prisma.DateTimeNullableFilter<"Check"> | Date | string | null
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-  reports?: Prisma.ReportListRelationFilter
 }
 
 export type CheckOrderByWithRelationInput = {
@@ -314,7 +313,6 @@ export type CheckOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   completedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
-  reports?: Prisma.ReportOrderByRelationAggregateInput
 }
 
 export type CheckWhereUniqueInput = Prisma.AtLeast<{
@@ -338,7 +336,6 @@ export type CheckWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"Check"> | Date | string
   completedAt?: Prisma.DateTimeNullableFilter<"Check"> | Date | string | null
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-  reports?: Prisma.ReportListRelationFilter
 }, "id" | "idempotencyKey">
 
 export type CheckOrderByWithAggregationInput = {
@@ -404,7 +401,6 @@ export type CheckCreateInput = {
   updatedAt?: Date | string
   completedAt?: Date | string | null
   user: Prisma.UserCreateNestedOneWithoutChecksInput
-  reports?: Prisma.ReportCreateNestedManyWithoutCheckInput
 }
 
 export type CheckUncheckedCreateInput = {
@@ -424,7 +420,6 @@ export type CheckUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   completedAt?: Date | string | null
-  reports?: Prisma.ReportUncheckedCreateNestedManyWithoutCheckInput
 }
 
 export type CheckUpdateInput = {
@@ -444,7 +439,6 @@ export type CheckUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   user?: Prisma.UserUpdateOneRequiredWithoutChecksNestedInput
-  reports?: Prisma.ReportUpdateManyWithoutCheckNestedInput
 }
 
 export type CheckUncheckedUpdateInput = {
@@ -464,7 +458,6 @@ export type CheckUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  reports?: Prisma.ReportUncheckedUpdateManyWithoutCheckNestedInput
 }
 
 export type CheckCreateManyInput = {
@@ -592,11 +585,6 @@ export type CheckSumOrderByAggregateInput = {
   cost?: Prisma.SortOrder
 }
 
-export type CheckScalarRelationFilter = {
-  is?: Prisma.CheckWhereInput
-  isNot?: Prisma.CheckWhereInput
-}
-
 export type CheckCreateNestedManyWithoutUserInput = {
   create?: Prisma.XOR<Prisma.CheckCreateWithoutUserInput, Prisma.CheckUncheckedCreateWithoutUserInput> | Prisma.CheckCreateWithoutUserInput[] | Prisma.CheckUncheckedCreateWithoutUserInput[]
   connectOrCreate?: Prisma.CheckCreateOrConnectWithoutUserInput | Prisma.CheckCreateOrConnectWithoutUserInput[]
@@ -655,20 +643,6 @@ export type NullableDateTimeFieldUpdateOperationsInput = {
   set?: Date | string | null
 }
 
-export type CheckCreateNestedOneWithoutReportsInput = {
-  create?: Prisma.XOR<Prisma.CheckCreateWithoutReportsInput, Prisma.CheckUncheckedCreateWithoutReportsInput>
-  connectOrCreate?: Prisma.CheckCreateOrConnectWithoutReportsInput
-  connect?: Prisma.CheckWhereUniqueInput
-}
-
-export type CheckUpdateOneRequiredWithoutReportsNestedInput = {
-  create?: Prisma.XOR<Prisma.CheckCreateWithoutReportsInput, Prisma.CheckUncheckedCreateWithoutReportsInput>
-  connectOrCreate?: Prisma.CheckCreateOrConnectWithoutReportsInput
-  upsert?: Prisma.CheckUpsertWithoutReportsInput
-  connect?: Prisma.CheckWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.CheckUpdateToOneWithWhereWithoutReportsInput, Prisma.CheckUpdateWithoutReportsInput>, Prisma.CheckUncheckedUpdateWithoutReportsInput>
-}
-
 export type CheckCreateWithoutUserInput = {
   id?: string
   serviceId?: string | null
@@ -685,7 +659,6 @@ export type CheckCreateWithoutUserInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   completedAt?: Date | string | null
-  reports?: Prisma.ReportCreateNestedManyWithoutCheckInput
 }
 
 export type CheckUncheckedCreateWithoutUserInput = {
@@ -704,7 +677,6 @@ export type CheckUncheckedCreateWithoutUserInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   completedAt?: Date | string | null
-  reports?: Prisma.ReportUncheckedCreateNestedManyWithoutCheckInput
 }
 
 export type CheckCreateOrConnectWithoutUserInput = {
@@ -755,98 +727,6 @@ export type CheckScalarWhereInput = {
   completedAt?: Prisma.DateTimeNullableFilter<"Check"> | Date | string | null
 }
 
-export type CheckCreateWithoutReportsInput = {
-  id?: string
-  serviceId?: string | null
-  provider?: $Enums.CheckProviderEnums
-  module: $Enums.CheckModuleEnums
-  status?: $Enums.CheckStatusEnums
-  cost: number
-  balanceRefund?: boolean
-  subjectBody: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  subjectBodyText: string
-  result?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  error?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  idempotencyKey: string
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  completedAt?: Date | string | null
-  user: Prisma.UserCreateNestedOneWithoutChecksInput
-}
-
-export type CheckUncheckedCreateWithoutReportsInput = {
-  id?: string
-  userId: string
-  serviceId?: string | null
-  provider?: $Enums.CheckProviderEnums
-  module: $Enums.CheckModuleEnums
-  status?: $Enums.CheckStatusEnums
-  cost: number
-  balanceRefund?: boolean
-  subjectBody: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  subjectBodyText: string
-  result?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  error?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  idempotencyKey: string
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  completedAt?: Date | string | null
-}
-
-export type CheckCreateOrConnectWithoutReportsInput = {
-  where: Prisma.CheckWhereUniqueInput
-  create: Prisma.XOR<Prisma.CheckCreateWithoutReportsInput, Prisma.CheckUncheckedCreateWithoutReportsInput>
-}
-
-export type CheckUpsertWithoutReportsInput = {
-  update: Prisma.XOR<Prisma.CheckUpdateWithoutReportsInput, Prisma.CheckUncheckedUpdateWithoutReportsInput>
-  create: Prisma.XOR<Prisma.CheckCreateWithoutReportsInput, Prisma.CheckUncheckedCreateWithoutReportsInput>
-  where?: Prisma.CheckWhereInput
-}
-
-export type CheckUpdateToOneWithWhereWithoutReportsInput = {
-  where?: Prisma.CheckWhereInput
-  data: Prisma.XOR<Prisma.CheckUpdateWithoutReportsInput, Prisma.CheckUncheckedUpdateWithoutReportsInput>
-}
-
-export type CheckUpdateWithoutReportsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  serviceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  provider?: Prisma.EnumCheckProviderEnumsFieldUpdateOperationsInput | $Enums.CheckProviderEnums
-  module?: Prisma.EnumCheckModuleEnumsFieldUpdateOperationsInput | $Enums.CheckModuleEnums
-  status?: Prisma.EnumCheckStatusEnumsFieldUpdateOperationsInput | $Enums.CheckStatusEnums
-  cost?: Prisma.IntFieldUpdateOperationsInput | number
-  balanceRefund?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  subjectBody?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  subjectBodyText?: Prisma.StringFieldUpdateOperationsInput | string
-  result?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  error?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  idempotencyKey?: Prisma.StringFieldUpdateOperationsInput | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  user?: Prisma.UserUpdateOneRequiredWithoutChecksNestedInput
-}
-
-export type CheckUncheckedUpdateWithoutReportsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
-  serviceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  provider?: Prisma.EnumCheckProviderEnumsFieldUpdateOperationsInput | $Enums.CheckProviderEnums
-  module?: Prisma.EnumCheckModuleEnumsFieldUpdateOperationsInput | $Enums.CheckModuleEnums
-  status?: Prisma.EnumCheckStatusEnumsFieldUpdateOperationsInput | $Enums.CheckStatusEnums
-  cost?: Prisma.IntFieldUpdateOperationsInput | number
-  balanceRefund?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  subjectBody?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  subjectBodyText?: Prisma.StringFieldUpdateOperationsInput | string
-  result?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  error?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  idempotencyKey?: Prisma.StringFieldUpdateOperationsInput | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-}
-
 export type CheckCreateManyUserInput = {
   id?: string
   serviceId?: string | null
@@ -881,7 +761,6 @@ export type CheckUpdateWithoutUserInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  reports?: Prisma.ReportUpdateManyWithoutCheckNestedInput
 }
 
 export type CheckUncheckedUpdateWithoutUserInput = {
@@ -900,7 +779,6 @@ export type CheckUncheckedUpdateWithoutUserInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  reports?: Prisma.ReportUncheckedUpdateManyWithoutCheckNestedInput
 }
 
 export type CheckUncheckedUpdateManyWithoutUserInput = {
@@ -922,35 +800,6 @@ export type CheckUncheckedUpdateManyWithoutUserInput = {
 }
 
 
-/**
- * Count Type CheckCountOutputType
- */
-
-export type CheckCountOutputType = {
-  reports: number
-}
-
-export type CheckCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  reports?: boolean | CheckCountOutputTypeCountReportsArgs
-}
-
-/**
- * CheckCountOutputType without action
- */
-export type CheckCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the CheckCountOutputType
-   */
-  select?: Prisma.CheckCountOutputTypeSelect<ExtArgs> | null
-}
-
-/**
- * CheckCountOutputType without action
- */
-export type CheckCountOutputTypeCountReportsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.ReportWhereInput
-}
-
 
 export type CheckSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -970,8 +819,6 @@ export type CheckSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   updatedAt?: boolean
   completedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  reports?: boolean | Prisma.Check$reportsArgs<ExtArgs>
-  _count?: boolean | Prisma.CheckCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["check"]>
 
 export type CheckSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1036,8 +883,6 @@ export type CheckSelectScalar = {
 export type CheckOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "serviceId" | "provider" | "module" | "status" | "cost" | "balanceRefund" | "subjectBody" | "subjectBodyText" | "result" | "error" | "idempotencyKey" | "createdAt" | "updatedAt" | "completedAt", ExtArgs["result"]["check"]>
 export type CheckInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  reports?: boolean | Prisma.Check$reportsArgs<ExtArgs>
-  _count?: boolean | Prisma.CheckCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type CheckIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -1050,7 +895,6 @@ export type $CheckPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   name: "Check"
   objects: {
     user: Prisma.$UserPayload<ExtArgs>
-    reports: Prisma.$ReportPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1464,7 +1308,6 @@ readonly fields: CheckFieldRefs;
 export interface Prisma__CheckClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  reports<T extends Prisma.Check$reportsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Check$reportsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1903,30 +1746,6 @@ export type CheckDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Interna
    * Limit how many Checks to delete.
    */
   limit?: number
-}
-
-/**
- * Check.reports
- */
-export type Check$reportsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Report
-   */
-  select?: Prisma.ReportSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Report
-   */
-  omit?: Prisma.ReportOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.ReportInclude<ExtArgs> | null
-  where?: Prisma.ReportWhereInput
-  orderBy?: Prisma.ReportOrderByWithRelationInput | Prisma.ReportOrderByWithRelationInput[]
-  cursor?: Prisma.ReportWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.ReportScalarFieldEnum | Prisma.ReportScalarFieldEnum[]
 }
 
 /**

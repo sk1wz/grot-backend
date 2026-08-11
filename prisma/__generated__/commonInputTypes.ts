@@ -389,23 +389,6 @@ export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedDateTimeNullableFilter<$PrismaModel>
 }
 
-export type EnumReportStatusEnumsFilter<$PrismaModel = never> = {
-  equals?: $Enums.ReportStatusEnums | Prisma.EnumReportStatusEnumsFieldRefInput<$PrismaModel>
-  in?: $Enums.ReportStatusEnums[] | Prisma.ListEnumReportStatusEnumsFieldRefInput<$PrismaModel>
-  notIn?: $Enums.ReportStatusEnums[] | Prisma.ListEnumReportStatusEnumsFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumReportStatusEnumsFilter<$PrismaModel> | $Enums.ReportStatusEnums
-}
-
-export type EnumReportStatusEnumsWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: $Enums.ReportStatusEnums | Prisma.EnumReportStatusEnumsFieldRefInput<$PrismaModel>
-  in?: $Enums.ReportStatusEnums[] | Prisma.ListEnumReportStatusEnumsFieldRefInput<$PrismaModel>
-  notIn?: $Enums.ReportStatusEnums[] | Prisma.ListEnumReportStatusEnumsFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumReportStatusEnumsWithAggregatesFilter<$PrismaModel> | $Enums.ReportStatusEnums
-  _count?: Prisma.NestedIntFilter<$PrismaModel>
-  _min?: Prisma.NestedEnumReportStatusEnumsFilter<$PrismaModel>
-  _max?: Prisma.NestedEnumReportStatusEnumsFilter<$PrismaModel>
-}
-
 export type EnumBalanceStatusEnumsFilter<$PrismaModel = never> = {
   equals?: $Enums.BalanceStatusEnums | Prisma.EnumBalanceStatusEnumsFieldRefInput<$PrismaModel>
   in?: $Enums.BalanceStatusEnums[] | Prisma.ListEnumBalanceStatusEnumsFieldRefInput<$PrismaModel>
@@ -772,23 +755,6 @@ export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
   _min?: Prisma.NestedDateTimeNullableFilter<$PrismaModel>
   _max?: Prisma.NestedDateTimeNullableFilter<$PrismaModel>
-}
-
-export type NestedEnumReportStatusEnumsFilter<$PrismaModel = never> = {
-  equals?: $Enums.ReportStatusEnums | Prisma.EnumReportStatusEnumsFieldRefInput<$PrismaModel>
-  in?: $Enums.ReportStatusEnums[] | Prisma.ListEnumReportStatusEnumsFieldRefInput<$PrismaModel>
-  notIn?: $Enums.ReportStatusEnums[] | Prisma.ListEnumReportStatusEnumsFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumReportStatusEnumsFilter<$PrismaModel> | $Enums.ReportStatusEnums
-}
-
-export type NestedEnumReportStatusEnumsWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: $Enums.ReportStatusEnums | Prisma.EnumReportStatusEnumsFieldRefInput<$PrismaModel>
-  in?: $Enums.ReportStatusEnums[] | Prisma.ListEnumReportStatusEnumsFieldRefInput<$PrismaModel>
-  notIn?: $Enums.ReportStatusEnums[] | Prisma.ListEnumReportStatusEnumsFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumReportStatusEnumsWithAggregatesFilter<$PrismaModel> | $Enums.ReportStatusEnums
-  _count?: Prisma.NestedIntFilter<$PrismaModel>
-  _min?: Prisma.NestedEnumReportStatusEnumsFilter<$PrismaModel>
-  _max?: Prisma.NestedEnumReportStatusEnumsFilter<$PrismaModel>
 }
 
 export type NestedEnumBalanceStatusEnumsFilter<$PrismaModel = never> = {

@@ -2,7 +2,6 @@ import { BullModule } from '@nestjs/bullmq';
 import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { CHECK_SINGLE_QUEUE } from './check/check-queue.constants';
-import { REPORT_QUEUE } from './report/report-queue.constants';
 
 @Module({
   imports: [
@@ -16,7 +15,6 @@ import { REPORT_QUEUE } from './report/report-queue.constants';
     }),
     BullModule.registerQueue(
       { name: CHECK_SINGLE_QUEUE },
-      { name: REPORT_QUEUE },
     ),
   ],
   exports: [BullModule],

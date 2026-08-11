@@ -11,7 +11,6 @@
 export type * from './models/User.js'
 export type * from './models/CheckPrice.js'
 export type * from './models/Check.js'
-export type * from './models/Report.js'
 export type * from './models/BalanceTransaction.js'
 export type * from './models/Token.js'
 export type * from './commonInputTypes.js'

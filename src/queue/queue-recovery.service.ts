@@ -1,9 +1,8 @@
 import { CheckQueueService } from '@/queue/check/check-queue.service';
 import { CHECK_QUEUE_MODULES } from '@/queue/check/check-queue.constants';
-import { ReportQueueService } from '@/queue/report/report-queue.service';
 import { PrismaService } from '@/prisma/prisma.service';
 import { Injectable, Logger, OnApplicationBootstrap } from '@nestjs/common';
-import { CheckStatusEnums, ReportStatusEnums } from '@/db';
+import { CheckStatusEnums } from '@/db';
 
 @Injectable()
 export class QueueRecoveryService implements OnApplicationBootstrap {
@@ -12,7 +11,6 @@ export class QueueRecoveryService implements OnApplicationBootstrap {
   public constructor(
     private readonly prismaService: PrismaService,
     private readonly checkQueueService: CheckQueueService,
-    private readonly reportQueueService: ReportQueueService,
   ) {}
 
   public onApplicationBootstrap(): void {
@@ -20,14 +18,13 @@ export class QueueRecoveryService implements OnApplicationBootstrap {
   }
 
   private async recoverOnStartup(): Promise<void> {
-    const [submitRecovered, syncRecovered, reportsRecovered] =
+    const [submitRecovered, syncRecovered] =
       await Promise.all([
         this.recoverPendingSubmits(),
         this.recoverActiveSyncs(),
-        this.recoverPendingReports(),
       ]);
 
-    const total = submitRecovered + syncRecovered + reportsRecovered;
+    const total = submitRecovered + syncRecovered;
 
     if (total === 0) {
       this.logger.log('Startup queue recovery: nothing to recover');
@@ -35,7 +32,7 @@ export class QueueRecoveryService implements OnApplicationBootstrap {
     }
 
     this.logger.log(
-      `Startup queue recovery: ${submitRecovered} submit, ${syncRecovered} sync, ${reportsRecovered} report, jobs re-enqueued`,
+      `Startup queue recovery: ${submitRecovered} submit, ${syncRecovered} sync, jobs re-enqueued`,
     );
   }
 
@@ -87,29 +84,4 @@ export class QueueRecoveryService implements OnApplicationBootstrap {
     return recovered;
   }
 
-  private async recoverPendingReports(): Promise<number> {
-    const reports = await this.prismaService.report.findMany({
-      where: {
-        status: {
-          in: [
-            ReportStatusEnums.REPORT_PENDING,
-            ReportStatusEnums.REPORT_PROCESSING,
-          ],
-        },
-      },
-      select: { id: true },
-    });
-
-    let recovered = 0;
-
-    for (const report of reports) {
-      const enqueued = await this.reportQueueService.ensureGenerate(report.id);
-
-      if (enqueued) {
-        recovered += 1;
-      }
-    }
-
-    return recovered;
-  }
 }

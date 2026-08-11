@@ -6,7 +6,6 @@ import { AuthModule } from '@/auth/auth.module';
 import { UserModule } from '@/user/user.module';
 import { CheckModule } from '@/check/check.module';
 import { BalanceModule } from '@/balance/balance.module';
-import { ReportModule } from '@/report/report.module';
 import { QueueModule } from '@/queue/queue.module';
 
 @Module({
@@ -20,7 +19,6 @@ import { QueueModule } from '@/queue/queue.module';
     UserModule,
     BalanceModule,
     CheckModule,
-    ReportModule,
     QueueModule,
   ],
 })

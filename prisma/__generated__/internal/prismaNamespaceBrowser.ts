@@ -54,7 +54,6 @@ export const ModelName = {
   User: 'User',
   CheckPrice: 'CheckPrice',
   Check: 'Check',
-  Report: 'Report',
   BalanceTransaction: 'BalanceTransaction',
   Token: 'Token'
 } as const
@@ -121,21 +120,6 @@ export const CheckScalarFieldEnum = {
 } as const
 
 export type CheckScalarFieldEnum = (typeof CheckScalarFieldEnum)[keyof typeof CheckScalarFieldEnum]
-
-
-export const ReportScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  checkId: 'checkId',
-  status: 'status',
-  filePath: 'filePath',
-  error: 'error',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  completedAt: 'completedAt'
-} as const
-
-export type ReportScalarFieldEnum = (typeof ReportScalarFieldEnum)[keyof typeof ReportScalarFieldEnum]
 
 
 export const BalanceTransactionScalarFieldEnum = {

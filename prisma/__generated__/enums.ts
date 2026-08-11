@@ -68,13 +68,3 @@ export const BalanceStatusEnums = {
 } as const
 
 export type BalanceStatusEnums = (typeof BalanceStatusEnums)[keyof typeof BalanceStatusEnums]
-
-
-export const ReportStatusEnums = {
-  REPORT_PENDING: 'REPORT_PENDING',
-  REPORT_PROCESSING: 'REPORT_PROCESSING',
-  REPORT_DONE: 'REPORT_DONE',
-  REPORT_FAILED: 'REPORT_FAILED'
-} as const
-
-export type ReportStatusEnums = (typeof ReportStatusEnums)[keyof typeof ReportStatusEnums]
