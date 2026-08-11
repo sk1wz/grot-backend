@@ -19,7 +19,7 @@ export class StormfinderCheckHandler implements CheckProviderHandler {
       check.idempotencyKey,
     );
 
-    return mapStormfinderResponse(response);
+    return mapStormfinderResponse(response, check.module);
   }
 
   public async poll(check: Check): Promise<ProviderCheckResult> {
@@ -28,6 +28,6 @@ export class StormfinderCheckHandler implements CheckProviderHandler {
     }
 
     const response = await this.stormfinderService.getCheck(check.serviceId);
-    return mapStormfinderResponse(response);
+    return mapStormfinderResponse(response, check.module);
   }
 }
