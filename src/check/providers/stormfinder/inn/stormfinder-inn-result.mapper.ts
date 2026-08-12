@@ -12,11 +12,11 @@ export function mapStormfinderInnResult(raw: unknown): InnResult {
   const summary = asObject(result.summary);
 
   return InnResultSchema.parse({
-    summary: {
-      inn: textValue(summary.инн),
-      fullName: textValue(summary.фио),
-      birthDate: textValue(summary['дата рождения']),
-      passportNumber: textValue(summary['номер паспорта']),
+    autosintes_summary: {
+      autosintes_inn: textValue(summary.инн),
+      autosintes_full_name: textValue(summary.фио),
+      autosintes_birth_date: textValue(summary['дата рождения']),
+      autosintes_passport_number: textValue(summary['номер паспорта']),
     },
   });
 }
@@ -28,7 +28,9 @@ function asObject(value: unknown): FinderObject {
 }
 
 function textValue(value: unknown): TextValue {
-  return typeof value === 'string' || typeof value === 'number' || value === null
+  return typeof value === 'string' ||
+    typeof value === 'number' ||
+    value === null
     ? value
     : undefined;
 }
