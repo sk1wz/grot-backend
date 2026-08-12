@@ -15,6 +15,10 @@ export class FsspService {
     );
   }
 
+  public getAll(userId: string) {
+    return this.checkService.getChecksByModule(userId, CheckModuleEnums.FSSP);
+  }
+
   // public createBatchFssp(userId: string, dto: FsspCheckDto) {
   //   return this.createSingleFssp(userId, dto);
   // }

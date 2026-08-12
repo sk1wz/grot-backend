@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Get,
   HttpCode,
   HttpStatus,
   Post,
@@ -14,6 +15,12 @@ import { GistorgiDto } from './dto';
 @Controller('checks/gistorgi')
 export class GistorgiController {
   public constructor(private readonly gistorgiService: GistorgiService) {}
+
+  @Auth()
+  @Get()
+  public getAllGistorgi(@Req() req: Request) {
+    return this.gistorgiService.getAll(req.session.userId!);
+  }
 
   @Auth()
   @Post()

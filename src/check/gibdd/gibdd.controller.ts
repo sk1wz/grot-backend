@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Get,
   HttpCode,
   HttpStatus,
   Post,
@@ -14,6 +15,13 @@ import { GibddService } from './gibdd.service';
 @Controller('checks/gibdd')
 export class GibddController {
   public constructor(private readonly gibddService: GibddService) {}
+
+  @Auth()
+  @Get()
+  @HttpCode(HttpStatus.ACCEPTED)
+  public getAllGibdd(@Req() req: Request) {
+    return this.gibddService.getAll(req.session.userId!);
+  }
 
   @Auth()
   @Post()

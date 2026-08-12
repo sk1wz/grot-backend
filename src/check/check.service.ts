@@ -35,8 +35,12 @@ export class CheckService {
   ) {}
 
   public async getAllChecks(userId: string) {
+    return this.getChecksByModule(userId);
+  }
+
+  public async getChecksByModule(userId: string, module?: CheckModuleEnums) {
     const checks = await this.prismaService.check.findMany({
-      where: { userId },
+      where: { userId, ...(module ? { module } : {}) },
       orderBy: { createdAt: 'desc' },
     });
 

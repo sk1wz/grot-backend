@@ -17,6 +17,13 @@ export class GistorgiService {
     );
   }
 
+  public getAll(userId: string) {
+    return this.checkService.getChecksByModule(
+      userId,
+      CheckModuleEnums.GISTORGI,
+    );
+  }
+
   // public createBatchGistorgi(userId: string, dto: GistorgiDto) {
   //   return this.createSingleGistorgi(userId, dto);
   // }

@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Get,
   HttpCode,
   HttpStatus,
   Post,
@@ -14,6 +15,12 @@ import { InnService } from './inn.service';
 @Controller('checks/inn')
 export class InnController {
   public constructor(private readonly innService: InnService) {}
+
+  @Auth()
+  @Get()
+  public getAllInn(@Req() req: Request) {
+    return this.innService.getAll(req.session.userId!);
+  }
 
   @Auth()
   @Post()

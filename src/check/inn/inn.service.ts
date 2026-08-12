@@ -15,6 +15,10 @@ export class InnService {
     );
   }
 
+  public getAll(userId: string) {
+    return this.checkService.getChecksByModule(userId, CheckModuleEnums.INN);
+  }
+
   // public createBatchInn(userId: string, dto: InnDto) {
   //   return this.createSingleInn(userId, dto);
   // }

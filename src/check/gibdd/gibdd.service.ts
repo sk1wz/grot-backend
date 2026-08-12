@@ -15,6 +15,10 @@ export class GibddService {
     );
   }
 
+  public getAll(userId: string) {
+    return this.checkService.getChecksByModule(userId, CheckModuleEnums.GIBDD);
+  }
+
   // public createBatchGibdd(userId: string, dto: GibddDto) {
   //   return this.createSingleGibdd(userId, dto);
   // }

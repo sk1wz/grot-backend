@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Get,
   HttpCode,
   HttpStatus,
   Post,
@@ -14,6 +15,12 @@ import { FsspService } from './fssp.service';
 @Controller('checks/fssp')
 export class FsspController {
   public constructor(private readonly fsspService: FsspService) {}
+
+  @Auth()
+  @Get()
+  public getAllFssp(@Req() req: Request) {
+    return this.fsspService.getAll(req.session.userId!);
+  }
 
   @Auth()
   @Post()

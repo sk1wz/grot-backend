@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Get,
   HttpCode,
   HttpStatus,
   Post,
@@ -14,6 +15,12 @@ import { BankruptcyDto } from './dto';
 @Controller(['checks/bankruptcy', 'checks/bancrupcy'])
 export class BankruptcyController {
   public constructor(private readonly bankruptcyService: BankruptcyService) {}
+
+  @Auth()
+  @Get()
+  public getAllBankruptcy(@Req() req: Request) {
+    return this.bankruptcyService.getAll(req.session.userId!);
+  }
 
   @Auth()
   @Post()

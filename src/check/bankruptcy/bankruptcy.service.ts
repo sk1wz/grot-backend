@@ -8,10 +8,16 @@ export class BankruptcyService {
   public constructor(private readonly checkService: CheckService) {}
 
   public createSingle(userId: string, dto: BankruptcyDto) {
-    return this.checkService.createCheck(
+    return this.checkService.createCheck(userId, CheckModuleEnums.BANKRUPTCY, {
+      type: dto.type,
+      subjectBody: dto.subjectBody,
+    });
+  }
+
+  public getAll(userId: string) {
+    return this.checkService.getChecksByModule(
       userId,
       CheckModuleEnums.BANKRUPTCY,
-      { type: dto.type, subjectBody: dto.subjectBody },
     );
   }
 
