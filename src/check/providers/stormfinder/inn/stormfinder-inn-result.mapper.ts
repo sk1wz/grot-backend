@@ -12,11 +12,11 @@ export function mapStormfinderInnResult(raw: unknown): InnResult {
   const summary = asObject(result.summary);
 
   return InnResultSchema.parse({
-    autosintes_summary: {
-      autosintes_inn: textValue(summary.инн),
-      autosintes_full_name: textValue(summary.фио),
-      autosintes_birth_date: textValue(summary['дата рождения']),
-      autosintes_passport_number: textValue(summary['номер паспорта']),
+    summary: {
+      inn: textValue(summary.инн),
+      full_name: textValue(summary.фио),
+      birth_date: textValue(summary['дата рождения']),
+      passport_number: textValue(summary['номер паспорта']),
     },
   });
 }

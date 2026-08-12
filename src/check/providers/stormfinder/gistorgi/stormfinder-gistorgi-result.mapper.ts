@@ -10,10 +10,10 @@ export function mapStormfinderGistorgiResult(raw: unknown): GistorgiResult {
   const result = asObject(raw);
   const summary = asObject(result.summary);
   const lot = {
-    lotName: textValue(summary['Лот: наименование']),
-    lotLink: textValue(summary['Лот: ссылка']),
-    lotDate: textValue(summary['Лот: дата']),
-    lotStatus: textValue(summary['Лот: статус']),
+    lot_name: textValue(summary['Лот: наименование']),
+    lot_link: textValue(summary['Лот: ссылка']),
+    lot_date: textValue(summary['Лот: дата']),
+    lot_status: textValue(summary['Лот: статус']),
   };
 
   return GistorgiResultSchema.parse({
@@ -31,7 +31,9 @@ function asObject(value: unknown): FinderObject {
 }
 
 function textValue(value: unknown): TextValue {
-  return typeof value === 'string' || typeof value === 'number' || value === null
+  return typeof value === 'string' ||
+    typeof value === 'number' ||
+    value === null
     ? value
     : undefined;
 }

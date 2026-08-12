@@ -8,10 +8,10 @@ export const GistorgiResultSchema = z.object({
   }),
   lots: z.array(
     z.object({
-      lotName: TextValueSchema,
-      lotLink: TextValueSchema,
-      lotDate: TextValueSchema,
-      lotStatus: TextValueSchema,
+      lot_name: TextValueSchema,
+      lot_link: TextValueSchema,
+      lot_date: TextValueSchema,
+      lot_status: TextValueSchema,
     }),
   ),
 });
