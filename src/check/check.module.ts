@@ -4,6 +4,7 @@ import { BalanceModule } from '@/balance/balance.module';
 import { PrismaModule } from '@/prisma/prisma.module';
 import { QueueModule } from '@/queue/queue.module';
 import { StormfinderModule } from '@/stormfinder/stormfinder.module';
+import { ReportModule } from '@/report/report.module';
 import { CheckQueryController } from './check.controller';
 import { CheckService } from './check.service';
 import { BankruptcyController } from './bankruptcy/bankruptcy.controller';
@@ -26,6 +27,7 @@ import { StormfinderCheckHandler } from './providers/stormfinder/stormfinder.che
     BalanceModule,
     PrismaModule,
     StormfinderModule,
+    ReportModule,
     forwardRef(() => QueueModule),
   ],
   controllers: [
