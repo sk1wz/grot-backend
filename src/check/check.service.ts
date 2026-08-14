@@ -93,6 +93,8 @@ export class CheckService {
 
     try {
       await this.checkQueueService.enqueueSubmit(check.id);
+      // PENDING represents successful placement into our BullMQ queue.
+      this.publish(check);
     } catch (error) {
       await this.failCheck(check, error);
       throw error;
@@ -219,12 +221,14 @@ export class CheckService {
       },
     });
 
-    if (isTerminal) this.publish(updatedCheck);
+    this.publish(updatedCheck);
   }
 
   private isActive(status: CheckStatusEnums): boolean {
     return (
-      status === CheckStatusEnums.QUEUED || status === CheckStatusEnums.RUNNING
+      status === CheckStatusEnums.PENDING ||
+      status === CheckStatusEnums.QUEUED ||
+      status === CheckStatusEnums.RUNNING
     );
   }
 
@@ -235,15 +239,10 @@ export class CheckService {
   }
 
   private publish(check: Check): void {
-    if (
-      check.status === CheckStatusEnums.DONE ||
-      check.status === CheckStatusEnums.FAILED
-    ) {
-      this.checkGateway.emitCheckUpdated(
-        check.userId,
-        CheckResponseDto.fromCheck(check),
-      );
-    }
+    this.checkGateway.emitCheckUpdated(
+      check.userId,
+      CheckResponseDto.fromCheck(check),
+    );
   }
 
   private async getCheckPrice(module: CheckModuleEnums): Promise<number> {
