@@ -221,7 +221,7 @@ export class CheckService {
       },
     });
 
-    this.publish(updatedCheck);
+    if (updatedCheck) this.publish(updatedCheck);
   }
 
   private isActive(status: CheckStatusEnums): boolean {
