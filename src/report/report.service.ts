@@ -5,8 +5,10 @@ import ExcelJS from 'exceljs';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { buildGibddExcel } from './templates/gibdd/excel.template';
+import { buildFsspExcel } from './templates/fssp/excel.template';
 import { buildGistorgiExcel } from './templates/gistorgi/excel.template';
 import { buildInnExcel } from './templates/inn/excel.template';
+import { buildBankruptcyExcel } from './templates/bankruptcy/excel.template';
 
 @Injectable()
 export class ReportService {
@@ -41,6 +43,14 @@ export class ReportService {
     const workbook = new ExcelJS.Workbook();
     if (check.module === CheckModuleEnums.GIBDD) {
       buildGibddExcel(workbook, check);
+      return Buffer.from(await workbook.xlsx.writeBuffer());
+    }
+    if (check.module === CheckModuleEnums.FSSP) {
+      buildFsspExcel(workbook, check);
+      return Buffer.from(await workbook.xlsx.writeBuffer());
+    }
+    if (check.module === CheckModuleEnums.BANKRUPTCY) {
+      buildBankruptcyExcel(workbook, check);
       return Buffer.from(await workbook.xlsx.writeBuffer());
     }
     if (check.module === CheckModuleEnums.INN) buildInnExcel(workbook, check);

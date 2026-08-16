@@ -4,6 +4,8 @@ import { ProviderCheckResult } from '../provider.types';
 import { mapStormfinderGibddResult } from './gibdd/stormfinder-gibdd-result.mapper';
 import { mapStormfinderInnResult } from './inn/stormfinder-inn-result.mapper';
 import { mapStormfinderGistorgiResult } from './gistorgi/stormfinder-gistorgi-result.mapper';
+import { mapStormfinderFsspResult } from './fssp/stormfinder-fssp-result.mapper';
+import { mapStormfinderBankruptcyResult } from './bankruptcy/stormfinder-bankruptcy-result.mapper';
 
 export function mapStormfinderResponse(
   response: StormfinderCheckResponse,
@@ -40,6 +42,14 @@ function mapStormfinderResult(
 
   if (module === CheckModuleEnums.GISTORGI) {
     return mapStormfinderGistorgiResult(result) as Prisma.InputJsonValue;
+  }
+
+  if (module === CheckModuleEnums.FSSP) {
+    return mapStormfinderFsspResult(result) as Prisma.InputJsonValue;
+  }
+
+  if (module === CheckModuleEnums.BANKRUPTCY) {
+    return mapStormfinderBankruptcyResult(result) as Prisma.InputJsonValue;
   }
 
   return result as Prisma.InputJsonValue;
