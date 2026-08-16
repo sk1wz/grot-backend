@@ -1,5 +1,6 @@
 import { PrismaService } from '@/prisma/prisma.service';
 import {
+  ForbiddenException,
   Injectable,
   NotFoundException,
   UnauthorizedException,
@@ -57,9 +58,14 @@ export class UserService {
     return users;
   }
 
-  public async deleteById(id: string) {
-    const user = await this.findById(id);
+  public async deleteById(id: string, requestedByUserId: string) {
+    if (id === requestedByUserId) {
+      throw new ForbiddenException(
+        'Нельзя удалить собственную учётную запись.',
+      );
+    }
 
+    const user = await this.findById(id);
     await this.prismaService.$transaction([
       this.prismaService.token.deleteMany({ where: { email: user.email } }),
       this.prismaService.user.delete({ where: { id } }),

@@ -45,7 +45,7 @@ export class UserController {
   @Auth('ADMIN')
   @HttpCode(HttpStatus.OK)
   @Delete('/:id')
-  public async deleteUser(@Param('id') id: string) {
-    return this.userService.deleteById(id);
+  public async deleteUser(@Req() req: Request, @Param('id') id: string) {
+    return this.userService.deleteById(id, req.session.userId!);
   }
 }

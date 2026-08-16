@@ -14,25 +14,25 @@ const PRICES = [
     module: CheckModuleEnums.GISTORGI,
     title: 'ГИС Торги',
     description: 'Проверка по базе государственных торгов',
-    price: 10,
+    price: 5,
   },
   {
     module: CheckModuleEnums.FSSP,
     title: 'ФССП',
     description: 'Проверка исполнительных производств ФССП',
-    price: 10,
+    price: 5,
   },
   {
     module: CheckModuleEnums.BANKRUPTCY,
     title: 'Банкротство',
     description: 'Проверка сведений о банкротстве',
-    price: 10,
+    price: 5,
   },
   {
     module: CheckModuleEnums.INN,
     title: 'ИНН',
     description: 'Проверка по ИНН',
-    price: 10,
+    price: 5,
   },
 ] as const;
 
