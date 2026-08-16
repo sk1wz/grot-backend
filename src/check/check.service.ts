@@ -57,6 +57,16 @@ export class CheckService {
     return CheckResponseDto.fromCheck(check);
   }
 
+  public async getCheckByIdAdmin(checkId: string) {
+    const check = await this.prismaService.check.findUnique({
+      where: { id: checkId },
+    });
+
+    if (!check) throw new NotFoundException('Проверка не найдена');
+
+    return CheckResponseDto.fromCheck(check);
+  }
+
   public async createCheck(
     userId: string,
     module: CheckModuleEnums,

@@ -1,9 +1,11 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpCode,
   HttpStatus,
+  Param,
   Patch,
   Req,
 } from '@nestjs/common';
@@ -33,10 +35,17 @@ export class UserController {
     return this.userService.changePassword(req.session.userId!, dto);
   }
 
-  @Auth()
+  @Auth('ADMIN')
   @HttpCode(HttpStatus.OK)
   @Get('/')
   public async findUsers() {
     return this.userService.findUsers();
+  }
+
+  @Auth('ADMIN')
+  @HttpCode(HttpStatus.OK)
+  @Delete('/:id')
+  public async deleteUser(@Param('id') id: string) {
+    return this.userService.deleteById(id);
   }
 }

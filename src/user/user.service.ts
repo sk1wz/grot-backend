@@ -57,6 +57,17 @@ export class UserService {
     return users;
   }
 
+  public async deleteById(id: string) {
+    const user = await this.findById(id);
+
+    await this.prismaService.$transaction([
+      this.prismaService.token.deleteMany({ where: { email: user.email } }),
+      this.prismaService.user.delete({ where: { id } }),
+    ]);
+
+    return { message: 'Пользователь успешно удалён.' };
+  }
+
   public async create(
     email: string,
     password: string,
