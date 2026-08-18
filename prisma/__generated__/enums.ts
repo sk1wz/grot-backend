@@ -33,6 +33,7 @@ export type TokenType = (typeof TokenType)[keyof typeof TokenType]
 
 export const CheckModuleEnums = {
   GIBDD: 'GIBDD',
+  LIMITATION: 'LIMITATION',
   GISTORGI: 'GISTORGI',
   FSSP: 'FSSP',
   BANKRUPTCY: 'BANKRUPTCY',
@@ -54,7 +55,8 @@ export type CheckStatusEnums = (typeof CheckStatusEnums)[keyof typeof CheckStatu
 
 
 export const CheckProviderEnums = {
-  STORMFINDER: 'STORMFINDER'
+  STORMFINDER: 'STORMFINDER',
+  DUCKDNS: 'DUCKDNS'
 } as const
 
 export type CheckProviderEnums = (typeof CheckProviderEnums)[keyof typeof CheckProviderEnums]

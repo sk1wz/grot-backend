@@ -2,6 +2,7 @@ import { CheckModuleEnums, CheckProviderEnums } from '@/db';
 
 export const CHECK_PROVIDER_BY_MODULE = {
   [CheckModuleEnums.GIBDD]: CheckProviderEnums.STORMFINDER,
+  [CheckModuleEnums.LIMITATION]: CheckProviderEnums.DUCKDNS,
   [CheckModuleEnums.GISTORGI]: CheckProviderEnums.STORMFINDER,
   [CheckModuleEnums.FSSP]: CheckProviderEnums.STORMFINDER,
   [CheckModuleEnums.BANKRUPTCY]: CheckProviderEnums.STORMFINDER,

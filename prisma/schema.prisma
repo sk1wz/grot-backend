@@ -99,6 +99,7 @@ enum TokenType {
 
 enum CheckModuleEnums {
   GIBDD
+  LIMITATION
   GISTORGI
   FSSP
   BANKRUPTCY
@@ -115,6 +116,7 @@ enum CheckStatusEnums {
 
 enum CheckProviderEnums {
   STORMFINDER
+  DUCKDNS
 }
 
 enum BalanceStatusEnums {

@@ -4,6 +4,7 @@ import { BalanceModule } from '@/balance/balance.module';
 import { PrismaModule } from '@/prisma/prisma.module';
 import { QueueModule } from '@/queue/queue.module';
 import { StormfinderModule } from '@/stormfinder/stormfinder.module';
+import { DuckdnsModule } from '@/duckdns/duckdns.module';
 import { ReportModule } from '@/report/report.module';
 import { CheckQueryController } from './check.controller';
 import { CheckService } from './check.service';
@@ -20,6 +21,9 @@ import { InnService } from './inn/inn.service';
 import { CheckGateway } from './check.gateway';
 import { CheckProviderRegistry } from './providers/provider.registry';
 import { StormfinderCheckHandler } from './providers/stormfinder/stormfinder.check-handler';
+import { DuckdnsCheckHandler } from './providers/duckdns/duckdns.check-handler';
+import { LimitationController } from './limitation/limitation.controller';
+import { LimitationService } from './limitation/limitation.service';
 
 @Module({
   imports: [
@@ -27,6 +31,7 @@ import { StormfinderCheckHandler } from './providers/stormfinder/stormfinder.che
     BalanceModule,
     PrismaModule,
     StormfinderModule,
+    DuckdnsModule,
     ReportModule,
     forwardRef(() => QueueModule),
   ],
@@ -36,6 +41,7 @@ import { StormfinderCheckHandler } from './providers/stormfinder/stormfinder.che
     FsspController,
     BankruptcyController,
     InnController,
+    LimitationController,
     CheckQueryController,
   ],
   providers: [
@@ -45,9 +51,11 @@ import { StormfinderCheckHandler } from './providers/stormfinder/stormfinder.che
     FsspService,
     BankruptcyService,
     InnService,
+    LimitationService,
     CheckGateway,
     CheckProviderRegistry,
     StormfinderCheckHandler,
+    DuckdnsCheckHandler,
   ],
   exports: [CheckService],
 })

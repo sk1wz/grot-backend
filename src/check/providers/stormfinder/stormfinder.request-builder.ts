@@ -51,6 +51,8 @@ export function buildStormfinderRequest(check: Check): StormfinderRequest {
         path: '/checks/inn',
         body: { subject: withoutType(subjectBody) },
       };
+    default:
+      throw new Error(`Модуль ${check.module} не поддерживается Stormfinder`);
   }
 }
 

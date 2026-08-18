@@ -11,6 +11,7 @@ export function buildSubjectBodyText(
 
   switch (module) {
     case CheckModuleEnums.GIBDD:
+    case CheckModuleEnums.LIMITATION:
     case CheckModuleEnums.GISTORGI:
       return `${value('vin')}`;
     case CheckModuleEnums.FSSP:

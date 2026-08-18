@@ -4,6 +4,7 @@ export const CHECK_SINGLE_QUEUE = 'checks-single';
 
 export const CHECK_QUEUE_MODULES = [
   CheckModuleEnums.GIBDD,
+  CheckModuleEnums.LIMITATION,
   CheckModuleEnums.GISTORGI,
   CheckModuleEnums.FSSP,
   CheckModuleEnums.BANKRUPTCY,
