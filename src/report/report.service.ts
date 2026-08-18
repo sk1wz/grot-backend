@@ -9,6 +9,7 @@ import { buildFsspExcel } from './templates/fssp/excel.template';
 import { buildGistorgiExcel } from './templates/gistorgi/excel.template';
 import { buildInnExcel } from './templates/inn/excel.template';
 import { buildBankruptcyExcel } from './templates/bankruptcy/excel.template';
+import { buildLimitationExcel } from './templates/limitation/excel.template';
 
 @Injectable()
 export class ReportService {
@@ -51,6 +52,10 @@ export class ReportService {
     }
     if (check.module === CheckModuleEnums.BANKRUPTCY) {
       buildBankruptcyExcel(workbook, check);
+      return Buffer.from(await workbook.xlsx.writeBuffer());
+    }
+    if (check.module === CheckModuleEnums.LIMITATION) {
+      buildLimitationExcel(workbook, check);
       return Buffer.from(await workbook.xlsx.writeBuffer());
     }
     if (check.module === CheckModuleEnums.INN) buildInnExcel(workbook, check);
