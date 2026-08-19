@@ -3,15 +3,12 @@ import ExcelJS from 'exceljs';
 
 const LIMITATION_FIELDS = [
   ['vin', 'VIN'],
-  ['a_model', 'Модель'],
-  ['a_year', 'Год выпуска'],
-  ['a_restriction_date', 'Дата ограничения'],
-  ['a_region', 'Регион'],
-  ['a_author_name', 'Инициатор ограничения'],
-  ['a_author_phone', 'Телефон инициатора'],
-  ['a_restriction_type', 'Вид ограничения'],
-  ['a_description', 'Описание'],
-  ['a_gibdd_id', 'Идентификатор ГИБДД'],
+  ['model', 'Модель'],
+  ['year', 'Год выпуска'],
+  ['restriction_date', 'Дата ограничения'],
+  ['region', 'Регион'],
+  ['restriction_type', 'Вид ограничения'],
+  ['description', 'Описание'],
 ] as const;
 
 export function buildLimitationExcel(
