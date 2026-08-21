@@ -293,6 +293,17 @@ function parseSpreadsheetRow(
       ? ''
       : String(sheet.getCell(sourceRow, column).text).trim();
   };
+  const dateCell = (header: string) => {
+    const column = headers.get(header);
+    if (column === undefined) return '';
+    const value = sheet.getCell(sourceRow, column).value;
+    if (value === null || value === undefined || value === '') return '';
+    const normalized = normalizeSpreadsheetDate(value);
+    if (normalized) return normalized;
+    throw new BadRequestException(
+      `Некорректная дата рождения в строке ${sourceRow}. Используйте формат ДД.ММ.ГГГГ`,
+    );
+  };
   const item = (body: CheckBody): BatchItem => ({ body, sourceRow });
 
   if (
@@ -312,7 +323,7 @@ function parseSpreadsheetRow(
   if (module === CheckModuleEnums.INN) {
     requireHeaders(headers, ['ФИО', 'ДАТА РОЖДЕНИЯ', 'ПАСПОРТ']);
     const fio = cell('ФИО');
-    const dob = cell('ДАТА РОЖДЕНИЯ');
+    const dob = dateCell('ДАТА РОЖДЕНИЯ');
     const passport = cell('ПАСПОРТ');
     if (!fio && !dob && !passport) return [];
     if (!fio || !dob || !passport)
@@ -341,7 +352,6 @@ function parseSpreadsheetRow(
 
   if (module === CheckModuleEnums.FSSP) {
     requireAnyHeader(headers, ['ИНН', 'НОМЕР ИП', 'НОМЕР ИЛ', 'ФИО']);
-    const dob = cell('ДАТА РОЖДЕНИЯ');
     return orderedHeaders(headers, [
       'ИНН',
       'НОМЕР ИП',
@@ -361,6 +371,7 @@ function parseSpreadsheetRow(
         return [item({ type: 'for_ip', subjectBody: { ip: value } })];
       if (header === 'НОМЕР ИЛ')
         return [item({ type: 'for_doc_id', subjectBody: { doc_id: value } })];
+      const dob = dateCell('ДАТА РОЖДЕНИЯ');
       if (!dob)
         throw new BadRequestException(
           `Для ФИО укажите дату рождения в строке ${sourceRow}`,
@@ -402,4 +413,53 @@ function orderedHeaders(
   return candidates
     .filter((header) => headers.has(header))
     .sort((left, right) => headers.get(left)! - headers.get(right)!);
+}
+
+function normalizeSpreadsheetDate(value: unknown): string | null {
+  if (value instanceof Date && !Number.isNaN(value.getTime())) {
+    return formatDate(
+      value.getUTCFullYear(),
+      value.getUTCMonth() + 1,
+      value.getUTCDate(),
+    );
+  }
+
+  if (typeof value === 'number' && Number.isFinite(value)) {
+    // Excel's day 0 is 1899-12-30 (including its historical leap-year bug).
+    const date = new Date(
+      Date.UTC(1899, 11, 30) + Math.floor(value) * 86_400_000,
+    );
+    return formatDate(
+      date.getUTCFullYear(),
+      date.getUTCMonth() + 1,
+      date.getUTCDate(),
+    );
+  }
+
+  if (typeof value !== 'string') return null;
+  const text = value.trim();
+  const match = text.match(/^(\d{1,2})[.\/-](\d{1,2})[.\/-](\d{4})$/);
+  if (match) {
+    return formatDate(Number(match[3]), Number(match[2]), Number(match[1]));
+  }
+
+  const date = new Date(text);
+  if (Number.isNaN(date.getTime())) return null;
+  return formatDate(
+    date.getUTCFullYear(),
+    date.getUTCMonth() + 1,
+    date.getUTCDate(),
+  );
+}
+
+function formatDate(year: number, month: number, day: number): string | null {
+  const date = new Date(Date.UTC(year, month - 1, day));
+  if (
+    date.getUTCFullYear() !== year ||
+    date.getUTCMonth() !== month - 1 ||
+    date.getUTCDate() !== day
+  ) {
+    return null;
+  }
+  return `${String(day).padStart(2, '0')}.${String(month).padStart(2, '0')}.${year}`;
 }
