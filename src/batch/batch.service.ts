@@ -23,6 +23,7 @@ import { getCheckProvider } from '@/check/utils/provider-map';
 import { buildSubjectBodyText } from '@/check/utils/subject-body-text';
 import { ReportService } from '@/report/report.service';
 import { BatchGateway } from './batch.gateway';
+import { getCheckModuleLabel } from '@/utils/check-module-label';
 
 type VinRow = { vin: string; sourceRow: number };
 
@@ -52,7 +53,7 @@ export class BatchService {
         totalCost,
         BalanceStatusEnums.BALANCE_PURCHASE,
         {
-          action: `Оплата пакетной проверки ${module}`,
+          action: `Оплата пакетной проверки ${getCheckModuleLabel(module)}`,
         },
         tx,
       );
@@ -122,7 +123,13 @@ export class BatchService {
       const check = await this.prisma.check.findFirst({
         where: {
           batchId,
-          status: { in: [CheckStatusEnums.PENDING, CheckStatusEnums.QUEUED, CheckStatusEnums.RUNNING] },
+          status: {
+            in: [
+              CheckStatusEnums.PENDING,
+              CheckStatusEnums.QUEUED,
+              CheckStatusEnums.RUNNING,
+            ],
+          },
         },
         orderBy: { batchPosition: 'asc' },
       });
@@ -144,29 +151,41 @@ export class BatchService {
 
   private async processOneBatchCheck(checkId: string): Promise<void> {
     while (true) {
-      const check = await this.prisma.check.findUnique({ where: { id: checkId } });
+      const check = await this.prisma.check.findUnique({
+        where: { id: checkId },
+      });
       if (!check || this.isTerminal(check.status)) return;
 
       if (check.status === CheckStatusEnums.PENDING && !check.serviceId) {
-        await this.checkService.processSubmit(check.id, { scheduleSync: false });
+        await this.checkService.processSubmit(check.id, {
+          scheduleSync: false,
+        });
       } else {
         await this.checkService.processSync(check.id, { scheduleSync: false });
       }
 
-      const updated = await this.prisma.check.findUnique({ where: { id: checkId } });
+      const updated = await this.prisma.check.findUnique({
+        where: { id: checkId },
+      });
       if (!updated || this.isTerminal(updated.status)) return;
       await new Promise<void>((resolve) => setTimeout(resolve, 5_000));
     }
   }
 
   private isTerminal(status: CheckStatusEnums): boolean {
-    return status === CheckStatusEnums.DONE || status === CheckStatusEnums.FAILED;
+    return (
+      status === CheckStatusEnums.DONE || status === CheckStatusEnums.FAILED
+    );
   }
 
   private async refreshProgress(batch: BatchCheck): Promise<void> {
     const [successfulItems, failedItems] = await Promise.all([
-      this.prisma.check.count({ where: { batchId: batch.id, status: CheckStatusEnums.DONE } }),
-      this.prisma.check.count({ where: { batchId: batch.id, status: CheckStatusEnums.FAILED } }),
+      this.prisma.check.count({
+        where: { batchId: batch.id, status: CheckStatusEnums.DONE },
+      }),
+      this.prisma.check.count({
+        where: { batchId: batch.id, status: CheckStatusEnums.FAILED },
+      }),
     ]);
     const updated = await this.prisma.batchCheck.update({
       where: { id: batch.id },

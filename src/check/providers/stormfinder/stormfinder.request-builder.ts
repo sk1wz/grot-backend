@@ -27,6 +27,11 @@ export function buildStormfinderRequest(check: Check): StormfinderRequest {
           with_osago: true,
         },
       };
+    case CheckModuleEnums.TAXI:
+      return {
+        path: '/checks/taxi',
+        body: { subject: { vin: subjectBody.vin } },
+      };
     case CheckModuleEnums.GISTORGI:
       return {
         path: '/checks/gistorgi',

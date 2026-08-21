@@ -37,7 +37,8 @@ export const CheckModuleEnums = {
   GISTORGI: 'GISTORGI',
   FSSP: 'FSSP',
   BANKRUPTCY: 'BANKRUPTCY',
-  INN: 'INN'
+  INN: 'INN',
+  TAXI: 'TAXI'
 } as const
 
 export type CheckModuleEnums = (typeof CheckModuleEnums)[keyof typeof CheckModuleEnums]

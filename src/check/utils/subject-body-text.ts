@@ -13,6 +13,7 @@ export function buildSubjectBodyText(
     case CheckModuleEnums.GIBDD:
     case CheckModuleEnums.LIMITATION:
     case CheckModuleEnums.GISTORGI:
+    case CheckModuleEnums.TAXI:
       return `${value('vin')}`;
     case CheckModuleEnums.FSSP:
       if (value('inn')) return `${value('inn')}`;

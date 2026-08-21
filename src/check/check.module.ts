@@ -24,6 +24,8 @@ import { StormfinderCheckHandler } from './providers/stormfinder/stormfinder.che
 import { DuckdnsCheckHandler } from './providers/duckdns/duckdns.check-handler';
 import { LimitationController } from './limitation/limitation.controller';
 import { LimitationService } from './limitation/limitation.service';
+import { TaxiController } from './taxi/taxi.controller';
+import { TaxiService } from './taxi/taxi.service';
 import { BatchModule } from '@/batch/batch.module';
 
 @Module({
@@ -44,6 +46,7 @@ import { BatchModule } from '@/batch/batch.module';
     BankruptcyController,
     InnController,
     LimitationController,
+    TaxiController,
     CheckQueryController,
   ],
   providers: [
@@ -54,6 +57,7 @@ import { BatchModule } from '@/batch/batch.module';
     BankruptcyService,
     InnService,
     LimitationService,
+    TaxiService,
     CheckGateway,
     CheckProviderRegistry,
     StormfinderCheckHandler,

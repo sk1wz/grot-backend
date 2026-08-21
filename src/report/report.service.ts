@@ -22,6 +22,7 @@ export class ReportService {
 
   public async generate(check: Check): Promise<void> {
     if (check.status !== CheckStatusEnums.DONE) return;
+    if (check.module === CheckModuleEnums.TAXI) return;
     await mkdir(this.directory, { recursive: true });
     await writeFile(this.path(check.id), await this.renderExcel(check));
     this.logger.log(`Excel report generated for check ${check.id}`);
@@ -67,6 +68,7 @@ export class ReportService {
 
   /** Stacks the existing single-check Excel templates one below another. */
   public async generateBatch(batch: BatchCheck): Promise<void> {
+    if (batch.module === CheckModuleEnums.TAXI) return;
     const checks = await this.prisma.check.findMany({
       where: { batchId: batch.id },
       orderBy: { batchPosition: 'asc' },

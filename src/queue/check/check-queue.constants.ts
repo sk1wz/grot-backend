@@ -9,6 +9,7 @@ export const CHECK_QUEUE_MODULES = [
   CheckModuleEnums.FSSP,
   CheckModuleEnums.BANKRUPTCY,
   CheckModuleEnums.INN,
+  CheckModuleEnums.TAXI,
 ] as const;
 
 export type QueuedCheckModule = (typeof CHECK_QUEUE_MODULES)[number];

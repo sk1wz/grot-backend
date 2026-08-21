@@ -40,6 +40,12 @@ const PRICES = [
     description: 'Проверка по ИНН',
     price: 5,
   },
+  {
+    module: CheckModuleEnums.TAXI,
+    title: 'Проверка такси',
+    description: 'Проверка ТС в реестре такси по VIN',
+    price: 5,
+  },
 ] as const;
 
 async function main(): Promise<void> {

@@ -7,6 +7,7 @@ const CHECK_MODULE_LABELS: Record<CheckModuleEnums, string> = {
   [CheckModuleEnums.FSSP]: 'ФССП',
   [CheckModuleEnums.BANKRUPTCY]: 'Банкротство',
   [CheckModuleEnums.INN]: 'ИНН',
+  [CheckModuleEnums.TAXI]: 'Проверка такси',
 };
 
 export function getCheckModuleLabel(module: CheckModuleEnums): string {
