@@ -27,16 +27,23 @@ export type AggregateCheck = {
 }
 
 export type CheckAvgAggregateOutputType = {
+  batchPosition: number | null
+  sourceRow: number | null
   cost: number | null
 }
 
 export type CheckSumAggregateOutputType = {
+  batchPosition: number | null
+  sourceRow: number | null
   cost: number | null
 }
 
 export type CheckMinAggregateOutputType = {
   id: string | null
   userId: string | null
+  batchId: string | null
+  batchPosition: number | null
+  sourceRow: number | null
   serviceId: string | null
   provider: $Enums.CheckProviderEnums | null
   module: $Enums.CheckModuleEnums | null
@@ -53,6 +60,9 @@ export type CheckMinAggregateOutputType = {
 export type CheckMaxAggregateOutputType = {
   id: string | null
   userId: string | null
+  batchId: string | null
+  batchPosition: number | null
+  sourceRow: number | null
   serviceId: string | null
   provider: $Enums.CheckProviderEnums | null
   module: $Enums.CheckModuleEnums | null
@@ -69,6 +79,9 @@ export type CheckMaxAggregateOutputType = {
 export type CheckCountAggregateOutputType = {
   id: number
   userId: number
+  batchId: number
+  batchPosition: number
+  sourceRow: number
   serviceId: number
   provider: number
   module: number
@@ -88,16 +101,23 @@ export type CheckCountAggregateOutputType = {
 
 
 export type CheckAvgAggregateInputType = {
+  batchPosition?: true
+  sourceRow?: true
   cost?: true
 }
 
 export type CheckSumAggregateInputType = {
+  batchPosition?: true
+  sourceRow?: true
   cost?: true
 }
 
 export type CheckMinAggregateInputType = {
   id?: true
   userId?: true
+  batchId?: true
+  batchPosition?: true
+  sourceRow?: true
   serviceId?: true
   provider?: true
   module?: true
@@ -114,6 +134,9 @@ export type CheckMinAggregateInputType = {
 export type CheckMaxAggregateInputType = {
   id?: true
   userId?: true
+  batchId?: true
+  batchPosition?: true
+  sourceRow?: true
   serviceId?: true
   provider?: true
   module?: true
@@ -130,6 +153,9 @@ export type CheckMaxAggregateInputType = {
 export type CheckCountAggregateInputType = {
   id?: true
   userId?: true
+  batchId?: true
+  batchPosition?: true
+  sourceRow?: true
   serviceId?: true
   provider?: true
   module?: true
@@ -236,6 +262,9 @@ export type CheckGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
 export type CheckGroupByOutputType = {
   id: string
   userId: string
+  batchId: string | null
+  batchPosition: number | null
+  sourceRow: number | null
   serviceId: string | null
   provider: $Enums.CheckProviderEnums
   module: $Enums.CheckModuleEnums
@@ -278,6 +307,9 @@ export type CheckWhereInput = {
   NOT?: Prisma.CheckWhereInput | Prisma.CheckWhereInput[]
   id?: Prisma.StringFilter<"Check"> | string
   userId?: Prisma.StringFilter<"Check"> | string
+  batchId?: Prisma.StringNullableFilter<"Check"> | string | null
+  batchPosition?: Prisma.IntNullableFilter<"Check"> | number | null
+  sourceRow?: Prisma.IntNullableFilter<"Check"> | number | null
   serviceId?: Prisma.StringNullableFilter<"Check"> | string | null
   provider?: Prisma.EnumCheckProviderEnumsFilter<"Check"> | $Enums.CheckProviderEnums
   module?: Prisma.EnumCheckModuleEnumsFilter<"Check"> | $Enums.CheckModuleEnums
@@ -293,11 +325,15 @@ export type CheckWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"Check"> | Date | string
   completedAt?: Prisma.DateTimeNullableFilter<"Check"> | Date | string | null
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  batch?: Prisma.XOR<Prisma.BatchCheckNullableScalarRelationFilter, Prisma.BatchCheckWhereInput> | null
 }
 
 export type CheckOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  batchId?: Prisma.SortOrderInput | Prisma.SortOrder
+  batchPosition?: Prisma.SortOrderInput | Prisma.SortOrder
+  sourceRow?: Prisma.SortOrderInput | Prisma.SortOrder
   serviceId?: Prisma.SortOrderInput | Prisma.SortOrder
   provider?: Prisma.SortOrder
   module?: Prisma.SortOrder
@@ -313,6 +349,7 @@ export type CheckOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   completedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
+  batch?: Prisma.BatchCheckOrderByWithRelationInput
 }
 
 export type CheckWhereUniqueInput = Prisma.AtLeast<{
@@ -322,6 +359,9 @@ export type CheckWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.CheckWhereInput[]
   NOT?: Prisma.CheckWhereInput | Prisma.CheckWhereInput[]
   userId?: Prisma.StringFilter<"Check"> | string
+  batchId?: Prisma.StringNullableFilter<"Check"> | string | null
+  batchPosition?: Prisma.IntNullableFilter<"Check"> | number | null
+  sourceRow?: Prisma.IntNullableFilter<"Check"> | number | null
   serviceId?: Prisma.StringNullableFilter<"Check"> | string | null
   provider?: Prisma.EnumCheckProviderEnumsFilter<"Check"> | $Enums.CheckProviderEnums
   module?: Prisma.EnumCheckModuleEnumsFilter<"Check"> | $Enums.CheckModuleEnums
@@ -336,11 +376,15 @@ export type CheckWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"Check"> | Date | string
   completedAt?: Prisma.DateTimeNullableFilter<"Check"> | Date | string | null
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  batch?: Prisma.XOR<Prisma.BatchCheckNullableScalarRelationFilter, Prisma.BatchCheckWhereInput> | null
 }, "id" | "idempotencyKey">
 
 export type CheckOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  batchId?: Prisma.SortOrderInput | Prisma.SortOrder
+  batchPosition?: Prisma.SortOrderInput | Prisma.SortOrder
+  sourceRow?: Prisma.SortOrderInput | Prisma.SortOrder
   serviceId?: Prisma.SortOrderInput | Prisma.SortOrder
   provider?: Prisma.SortOrder
   module?: Prisma.SortOrder
@@ -368,6 +412,9 @@ export type CheckScalarWhereWithAggregatesInput = {
   NOT?: Prisma.CheckScalarWhereWithAggregatesInput | Prisma.CheckScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Check"> | string
   userId?: Prisma.StringWithAggregatesFilter<"Check"> | string
+  batchId?: Prisma.StringNullableWithAggregatesFilter<"Check"> | string | null
+  batchPosition?: Prisma.IntNullableWithAggregatesFilter<"Check"> | number | null
+  sourceRow?: Prisma.IntNullableWithAggregatesFilter<"Check"> | number | null
   serviceId?: Prisma.StringNullableWithAggregatesFilter<"Check"> | string | null
   provider?: Prisma.EnumCheckProviderEnumsWithAggregatesFilter<"Check"> | $Enums.CheckProviderEnums
   module?: Prisma.EnumCheckModuleEnumsWithAggregatesFilter<"Check"> | $Enums.CheckModuleEnums
@@ -386,6 +433,8 @@ export type CheckScalarWhereWithAggregatesInput = {
 
 export type CheckCreateInput = {
   id?: string
+  batchPosition?: number | null
+  sourceRow?: number | null
   serviceId?: string | null
   provider?: $Enums.CheckProviderEnums
   module: $Enums.CheckModuleEnums
@@ -401,11 +450,15 @@ export type CheckCreateInput = {
   updatedAt?: Date | string
   completedAt?: Date | string | null
   user: Prisma.UserCreateNestedOneWithoutChecksInput
+  batch?: Prisma.BatchCheckCreateNestedOneWithoutChecksInput
 }
 
 export type CheckUncheckedCreateInput = {
   id?: string
   userId: string
+  batchId?: string | null
+  batchPosition?: number | null
+  sourceRow?: number | null
   serviceId?: string | null
   provider?: $Enums.CheckProviderEnums
   module: $Enums.CheckModuleEnums
@@ -424,6 +477,8 @@ export type CheckUncheckedCreateInput = {
 
 export type CheckUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  batchPosition?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  sourceRow?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   serviceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   provider?: Prisma.EnumCheckProviderEnumsFieldUpdateOperationsInput | $Enums.CheckProviderEnums
   module?: Prisma.EnumCheckModuleEnumsFieldUpdateOperationsInput | $Enums.CheckModuleEnums
@@ -439,11 +494,15 @@ export type CheckUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   user?: Prisma.UserUpdateOneRequiredWithoutChecksNestedInput
+  batch?: Prisma.BatchCheckUpdateOneWithoutChecksNestedInput
 }
 
 export type CheckUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
+  batchId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  batchPosition?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  sourceRow?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   serviceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   provider?: Prisma.EnumCheckProviderEnumsFieldUpdateOperationsInput | $Enums.CheckProviderEnums
   module?: Prisma.EnumCheckModuleEnumsFieldUpdateOperationsInput | $Enums.CheckModuleEnums
@@ -463,6 +522,9 @@ export type CheckUncheckedUpdateInput = {
 export type CheckCreateManyInput = {
   id?: string
   userId: string
+  batchId?: string | null
+  batchPosition?: number | null
+  sourceRow?: number | null
   serviceId?: string | null
   provider?: $Enums.CheckProviderEnums
   module: $Enums.CheckModuleEnums
@@ -481,6 +543,8 @@ export type CheckCreateManyInput = {
 
 export type CheckUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  batchPosition?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  sourceRow?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   serviceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   provider?: Prisma.EnumCheckProviderEnumsFieldUpdateOperationsInput | $Enums.CheckProviderEnums
   module?: Prisma.EnumCheckModuleEnumsFieldUpdateOperationsInput | $Enums.CheckModuleEnums
@@ -500,6 +564,9 @@ export type CheckUpdateManyMutationInput = {
 export type CheckUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
+  batchId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  batchPosition?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  sourceRow?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   serviceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   provider?: Prisma.EnumCheckProviderEnumsFieldUpdateOperationsInput | $Enums.CheckProviderEnums
   module?: Prisma.EnumCheckModuleEnumsFieldUpdateOperationsInput | $Enums.CheckModuleEnums
@@ -529,6 +596,9 @@ export type CheckOrderByRelationAggregateInput = {
 export type CheckCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  batchId?: Prisma.SortOrder
+  batchPosition?: Prisma.SortOrder
+  sourceRow?: Prisma.SortOrder
   serviceId?: Prisma.SortOrder
   provider?: Prisma.SortOrder
   module?: Prisma.SortOrder
@@ -546,12 +616,17 @@ export type CheckCountOrderByAggregateInput = {
 }
 
 export type CheckAvgOrderByAggregateInput = {
+  batchPosition?: Prisma.SortOrder
+  sourceRow?: Prisma.SortOrder
   cost?: Prisma.SortOrder
 }
 
 export type CheckMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  batchId?: Prisma.SortOrder
+  batchPosition?: Prisma.SortOrder
+  sourceRow?: Prisma.SortOrder
   serviceId?: Prisma.SortOrder
   provider?: Prisma.SortOrder
   module?: Prisma.SortOrder
@@ -568,6 +643,9 @@ export type CheckMaxOrderByAggregateInput = {
 export type CheckMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  batchId?: Prisma.SortOrder
+  batchPosition?: Prisma.SortOrder
+  sourceRow?: Prisma.SortOrder
   serviceId?: Prisma.SortOrder
   provider?: Prisma.SortOrder
   module?: Prisma.SortOrder
@@ -582,6 +660,8 @@ export type CheckMinOrderByAggregateInput = {
 }
 
 export type CheckSumOrderByAggregateInput = {
+  batchPosition?: Prisma.SortOrder
+  sourceRow?: Prisma.SortOrder
   cost?: Prisma.SortOrder
 }
 
@@ -627,6 +707,14 @@ export type CheckUncheckedUpdateManyWithoutUserNestedInput = {
   deleteMany?: Prisma.CheckScalarWhereInput | Prisma.CheckScalarWhereInput[]
 }
 
+export type NullableIntFieldUpdateOperationsInput = {
+  set?: number | null
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
 export type EnumCheckProviderEnumsFieldUpdateOperationsInput = {
   set?: $Enums.CheckProviderEnums
 }
@@ -643,8 +731,52 @@ export type NullableDateTimeFieldUpdateOperationsInput = {
   set?: Date | string | null
 }
 
+export type CheckCreateNestedManyWithoutBatchInput = {
+  create?: Prisma.XOR<Prisma.CheckCreateWithoutBatchInput, Prisma.CheckUncheckedCreateWithoutBatchInput> | Prisma.CheckCreateWithoutBatchInput[] | Prisma.CheckUncheckedCreateWithoutBatchInput[]
+  connectOrCreate?: Prisma.CheckCreateOrConnectWithoutBatchInput | Prisma.CheckCreateOrConnectWithoutBatchInput[]
+  createMany?: Prisma.CheckCreateManyBatchInputEnvelope
+  connect?: Prisma.CheckWhereUniqueInput | Prisma.CheckWhereUniqueInput[]
+}
+
+export type CheckUncheckedCreateNestedManyWithoutBatchInput = {
+  create?: Prisma.XOR<Prisma.CheckCreateWithoutBatchInput, Prisma.CheckUncheckedCreateWithoutBatchInput> | Prisma.CheckCreateWithoutBatchInput[] | Prisma.CheckUncheckedCreateWithoutBatchInput[]
+  connectOrCreate?: Prisma.CheckCreateOrConnectWithoutBatchInput | Prisma.CheckCreateOrConnectWithoutBatchInput[]
+  createMany?: Prisma.CheckCreateManyBatchInputEnvelope
+  connect?: Prisma.CheckWhereUniqueInput | Prisma.CheckWhereUniqueInput[]
+}
+
+export type CheckUpdateManyWithoutBatchNestedInput = {
+  create?: Prisma.XOR<Prisma.CheckCreateWithoutBatchInput, Prisma.CheckUncheckedCreateWithoutBatchInput> | Prisma.CheckCreateWithoutBatchInput[] | Prisma.CheckUncheckedCreateWithoutBatchInput[]
+  connectOrCreate?: Prisma.CheckCreateOrConnectWithoutBatchInput | Prisma.CheckCreateOrConnectWithoutBatchInput[]
+  upsert?: Prisma.CheckUpsertWithWhereUniqueWithoutBatchInput | Prisma.CheckUpsertWithWhereUniqueWithoutBatchInput[]
+  createMany?: Prisma.CheckCreateManyBatchInputEnvelope
+  set?: Prisma.CheckWhereUniqueInput | Prisma.CheckWhereUniqueInput[]
+  disconnect?: Prisma.CheckWhereUniqueInput | Prisma.CheckWhereUniqueInput[]
+  delete?: Prisma.CheckWhereUniqueInput | Prisma.CheckWhereUniqueInput[]
+  connect?: Prisma.CheckWhereUniqueInput | Prisma.CheckWhereUniqueInput[]
+  update?: Prisma.CheckUpdateWithWhereUniqueWithoutBatchInput | Prisma.CheckUpdateWithWhereUniqueWithoutBatchInput[]
+  updateMany?: Prisma.CheckUpdateManyWithWhereWithoutBatchInput | Prisma.CheckUpdateManyWithWhereWithoutBatchInput[]
+  deleteMany?: Prisma.CheckScalarWhereInput | Prisma.CheckScalarWhereInput[]
+}
+
+export type CheckUncheckedUpdateManyWithoutBatchNestedInput = {
+  create?: Prisma.XOR<Prisma.CheckCreateWithoutBatchInput, Prisma.CheckUncheckedCreateWithoutBatchInput> | Prisma.CheckCreateWithoutBatchInput[] | Prisma.CheckUncheckedCreateWithoutBatchInput[]
+  connectOrCreate?: Prisma.CheckCreateOrConnectWithoutBatchInput | Prisma.CheckCreateOrConnectWithoutBatchInput[]
+  upsert?: Prisma.CheckUpsertWithWhereUniqueWithoutBatchInput | Prisma.CheckUpsertWithWhereUniqueWithoutBatchInput[]
+  createMany?: Prisma.CheckCreateManyBatchInputEnvelope
+  set?: Prisma.CheckWhereUniqueInput | Prisma.CheckWhereUniqueInput[]
+  disconnect?: Prisma.CheckWhereUniqueInput | Prisma.CheckWhereUniqueInput[]
+  delete?: Prisma.CheckWhereUniqueInput | Prisma.CheckWhereUniqueInput[]
+  connect?: Prisma.CheckWhereUniqueInput | Prisma.CheckWhereUniqueInput[]
+  update?: Prisma.CheckUpdateWithWhereUniqueWithoutBatchInput | Prisma.CheckUpdateWithWhereUniqueWithoutBatchInput[]
+  updateMany?: Prisma.CheckUpdateManyWithWhereWithoutBatchInput | Prisma.CheckUpdateManyWithWhereWithoutBatchInput[]
+  deleteMany?: Prisma.CheckScalarWhereInput | Prisma.CheckScalarWhereInput[]
+}
+
 export type CheckCreateWithoutUserInput = {
   id?: string
+  batchPosition?: number | null
+  sourceRow?: number | null
   serviceId?: string | null
   provider?: $Enums.CheckProviderEnums
   module: $Enums.CheckModuleEnums
@@ -659,10 +791,14 @@ export type CheckCreateWithoutUserInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   completedAt?: Date | string | null
+  batch?: Prisma.BatchCheckCreateNestedOneWithoutChecksInput
 }
 
 export type CheckUncheckedCreateWithoutUserInput = {
   id?: string
+  batchId?: string | null
+  batchPosition?: number | null
+  sourceRow?: number | null
   serviceId?: string | null
   provider?: $Enums.CheckProviderEnums
   module: $Enums.CheckModuleEnums
@@ -711,6 +847,9 @@ export type CheckScalarWhereInput = {
   NOT?: Prisma.CheckScalarWhereInput | Prisma.CheckScalarWhereInput[]
   id?: Prisma.StringFilter<"Check"> | string
   userId?: Prisma.StringFilter<"Check"> | string
+  batchId?: Prisma.StringNullableFilter<"Check"> | string | null
+  batchPosition?: Prisma.IntNullableFilter<"Check"> | number | null
+  sourceRow?: Prisma.IntNullableFilter<"Check"> | number | null
   serviceId?: Prisma.StringNullableFilter<"Check"> | string | null
   provider?: Prisma.EnumCheckProviderEnumsFilter<"Check"> | $Enums.CheckProviderEnums
   module?: Prisma.EnumCheckModuleEnumsFilter<"Check"> | $Enums.CheckModuleEnums
@@ -727,8 +866,79 @@ export type CheckScalarWhereInput = {
   completedAt?: Prisma.DateTimeNullableFilter<"Check"> | Date | string | null
 }
 
+export type CheckCreateWithoutBatchInput = {
+  id?: string
+  batchPosition?: number | null
+  sourceRow?: number | null
+  serviceId?: string | null
+  provider?: $Enums.CheckProviderEnums
+  module: $Enums.CheckModuleEnums
+  status?: $Enums.CheckStatusEnums
+  cost: number
+  balanceRefund?: boolean
+  subjectBody: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  subjectBodyText: string
+  result?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  error?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  idempotencyKey: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  completedAt?: Date | string | null
+  user: Prisma.UserCreateNestedOneWithoutChecksInput
+}
+
+export type CheckUncheckedCreateWithoutBatchInput = {
+  id?: string
+  userId: string
+  batchPosition?: number | null
+  sourceRow?: number | null
+  serviceId?: string | null
+  provider?: $Enums.CheckProviderEnums
+  module: $Enums.CheckModuleEnums
+  status?: $Enums.CheckStatusEnums
+  cost: number
+  balanceRefund?: boolean
+  subjectBody: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  subjectBodyText: string
+  result?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  error?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  idempotencyKey: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  completedAt?: Date | string | null
+}
+
+export type CheckCreateOrConnectWithoutBatchInput = {
+  where: Prisma.CheckWhereUniqueInput
+  create: Prisma.XOR<Prisma.CheckCreateWithoutBatchInput, Prisma.CheckUncheckedCreateWithoutBatchInput>
+}
+
+export type CheckCreateManyBatchInputEnvelope = {
+  data: Prisma.CheckCreateManyBatchInput | Prisma.CheckCreateManyBatchInput[]
+  skipDuplicates?: boolean
+}
+
+export type CheckUpsertWithWhereUniqueWithoutBatchInput = {
+  where: Prisma.CheckWhereUniqueInput
+  update: Prisma.XOR<Prisma.CheckUpdateWithoutBatchInput, Prisma.CheckUncheckedUpdateWithoutBatchInput>
+  create: Prisma.XOR<Prisma.CheckCreateWithoutBatchInput, Prisma.CheckUncheckedCreateWithoutBatchInput>
+}
+
+export type CheckUpdateWithWhereUniqueWithoutBatchInput = {
+  where: Prisma.CheckWhereUniqueInput
+  data: Prisma.XOR<Prisma.CheckUpdateWithoutBatchInput, Prisma.CheckUncheckedUpdateWithoutBatchInput>
+}
+
+export type CheckUpdateManyWithWhereWithoutBatchInput = {
+  where: Prisma.CheckScalarWhereInput
+  data: Prisma.XOR<Prisma.CheckUpdateManyMutationInput, Prisma.CheckUncheckedUpdateManyWithoutBatchInput>
+}
+
 export type CheckCreateManyUserInput = {
   id?: string
+  batchId?: string | null
+  batchPosition?: number | null
+  sourceRow?: number | null
   serviceId?: string | null
   provider?: $Enums.CheckProviderEnums
   module: $Enums.CheckModuleEnums
@@ -747,6 +957,8 @@ export type CheckCreateManyUserInput = {
 
 export type CheckUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  batchPosition?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  sourceRow?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   serviceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   provider?: Prisma.EnumCheckProviderEnumsFieldUpdateOperationsInput | $Enums.CheckProviderEnums
   module?: Prisma.EnumCheckModuleEnumsFieldUpdateOperationsInput | $Enums.CheckModuleEnums
@@ -761,10 +973,14 @@ export type CheckUpdateWithoutUserInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  batch?: Prisma.BatchCheckUpdateOneWithoutChecksNestedInput
 }
 
 export type CheckUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  batchId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  batchPosition?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  sourceRow?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   serviceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   provider?: Prisma.EnumCheckProviderEnumsFieldUpdateOperationsInput | $Enums.CheckProviderEnums
   module?: Prisma.EnumCheckModuleEnumsFieldUpdateOperationsInput | $Enums.CheckModuleEnums
@@ -783,6 +999,93 @@ export type CheckUncheckedUpdateWithoutUserInput = {
 
 export type CheckUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  batchId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  batchPosition?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  sourceRow?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  serviceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  provider?: Prisma.EnumCheckProviderEnumsFieldUpdateOperationsInput | $Enums.CheckProviderEnums
+  module?: Prisma.EnumCheckModuleEnumsFieldUpdateOperationsInput | $Enums.CheckModuleEnums
+  status?: Prisma.EnumCheckStatusEnumsFieldUpdateOperationsInput | $Enums.CheckStatusEnums
+  cost?: Prisma.IntFieldUpdateOperationsInput | number
+  balanceRefund?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  subjectBody?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  subjectBodyText?: Prisma.StringFieldUpdateOperationsInput | string
+  result?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  error?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  idempotencyKey?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
+export type CheckCreateManyBatchInput = {
+  id?: string
+  userId: string
+  batchPosition?: number | null
+  sourceRow?: number | null
+  serviceId?: string | null
+  provider?: $Enums.CheckProviderEnums
+  module: $Enums.CheckModuleEnums
+  status?: $Enums.CheckStatusEnums
+  cost: number
+  balanceRefund?: boolean
+  subjectBody: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  subjectBodyText: string
+  result?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  error?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  idempotencyKey: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  completedAt?: Date | string | null
+}
+
+export type CheckUpdateWithoutBatchInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  batchPosition?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  sourceRow?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  serviceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  provider?: Prisma.EnumCheckProviderEnumsFieldUpdateOperationsInput | $Enums.CheckProviderEnums
+  module?: Prisma.EnumCheckModuleEnumsFieldUpdateOperationsInput | $Enums.CheckModuleEnums
+  status?: Prisma.EnumCheckStatusEnumsFieldUpdateOperationsInput | $Enums.CheckStatusEnums
+  cost?: Prisma.IntFieldUpdateOperationsInput | number
+  balanceRefund?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  subjectBody?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  subjectBodyText?: Prisma.StringFieldUpdateOperationsInput | string
+  result?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  error?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  idempotencyKey?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  user?: Prisma.UserUpdateOneRequiredWithoutChecksNestedInput
+}
+
+export type CheckUncheckedUpdateWithoutBatchInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  batchPosition?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  sourceRow?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  serviceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  provider?: Prisma.EnumCheckProviderEnumsFieldUpdateOperationsInput | $Enums.CheckProviderEnums
+  module?: Prisma.EnumCheckModuleEnumsFieldUpdateOperationsInput | $Enums.CheckModuleEnums
+  status?: Prisma.EnumCheckStatusEnumsFieldUpdateOperationsInput | $Enums.CheckStatusEnums
+  cost?: Prisma.IntFieldUpdateOperationsInput | number
+  balanceRefund?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  subjectBody?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  subjectBodyText?: Prisma.StringFieldUpdateOperationsInput | string
+  result?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  error?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  idempotencyKey?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
+export type CheckUncheckedUpdateManyWithoutBatchInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  batchPosition?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  sourceRow?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   serviceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   provider?: Prisma.EnumCheckProviderEnumsFieldUpdateOperationsInput | $Enums.CheckProviderEnums
   module?: Prisma.EnumCheckModuleEnumsFieldUpdateOperationsInput | $Enums.CheckModuleEnums
@@ -804,6 +1107,9 @@ export type CheckUncheckedUpdateManyWithoutUserInput = {
 export type CheckSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   userId?: boolean
+  batchId?: boolean
+  batchPosition?: boolean
+  sourceRow?: boolean
   serviceId?: boolean
   provider?: boolean
   module?: boolean
@@ -819,11 +1125,15 @@ export type CheckSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   updatedAt?: boolean
   completedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  batch?: boolean | Prisma.Check$batchArgs<ExtArgs>
 }, ExtArgs["result"]["check"]>
 
 export type CheckSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   userId?: boolean
+  batchId?: boolean
+  batchPosition?: boolean
+  sourceRow?: boolean
   serviceId?: boolean
   provider?: boolean
   module?: boolean
@@ -839,11 +1149,15 @@ export type CheckSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   updatedAt?: boolean
   completedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  batch?: boolean | Prisma.Check$batchArgs<ExtArgs>
 }, ExtArgs["result"]["check"]>
 
 export type CheckSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   userId?: boolean
+  batchId?: boolean
+  batchPosition?: boolean
+  sourceRow?: boolean
   serviceId?: boolean
   provider?: boolean
   module?: boolean
@@ -859,11 +1173,15 @@ export type CheckSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   updatedAt?: boolean
   completedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  batch?: boolean | Prisma.Check$batchArgs<ExtArgs>
 }, ExtArgs["result"]["check"]>
 
 export type CheckSelectScalar = {
   id?: boolean
   userId?: boolean
+  batchId?: boolean
+  batchPosition?: boolean
+  sourceRow?: boolean
   serviceId?: boolean
   provider?: boolean
   module?: boolean
@@ -880,25 +1198,32 @@ export type CheckSelectScalar = {
   completedAt?: boolean
 }
 
-export type CheckOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "serviceId" | "provider" | "module" | "status" | "cost" | "balanceRefund" | "subjectBody" | "subjectBodyText" | "result" | "error" | "idempotencyKey" | "createdAt" | "updatedAt" | "completedAt", ExtArgs["result"]["check"]>
+export type CheckOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "batchId" | "batchPosition" | "sourceRow" | "serviceId" | "provider" | "module" | "status" | "cost" | "balanceRefund" | "subjectBody" | "subjectBodyText" | "result" | "error" | "idempotencyKey" | "createdAt" | "updatedAt" | "completedAt", ExtArgs["result"]["check"]>
 export type CheckInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  batch?: boolean | Prisma.Check$batchArgs<ExtArgs>
 }
 export type CheckIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  batch?: boolean | Prisma.Check$batchArgs<ExtArgs>
 }
 export type CheckIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  batch?: boolean | Prisma.Check$batchArgs<ExtArgs>
 }
 
 export type $CheckPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Check"
   objects: {
     user: Prisma.$UserPayload<ExtArgs>
+    batch: Prisma.$BatchCheckPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     userId: string
+    batchId: string | null
+    batchPosition: number | null
+    sourceRow: number | null
     serviceId: string | null
     provider: $Enums.CheckProviderEnums
     module: $Enums.CheckModuleEnums
@@ -1308,6 +1633,7 @@ readonly fields: CheckFieldRefs;
 export interface Prisma__CheckClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  batch<T extends Prisma.Check$batchArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Check$batchArgs<ExtArgs>>): Prisma.Prisma__BatchCheckClient<runtime.Types.Result.GetResult<Prisma.$BatchCheckPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1339,6 +1665,9 @@ export interface Prisma__CheckClient<T, Null = never, ExtArgs extends runtime.Ty
 export interface CheckFieldRefs {
   readonly id: Prisma.FieldRef<"Check", 'String'>
   readonly userId: Prisma.FieldRef<"Check", 'String'>
+  readonly batchId: Prisma.FieldRef<"Check", 'String'>
+  readonly batchPosition: Prisma.FieldRef<"Check", 'Int'>
+  readonly sourceRow: Prisma.FieldRef<"Check", 'Int'>
   readonly serviceId: Prisma.FieldRef<"Check", 'String'>
   readonly provider: Prisma.FieldRef<"Check", 'CheckProviderEnums'>
   readonly module: Prisma.FieldRef<"Check", 'CheckModuleEnums'>
@@ -1746,6 +2075,25 @@ export type CheckDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Interna
    * Limit how many Checks to delete.
    */
   limit?: number
+}
+
+/**
+ * Check.batch
+ */
+export type Check$batchArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the BatchCheck
+   */
+  select?: Prisma.BatchCheckSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the BatchCheck
+   */
+  omit?: Prisma.BatchCheckOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BatchCheckInclude<ExtArgs> | null
+  where?: Prisma.BatchCheckWhereInput
 }
 
 /**

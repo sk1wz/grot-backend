@@ -2,6 +2,7 @@ export type {
   User,
   CheckPrice,
   Check,
+  BatchCheck,
   BalanceTransaction,
   Token,
 } from '@prisma/__generated__/client';

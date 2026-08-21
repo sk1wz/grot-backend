@@ -1,5 +1,5 @@
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
-import { Check, CheckModuleEnums, CheckStatusEnums } from '@/db';
+import { BatchCheck, Check, CheckModuleEnums, CheckStatusEnums } from '@/db';
 import { PrismaService } from '@/prisma/prisma.service';
 import ExcelJS from 'exceljs';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
@@ -25,6 +25,80 @@ export class ReportService {
     await mkdir(this.directory, { recursive: true });
     await writeFile(this.path(check.id), await this.renderExcel(check));
     this.logger.log(`Excel report generated for check ${check.id}`);
+  }
+
+  private async generateBatchLegacy(batch: BatchCheck): Promise<void> {
+    const checks = await this.prisma.check.findMany({
+      where: { batchId: batch.id },
+      orderBy: { batchPosition: 'asc' },
+    });
+    await mkdir(this.directory, { recursive: true });
+    const workbook = new ExcelJS.Workbook();
+    const sheet = workbook.addWorksheet('Результаты');
+    sheet.addRow(['Строка', 'VIN', 'Статус', 'Результат', 'Ошибка']);
+    checks.forEach((check) => {
+      const body = check.subjectBody as Record<string, unknown>;
+      sheet.addRow([
+        check.sourceRow ?? '',
+        typeof body.vin === 'string' ? body.vin : '',
+        check.status,
+        check.result ? JSON.stringify(check.result) : '',
+        check.error ? JSON.stringify(check.error) : '',
+      ]);
+    });
+    sheet.views = [{ state: 'frozen', ySplit: 1 }];
+    sheet.autoFilter = {
+      from: 'A1',
+      to: { row: Math.max(sheet.rowCount, 1), column: 5 },
+    };
+    sheet.getRow(1).font = { bold: true };
+    [12, 22, 24, 80, 50].forEach((width, index) => {
+      sheet.getColumn(index + 1).width = width;
+      sheet.getColumn(index + 1).alignment = {
+        vertical: 'top',
+        wrapText: true,
+      };
+    });
+    await writeFile(
+      this.batchPath(batch.id),
+      Buffer.from(await workbook.xlsx.writeBuffer()),
+    );
+  }
+
+  /** Stacks the existing single-check Excel templates one below another. */
+  public async generateBatch(batch: BatchCheck): Promise<void> {
+    const checks = await this.prisma.check.findMany({
+      where: { batchId: batch.id },
+      orderBy: { batchPosition: 'asc' },
+    });
+    const workbook = new ExcelJS.Workbook();
+
+    for (let index = 0; index < checks.length; index += 1) {
+      const check = checks[index];
+      const singleWorkbook = new ExcelJS.Workbook();
+      await singleWorkbook.xlsx.load((await this.renderExcel(check)) as never);
+      this.appendSingleReport(workbook, singleWorkbook, check, index + 1);
+    }
+
+    await mkdir(this.directory, { recursive: true });
+    await writeFile(
+      this.batchPath(batch.id),
+      Buffer.from(await workbook.xlsx.writeBuffer()),
+    );
+  }
+
+  public async batchExcelForUser(userId: string, id: string): Promise<Buffer> {
+    const batch = await this.prisma.batchCheck.findUnique({
+      where: { id, userId },
+    });
+    if (!batch) throw new NotFoundException('Пакетная проверка не найдена');
+    if (!batch.completedAt) throw new NotFoundException('Отчёт ещё не готов');
+    try {
+      return await readFile(this.batchPath(id));
+    } catch {
+      await this.generateBatch(batch);
+      return readFile(this.batchPath(id));
+    }
   }
 
   public async excelForUser(userId: string, id: string): Promise<Buffer> {
@@ -63,7 +137,64 @@ export class ReportService {
     return Buffer.from(await workbook.xlsx.writeBuffer());
   }
 
+  private appendSingleReport(
+    batchWorkbook: ExcelJS.Workbook,
+    singleWorkbook: ExcelJS.Workbook,
+    check: Check,
+    number: number,
+  ): void {
+    const vin = this.vinOf(check);
+    for (const source of singleWorkbook.worksheets) {
+      let target = batchWorkbook.getWorksheet(source.name);
+      if (!target) target = batchWorkbook.addWorksheet(source.name);
+      if (target.rowCount > 0) target.addRow([]);
+
+      const title = target.addRow([
+        `Проверка ${number}${vin ? ` · VIN: ${vin}` : ''} · ${check.status}`,
+      ]);
+      title.font = { bold: true };
+      title.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: 'FFD9EAF7' },
+      };
+
+      for (let rowNumber = 1; rowNumber <= source.rowCount; rowNumber += 1) {
+        const sourceRow = source.getRow(rowNumber);
+        const values = Array.isArray(sourceRow.values)
+          ? sourceRow.values.slice(1)
+          : [];
+        const targetRow = target.addRow(values);
+        targetRow.height = sourceRow.height;
+        sourceRow.eachCell(
+          { includeEmpty: true },
+          (sourceCell, columnNumber) => {
+            targetRow.getCell(columnNumber).style = { ...sourceCell.style };
+          },
+        );
+      }
+      source.columns.forEach((column, index) => {
+        const targetColumn = target.getColumn(index + 1);
+        targetColumn.width = Math.max(
+          targetColumn.width ?? 0,
+          column.width ?? 0,
+        );
+      });
+    }
+  }
+
+  private vinOf(check: Check): string {
+    const body = check.subjectBody;
+    if (!body || typeof body !== 'object' || Array.isArray(body)) return '';
+    const vin = (body as Record<string, unknown>).vin;
+    return typeof vin === 'string' ? vin : '';
+  }
+
   private path(id: string): string {
     return join(this.directory, `${id}.xlsx`);
+  }
+
+  private batchPath(id: string): string {
+    return join(this.directory, `batch-${id}.xlsx`);
   }
 }

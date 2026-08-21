@@ -24,8 +24,7 @@ export function buildStormfinderRequest(check: Check): StormfinderRequest {
         path: '/checks/gibdd',
         body: {
           subject: { vin: subjectBody.vin },
-          with_osago:
-            typeof subjectBody.osago === 'boolean' ? subjectBody.osago : true,
+          with_osago: true,
         },
       };
     case CheckModuleEnums.GISTORGI:

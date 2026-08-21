@@ -21,6 +21,7 @@ model User {
   updatedAt DateTime   @updatedAt() @map("updated_at")
 
   checks              Check[]
+  batches             BatchCheck[]
   balanceTransactions BalanceTransaction[]
 
   @@map("users")
@@ -40,6 +41,10 @@ model Check {
   id              String           @id @default(uuid())
   userId          String           @map("user_id")
   user            User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  batchId         String?          @map("batch_id")
+  batch           BatchCheck?      @relation(fields: [batchId], references: [id], onDelete: Cascade)
+  batchPosition   Int?             @map("batch_position")
+  sourceRow       Int?             @map("source_row")
   serviceId       String?          @map("service_id")
   provider        CheckProviderEnums @default(STORMFINDER)
   module          CheckModuleEnums
@@ -58,7 +63,30 @@ model Check {
 
   @@index([userId, createdAt])
   @@index([status])
+  @@index([batchId, batchPosition])
   @@map("checks")
+}
+
+model BatchCheck {
+  id              String           @id @default(uuid())
+  userId          String           @map("user_id")
+  user            User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  module          CheckModuleEnums
+  status          CheckStatusEnums @default(PENDING)
+  totalItems      Int              @map("total_items")
+  successfulItems Int              @default(0) @map("successful_items")
+  failedItems     Int              @default(0) @map("failed_items")
+  cost            Int
+  currentChunk    Int              @default(0) @map("current_chunk")
+  reportPath      String?          @map("report_path")
+  createdAt       DateTime         @default(now()) @map("created_at")
+  updatedAt       DateTime         @updatedAt @map("updated_at")
+  completedAt     DateTime?        @map("completed_at")
+  checks          Check[]
+
+  @@index([userId, createdAt])
+  @@index([status])
+  @@map("batch_checks")
 }
 
 model BalanceTransaction {

@@ -54,6 +54,7 @@ export const ModelName = {
   User: 'User',
   CheckPrice: 'CheckPrice',
   Check: 'Check',
+  BatchCheck: 'BatchCheck',
   BalanceTransaction: 'BalanceTransaction',
   Token: 'Token'
 } as const
@@ -103,6 +104,9 @@ export type CheckPriceScalarFieldEnum = (typeof CheckPriceScalarFieldEnum)[keyof
 export const CheckScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
+  batchId: 'batchId',
+  batchPosition: 'batchPosition',
+  sourceRow: 'sourceRow',
   serviceId: 'serviceId',
   provider: 'provider',
   module: 'module',
@@ -120,6 +124,25 @@ export const CheckScalarFieldEnum = {
 } as const
 
 export type CheckScalarFieldEnum = (typeof CheckScalarFieldEnum)[keyof typeof CheckScalarFieldEnum]
+
+
+export const BatchCheckScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  module: 'module',
+  status: 'status',
+  totalItems: 'totalItems',
+  successfulItems: 'successfulItems',
+  failedItems: 'failedItems',
+  cost: 'cost',
+  currentChunk: 'currentChunk',
+  reportPath: 'reportPath',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  completedAt: 'completedAt'
+} as const
+
+export type BatchCheckScalarFieldEnum = (typeof BatchCheckScalarFieldEnum)[keyof typeof BatchCheckScalarFieldEnum]
 
 
 export const BalanceTransactionScalarFieldEnum = {

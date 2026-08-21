@@ -24,6 +24,7 @@ import { StormfinderCheckHandler } from './providers/stormfinder/stormfinder.che
 import { DuckdnsCheckHandler } from './providers/duckdns/duckdns.check-handler';
 import { LimitationController } from './limitation/limitation.controller';
 import { LimitationService } from './limitation/limitation.service';
+import { BatchModule } from '@/batch/batch.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { LimitationService } from './limitation/limitation.service';
     StormfinderModule,
     DuckdnsModule,
     ReportModule,
+    forwardRef(() => BatchModule),
     forwardRef(() => QueueModule),
   ],
   controllers: [

@@ -28,4 +28,19 @@ export class ReportController {
     });
     return new StreamableFile(file);
   }
+
+  @Auth()
+  @Get('batch/:id')
+  public async batchExcel(
+    @Req() req: Request,
+    @Res({ passthrough: true }) res: Response,
+    @Param('id') id: string,
+  ) {
+    const file = await this.reportService.batchExcelForUser(req.session.userId!, id);
+    res.set({
+      'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      'Content-Disposition': `attachment; filename="batch-report-${id}.xlsx"`,
+    });
+    return new StreamableFile(file);
+  }
 }

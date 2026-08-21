@@ -249,6 +249,7 @@ export type UserWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   checks?: Prisma.CheckListRelationFilter
+  batches?: Prisma.BatchCheckListRelationFilter
   balanceTransactions?: Prisma.BalanceTransactionListRelationFilter
 }
 
@@ -263,6 +264,7 @@ export type UserOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   checks?: Prisma.CheckOrderByRelationAggregateInput
+  batches?: Prisma.BatchCheckOrderByRelationAggregateInput
   balanceTransactions?: Prisma.BalanceTransactionOrderByRelationAggregateInput
 }
 
@@ -280,6 +282,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   checks?: Prisma.CheckListRelationFilter
+  batches?: Prisma.BatchCheckListRelationFilter
   balanceTransactions?: Prisma.BalanceTransactionListRelationFilter
 }, "id" | "email">
 
@@ -326,6 +329,7 @@ export type UserCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   checks?: Prisma.CheckCreateNestedManyWithoutUserInput
+  batches?: Prisma.BatchCheckCreateNestedManyWithoutUserInput
   balanceTransactions?: Prisma.BalanceTransactionCreateNestedManyWithoutUserInput
 }
 
@@ -340,6 +344,7 @@ export type UserUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   checks?: Prisma.CheckUncheckedCreateNestedManyWithoutUserInput
+  batches?: Prisma.BatchCheckUncheckedCreateNestedManyWithoutUserInput
   balanceTransactions?: Prisma.BalanceTransactionUncheckedCreateNestedManyWithoutUserInput
 }
 
@@ -354,6 +359,7 @@ export type UserUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   checks?: Prisma.CheckUpdateManyWithoutUserNestedInput
+  batches?: Prisma.BatchCheckUpdateManyWithoutUserNestedInput
   balanceTransactions?: Prisma.BalanceTransactionUpdateManyWithoutUserNestedInput
 }
 
@@ -368,6 +374,7 @@ export type UserUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   checks?: Prisma.CheckUncheckedUpdateManyWithoutUserNestedInput
+  batches?: Prisma.BatchCheckUncheckedUpdateManyWithoutUserNestedInput
   balanceTransactions?: Prisma.BalanceTransactionUncheckedUpdateManyWithoutUserNestedInput
 }
 
@@ -498,6 +505,20 @@ export type UserUpdateOneRequiredWithoutChecksNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutChecksInput, Prisma.UserUpdateWithoutChecksInput>, Prisma.UserUncheckedUpdateWithoutChecksInput>
 }
 
+export type UserCreateNestedOneWithoutBatchesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutBatchesInput, Prisma.UserUncheckedCreateWithoutBatchesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutBatchesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutBatchesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutBatchesInput, Prisma.UserUncheckedCreateWithoutBatchesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutBatchesInput
+  upsert?: Prisma.UserUpsertWithoutBatchesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutBatchesInput, Prisma.UserUpdateWithoutBatchesInput>, Prisma.UserUncheckedUpdateWithoutBatchesInput>
+}
+
 export type UserCreateNestedOneWithoutBalanceTransactionsInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutBalanceTransactionsInput, Prisma.UserUncheckedCreateWithoutBalanceTransactionsInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutBalanceTransactionsInput
@@ -522,6 +543,7 @@ export type UserCreateWithoutChecksInput = {
   method: $Enums.AuthMethod
   createdAt?: Date | string
   updatedAt?: Date | string
+  batches?: Prisma.BatchCheckCreateNestedManyWithoutUserInput
   balanceTransactions?: Prisma.BalanceTransactionCreateNestedManyWithoutUserInput
 }
 
@@ -535,6 +557,7 @@ export type UserUncheckedCreateWithoutChecksInput = {
   method: $Enums.AuthMethod
   createdAt?: Date | string
   updatedAt?: Date | string
+  batches?: Prisma.BatchCheckUncheckedCreateNestedManyWithoutUserInput
   balanceTransactions?: Prisma.BalanceTransactionUncheckedCreateNestedManyWithoutUserInput
 }
 
@@ -564,6 +587,7 @@ export type UserUpdateWithoutChecksInput = {
   method?: Prisma.EnumAuthMethodFieldUpdateOperationsInput | $Enums.AuthMethod
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  batches?: Prisma.BatchCheckUpdateManyWithoutUserNestedInput
   balanceTransactions?: Prisma.BalanceTransactionUpdateManyWithoutUserNestedInput
 }
 
@@ -577,6 +601,79 @@ export type UserUncheckedUpdateWithoutChecksInput = {
   method?: Prisma.EnumAuthMethodFieldUpdateOperationsInput | $Enums.AuthMethod
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  batches?: Prisma.BatchCheckUncheckedUpdateManyWithoutUserNestedInput
+  balanceTransactions?: Prisma.BalanceTransactionUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutBatchesInput = {
+  id?: string
+  email: string
+  password: string
+  role?: $Enums.UserRole
+  balance?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  picture?: string | null
+  method: $Enums.AuthMethod
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  checks?: Prisma.CheckCreateNestedManyWithoutUserInput
+  balanceTransactions?: Prisma.BalanceTransactionCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutBatchesInput = {
+  id?: string
+  email: string
+  password: string
+  role?: $Enums.UserRole
+  balance?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  picture?: string | null
+  method: $Enums.AuthMethod
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  checks?: Prisma.CheckUncheckedCreateNestedManyWithoutUserInput
+  balanceTransactions?: Prisma.BalanceTransactionUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutBatchesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutBatchesInput, Prisma.UserUncheckedCreateWithoutBatchesInput>
+}
+
+export type UserUpsertWithoutBatchesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutBatchesInput, Prisma.UserUncheckedUpdateWithoutBatchesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutBatchesInput, Prisma.UserUncheckedCreateWithoutBatchesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutBatchesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutBatchesInput, Prisma.UserUncheckedUpdateWithoutBatchesInput>
+}
+
+export type UserUpdateWithoutBatchesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  balance?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  picture?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  method?: Prisma.EnumAuthMethodFieldUpdateOperationsInput | $Enums.AuthMethod
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  checks?: Prisma.CheckUpdateManyWithoutUserNestedInput
+  balanceTransactions?: Prisma.BalanceTransactionUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutBatchesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  balance?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  picture?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  method?: Prisma.EnumAuthMethodFieldUpdateOperationsInput | $Enums.AuthMethod
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  checks?: Prisma.CheckUncheckedUpdateManyWithoutUserNestedInput
   balanceTransactions?: Prisma.BalanceTransactionUncheckedUpdateManyWithoutUserNestedInput
 }
 
@@ -591,6 +688,7 @@ export type UserCreateWithoutBalanceTransactionsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   checks?: Prisma.CheckCreateNestedManyWithoutUserInput
+  batches?: Prisma.BatchCheckCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutBalanceTransactionsInput = {
@@ -604,6 +702,7 @@ export type UserUncheckedCreateWithoutBalanceTransactionsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   checks?: Prisma.CheckUncheckedCreateNestedManyWithoutUserInput
+  batches?: Prisma.BatchCheckUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutBalanceTransactionsInput = {
@@ -633,6 +732,7 @@ export type UserUpdateWithoutBalanceTransactionsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   checks?: Prisma.CheckUpdateManyWithoutUserNestedInput
+  batches?: Prisma.BatchCheckUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutBalanceTransactionsInput = {
@@ -646,6 +746,7 @@ export type UserUncheckedUpdateWithoutBalanceTransactionsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   checks?: Prisma.CheckUncheckedUpdateManyWithoutUserNestedInput
+  batches?: Prisma.BatchCheckUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -655,11 +756,13 @@ export type UserUncheckedUpdateWithoutBalanceTransactionsInput = {
 
 export type UserCountOutputType = {
   checks: number
+  batches: number
   balanceTransactions: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   checks?: boolean | UserCountOutputTypeCountChecksArgs
+  batches?: boolean | UserCountOutputTypeCountBatchesArgs
   balanceTransactions?: boolean | UserCountOutputTypeCountBalanceTransactionsArgs
 }
 
@@ -683,6 +786,13 @@ export type UserCountOutputTypeCountChecksArgs<ExtArgs extends runtime.Types.Ext
 /**
  * UserCountOutputType without action
  */
+export type UserCountOutputTypeCountBatchesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.BatchCheckWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
 export type UserCountOutputTypeCountBalanceTransactionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.BalanceTransactionWhereInput
 }
@@ -699,6 +809,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   createdAt?: boolean
   updatedAt?: boolean
   checks?: boolean | Prisma.User$checksArgs<ExtArgs>
+  batches?: boolean | Prisma.User$batchesArgs<ExtArgs>
   balanceTransactions?: boolean | Prisma.User$balanceTransactionsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
@@ -742,6 +853,7 @@ export type UserSelectScalar = {
 export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "password" | "role" | "balance" | "picture" | "method" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   checks?: boolean | Prisma.User$checksArgs<ExtArgs>
+  batches?: boolean | Prisma.User$batchesArgs<ExtArgs>
   balanceTransactions?: boolean | Prisma.User$balanceTransactionsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -752,6 +864,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   name: "User"
   objects: {
     checks: Prisma.$CheckPayload<ExtArgs>[]
+    batches: Prisma.$BatchCheckPayload<ExtArgs>[]
     balanceTransactions: Prisma.$BalanceTransactionPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1159,6 +1272,7 @@ readonly fields: UserFieldRefs;
 export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   checks<T extends Prisma.User$checksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$checksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CheckPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  batches<T extends Prisma.User$batchesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$batchesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BatchCheckPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   balanceTransactions<T extends Prisma.User$balanceTransactionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$balanceTransactionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BalanceTransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1607,6 +1721,30 @@ export type User$checksArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
   take?: number
   skip?: number
   distinct?: Prisma.CheckScalarFieldEnum | Prisma.CheckScalarFieldEnum[]
+}
+
+/**
+ * User.batches
+ */
+export type User$batchesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the BatchCheck
+   */
+  select?: Prisma.BatchCheckSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the BatchCheck
+   */
+  omit?: Prisma.BatchCheckOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BatchCheckInclude<ExtArgs> | null
+  where?: Prisma.BatchCheckWhereInput
+  orderBy?: Prisma.BatchCheckOrderByWithRelationInput | Prisma.BatchCheckOrderByWithRelationInput[]
+  cursor?: Prisma.BatchCheckWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.BatchCheckScalarFieldEnum | Prisma.BatchCheckScalarFieldEnum[]
 }
 
 /**

@@ -2,8 +2,10 @@ import { PrismaService } from '@/prisma/prisma.service';
 import { BalanceService } from '@/balance/balance.service';
 import {
   BadRequestException,
+  Inject,
   Injectable,
   NotFoundException,
+  forwardRef,
 } from '@nestjs/common';
 import {
   BalanceStatusEnums,
@@ -23,6 +25,7 @@ import { getCheckProvider } from './utils/provider-map';
 import { CheckBody } from './types';
 import { CheckProviderRegistry } from './providers/provider.registry';
 import { ProviderCheckResult } from './providers/provider.types';
+import { BatchService } from '@/batch/batch.service';
 
 @Injectable()
 export class CheckService {
@@ -32,6 +35,8 @@ export class CheckService {
     private readonly providerRegistry: CheckProviderRegistry,
     private readonly balanceService: BalanceService,
     private readonly checkGateway: CheckGateway,
+    @Inject(forwardRef(() => BatchService))
+    private readonly batchService: BatchService,
   ) {}
 
   public async getAllChecks(userId: string) {
@@ -40,7 +45,9 @@ export class CheckService {
 
   public async getChecksByModule(userId: string, module?: CheckModuleEnums) {
     const checks = await this.prismaService.check.findMany({
-      where: { userId, ...(module ? { module } : {}) },
+      // Batch items are rendered only inside their parent batch, never as rows
+      // of the regular checks history.
+      where: { userId, batchId: null, ...(module ? { module } : {}) },
       orderBy: { createdAt: 'desc' },
     });
 
@@ -113,7 +120,10 @@ export class CheckService {
     return CheckResponseDto.fromCheck(check);
   }
 
-  public async processSubmit(checkId: string): Promise<void> {
+  public async processSubmit(
+    checkId: string,
+    options: { scheduleSync?: boolean } = {},
+  ): Promise<void> {
     const check = await this.prismaService.check.findUnique({
       where: { id: checkId },
     });
@@ -132,7 +142,7 @@ export class CheckService {
         .submit(check);
       await this.persistProviderResult(check, response);
 
-      if (this.isActive(response.status)) {
+      if (options.scheduleSync !== false && this.isActive(response.status)) {
         await this.checkQueueService.enqueueSync(check.id);
       }
     } catch (error) {
@@ -140,7 +150,10 @@ export class CheckService {
     }
   }
 
-  public async processSync(checkId: string): Promise<void> {
+  public async processSync(
+    checkId: string,
+    options: { scheduleSync?: boolean } = {},
+  ): Promise<void> {
     const check = await this.prismaService.check.findUnique({
       where: { id: checkId },
     });
@@ -153,11 +166,13 @@ export class CheckService {
         .poll(check);
       await this.persistProviderResult(check, response);
 
-      if (this.isActive(response.status)) {
+      if (options.scheduleSync !== false && this.isActive(response.status)) {
         await this.checkQueueService.enqueueSync(check.id);
       }
     } catch {
-      await this.checkQueueService.enqueueSync(check.id);
+      if (options.scheduleSync !== false) {
+        await this.checkQueueService.enqueueSync(check.id);
+      }
     }
   }
 
@@ -203,7 +218,10 @@ export class CheckService {
       });
     });
 
-    if (updatedCheck) this.publish(updatedCheck);
+    if (updatedCheck) {
+      this.publish(updatedCheck);
+      await this.batchService.onCheckCompleted(updatedCheck);
+    }
   }
 
   private async persistProviderResult(
@@ -231,7 +249,10 @@ export class CheckService {
       },
     });
 
-    if (updatedCheck) this.publish(updatedCheck);
+    if (updatedCheck) {
+      this.publish(updatedCheck);
+      if (isTerminal) await this.batchService.onCheckCompleted(updatedCheck);
+    }
   }
 
   private isActive(status: CheckStatusEnums): boolean {

@@ -387,6 +387,7 @@ export const ModelName = {
   User: 'User',
   CheckPrice: 'CheckPrice',
   Check: 'Check',
+  BatchCheck: 'BatchCheck',
   BalanceTransaction: 'BalanceTransaction',
   Token: 'Token'
 } as const
@@ -404,7 +405,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "checkPrice" | "check" | "balanceTransaction" | "token"
+    modelProps: "user" | "checkPrice" | "check" | "batchCheck" | "balanceTransaction" | "token"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -630,6 +631,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    BatchCheck: {
+      payload: Prisma.$BatchCheckPayload<ExtArgs>
+      fields: Prisma.BatchCheckFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.BatchCheckFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BatchCheckPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.BatchCheckFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BatchCheckPayload>
+        }
+        findFirst: {
+          args: Prisma.BatchCheckFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BatchCheckPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.BatchCheckFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BatchCheckPayload>
+        }
+        findMany: {
+          args: Prisma.BatchCheckFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BatchCheckPayload>[]
+        }
+        create: {
+          args: Prisma.BatchCheckCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BatchCheckPayload>
+        }
+        createMany: {
+          args: Prisma.BatchCheckCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.BatchCheckCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BatchCheckPayload>[]
+        }
+        delete: {
+          args: Prisma.BatchCheckDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BatchCheckPayload>
+        }
+        update: {
+          args: Prisma.BatchCheckUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BatchCheckPayload>
+        }
+        deleteMany: {
+          args: Prisma.BatchCheckDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.BatchCheckUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.BatchCheckUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BatchCheckPayload>[]
+        }
+        upsert: {
+          args: Prisma.BatchCheckUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BatchCheckPayload>
+        }
+        aggregate: {
+          args: Prisma.BatchCheckAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateBatchCheck>
+        }
+        groupBy: {
+          args: Prisma.BatchCheckGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.BatchCheckGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.BatchCheckCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.BatchCheckCountAggregateOutputType> | number
+        }
+      }
+    }
     BalanceTransaction: {
       payload: Prisma.$BalanceTransactionPayload<ExtArgs>
       fields: Prisma.BalanceTransactionFieldRefs
@@ -846,6 +921,9 @@ export type CheckPriceScalarFieldEnum = (typeof CheckPriceScalarFieldEnum)[keyof
 export const CheckScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
+  batchId: 'batchId',
+  batchPosition: 'batchPosition',
+  sourceRow: 'sourceRow',
   serviceId: 'serviceId',
   provider: 'provider',
   module: 'module',
@@ -863,6 +941,25 @@ export const CheckScalarFieldEnum = {
 } as const
 
 export type CheckScalarFieldEnum = (typeof CheckScalarFieldEnum)[keyof typeof CheckScalarFieldEnum]
+
+
+export const BatchCheckScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  module: 'module',
+  status: 'status',
+  totalItems: 'totalItems',
+  successfulItems: 'successfulItems',
+  failedItems: 'failedItems',
+  cost: 'cost',
+  currentChunk: 'currentChunk',
+  reportPath: 'reportPath',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  completedAt: 'completedAt'
+} as const
+
+export type BatchCheckScalarFieldEnum = (typeof BatchCheckScalarFieldEnum)[keyof typeof BatchCheckScalarFieldEnum]
 
 
 export const BalanceTransactionScalarFieldEnum = {
@@ -1228,6 +1325,7 @@ export type GlobalOmitConfig = {
   user?: Prisma.UserOmit
   checkPrice?: Prisma.CheckPriceOmit
   check?: Prisma.CheckOmit
+  batchCheck?: Prisma.BatchCheckOmit
   balanceTransaction?: Prisma.BalanceTransactionOmit
   token?: Prisma.TokenOmit
 }

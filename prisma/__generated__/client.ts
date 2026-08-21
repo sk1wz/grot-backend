@@ -55,6 +55,11 @@ export type CheckPrice = Prisma.CheckPriceModel
  */
 export type Check = Prisma.CheckModel
 /**
+ * Model BatchCheck
+ * 
+ */
+export type BatchCheck = Prisma.BatchCheckModel
+/**
  * Model BalanceTransaction
  * 
  */

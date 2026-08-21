@@ -1,4 +1,5 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, Post, Req } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, HttpCode, HttpStatus, Post, Req, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { type Request } from 'express';
 import { Auth } from '@/auth/decorators';
 import { LimitationDto } from './dto';
@@ -21,4 +22,14 @@ export class LimitationController {
   public createSingle(@Req() req: Request, @Body() dto: LimitationDto) {
     return this.limitationService.createSingle(req.session.userId!, dto);
   }
+
+  @Auth()
+  @Post('batch')
+  @HttpCode(HttpStatus.ACCEPTED)
+  @UseInterceptors(FileInterceptor('file'))
+  public createBatch(@Req() req: Request, @UploadedFile() file: { buffer: Buffer } | undefined) {
+    if (!file) throw new BadRequestException('Excel-файл обязателен');
+    return this.limitationService.createBatch(req.session.userId!, file.buffer);
+  }
+
 }
