@@ -17,15 +17,12 @@ export class TaxiService {
     });
   }
 
-  public async getAll(userId: string) {
-    const [checks, batches] = await Promise.all([
-      this.checkService.getChecksByModule(userId, CheckModuleEnums.TAXI),
-      this.batchService.list(userId, CheckModuleEnums.TAXI),
-    ]);
-    return [
-      ...checks.map((check) => ({ kind: 'check' as const, ...check })),
-      ...batches.map((batch) => ({ kind: 'batch' as const, ...batch })),
-    ].sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+  public getAll(userId: string) {
+    return this.checkService.getChecksByModule(userId, CheckModuleEnums.TAXI);
+  }
+
+  public getBatches(userId: string) {
+    return this.batchService.list(userId, CheckModuleEnums.TAXI);
   }
 
   /** Шаблон такси: первый лист, A1 = VIN, значения в A2:A... */

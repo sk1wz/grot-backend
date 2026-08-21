@@ -21,15 +21,12 @@ export class GistorgiService {
     );
   }
 
-  public async getAll(userId: string) {
-    const [checks, batches] = await Promise.all([
-      this.checkService.getChecksByModule(userId, CheckModuleEnums.GISTORGI),
-      this.batchService.list(userId, CheckModuleEnums.GISTORGI),
-    ]);
-    return [
-      ...checks.map((check) => ({ kind: 'check' as const, ...check })),
-      ...batches.map((batch) => ({ kind: 'batch' as const, ...batch })),
-    ].sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+  public getAll(userId: string) {
+    return this.checkService.getChecksByModule(userId, CheckModuleEnums.GISTORGI);
+  }
+
+  public getBatches(userId: string) {
+    return this.batchService.list(userId, CheckModuleEnums.GISTORGI);
   }
 
   /** Шаблон ГИС Торги: первый лист, A1 = VIN, значения в A2:A... */

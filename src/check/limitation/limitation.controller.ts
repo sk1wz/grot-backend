@@ -17,6 +17,12 @@ export class LimitationController {
   }
 
   @Auth()
+  @Get('batch')
+  public getBatches(@Req() req: Request) {
+    return this.limitationService.getBatches(req.session.userId!);
+  }
+
+  @Auth()
   @Post()
   @HttpCode(HttpStatus.ACCEPTED)
   public createSingle(@Req() req: Request, @Body() dto: LimitationDto) {

@@ -28,6 +28,12 @@ export class GibddController {
   }
 
   @Auth()
+  @Get('batch')
+  public getBatches(@Req() req: Request) {
+    return this.gibddService.getBatches(req.session.userId!);
+  }
+
+  @Auth()
   @Post()
   @HttpCode(HttpStatus.ACCEPTED)
   public createSingle(@Req() req: Request, @Body() dto: GibddDto) {

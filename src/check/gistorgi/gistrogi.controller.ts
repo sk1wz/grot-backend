@@ -27,6 +27,12 @@ export class GistorgiController {
   }
 
   @Auth()
+  @Get('batch')
+  public getBatches(@Req() req: Request) {
+    return this.gistorgiService.getBatches(req.session.userId!);
+  }
+
+  @Auth()
   @Post()
   @HttpCode(HttpStatus.ACCEPTED)
   public createSingle(@Req() req: Request, @Body() dto: GistorgiDto) {

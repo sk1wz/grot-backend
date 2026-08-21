@@ -270,6 +270,9 @@ export class CheckService {
   }
 
   private publish(check: Check): void {
+    // Batch children are represented by their parent batch in the UI.
+    // Their progress is published through BatchGateway as `batch.updated`.
+    if (check.batchId) return;
     this.checkGateway.emitCheckUpdated(
       check.userId,
       CheckResponseDto.fromCheck(check),

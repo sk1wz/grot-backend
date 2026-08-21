@@ -12,27 +12,24 @@ export class GibddService {
   ) {}
 
   public createSingle(userId: string, dto: GibddDto) {
-    return this.checkService.createCheck(
-      userId,
-      CheckModuleEnums.GIBDD,
-      { subjectBody: dto.subjectBody },
-    );
+    return this.checkService.createCheck(userId, CheckModuleEnums.GIBDD, {
+      subjectBody: dto.subjectBody,
+    });
   }
 
-  public async getAll(userId: string) {
-    const [checks, batches] = await Promise.all([
-      this.checkService.getChecksByModule(userId, CheckModuleEnums.GIBDD),
-      this.batchService.list(userId, CheckModuleEnums.GIBDD),
-    ]);
-    return [
-      ...checks.map((check) => ({ kind: 'check' as const, ...check })),
-      ...batches.map((batch) => ({ kind: 'batch' as const, ...batch })),
-    ].sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+  public getAll(userId: string) {
+    return this.checkService.getChecksByModule(userId, CheckModuleEnums.GIBDD);
   }
 
+  public getBatches(userId: string) {
+    return this.batchService.list(userId, CheckModuleEnums.GIBDD);
+  }
   /** Шаблон ГИБДД: первый лист, A1 = VIN, значения в A2:A... */
   public createBatch(userId: string, file: Buffer) {
-    return this.batchService.createVinBatch(userId, CheckModuleEnums.GIBDD, file);
+    return this.batchService.createVinBatch(
+      userId,
+      CheckModuleEnums.GIBDD,
+      file,
+    );
   }
-
 }

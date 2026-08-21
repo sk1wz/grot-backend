@@ -28,6 +28,12 @@ export class TaxiController {
   }
 
   @Auth()
+  @Get('batch')
+  public getBatches(@Req() req: Request) {
+    return this.taxiService.getBatches(req.session.userId!);
+  }
+
+  @Auth()
   @Post()
   @HttpCode(HttpStatus.ACCEPTED)
   public createSingle(@Req() req: Request, @Body() dto: TaxiDto) {
