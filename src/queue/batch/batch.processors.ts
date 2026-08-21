@@ -17,7 +17,7 @@ export class GibddBatchProcessor extends WorkerHost {
   }
 }
 
-@Processor(BATCH_OTHER_QUEUE, { concurrency: 1 })
+@Processor(BATCH_OTHER_QUEUE, { concurrency: 5 })
 export class OtherBatchProcessor extends WorkerHost {
   public constructor(private readonly batchService: BatchService) {
     super();

@@ -10,6 +10,7 @@ import { buildGistorgiExcel } from './templates/gistorgi/excel.template';
 import { buildInnExcel } from './templates/inn/excel.template';
 import { buildBankruptcyExcel } from './templates/bankruptcy/excel.template';
 import { buildLimitationExcel } from './templates/limitation/excel.template';
+import { buildTaxiExcel } from './templates/taxi/excel.template';
 
 @Injectable()
 export class ReportService {
@@ -22,7 +23,6 @@ export class ReportService {
 
   public async generate(check: Check): Promise<void> {
     if (check.status !== CheckStatusEnums.DONE) return;
-    if (check.module === CheckModuleEnums.TAXI) return;
     await mkdir(this.directory, { recursive: true });
     await writeFile(this.path(check.id), await this.renderExcel(check));
     this.logger.log(`Excel report generated for check ${check.id}`);
@@ -68,7 +68,6 @@ export class ReportService {
 
   /** Stacks the existing single-check Excel templates one below another. */
   public async generateBatch(batch: BatchCheck): Promise<void> {
-    if (batch.module === CheckModuleEnums.TAXI) return;
     const checks = await this.prisma.check.findMany({
       where: { batchId: batch.id },
       orderBy: { batchPosition: 'asc' },
@@ -132,6 +131,10 @@ export class ReportService {
     }
     if (check.module === CheckModuleEnums.LIMITATION) {
       buildLimitationExcel(workbook, check);
+      return Buffer.from(await workbook.xlsx.writeBuffer());
+    }
+    if (check.module === CheckModuleEnums.TAXI) {
+      buildTaxiExcel(workbook, check);
       return Buffer.from(await workbook.xlsx.writeBuffer());
     }
     if (check.module === CheckModuleEnums.INN) buildInnExcel(workbook, check);
