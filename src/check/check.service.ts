@@ -45,8 +45,6 @@ export class CheckService {
 
   public async getChecksByModule(userId: string, module?: CheckModuleEnums) {
     const checks = await this.prismaService.check.findMany({
-      // Batch items are rendered only inside their parent batch, never as rows
-      // of the regular checks history.
       where: { userId, batchId: null, ...(module ? { module } : {}) },
       orderBy: { createdAt: 'desc' },
     });
@@ -110,7 +108,7 @@ export class CheckService {
 
     try {
       await this.checkQueueService.enqueueSubmit(check.id);
-      // PENDING represents successful placement into our BullMQ queue.
+
       this.publish(check);
     } catch (error) {
       await this.failCheck(check, error);

@@ -1,9 +1,7 @@
 import {
   BadRequestException,
-  Inject,
   Injectable,
   NotFoundException,
-  forwardRef,
 } from '@nestjs/common';
 import ExcelJS from 'exceljs';
 import { randomUUID } from 'node:crypto';
@@ -17,8 +15,7 @@ import {
 } from '@/db';
 import { PrismaService } from '@/prisma/prisma.service';
 import { BalanceService } from '@/balance/balance.service';
-import { BatchQueueService } from '@/queue/batch/batch-queue.service';
-import { CheckService } from '@/check/check.service';
+import { CheckQueueService } from '@/queue/check/check-queue.service';
 import { getCheckProvider } from '@/check/utils/provider-map';
 import { buildSubjectBodyText } from '@/check/utils/subject-body-text';
 import { ReportService } from '@/report/report.service';
@@ -32,11 +29,9 @@ export class BatchService {
   public constructor(
     private readonly prisma: PrismaService,
     private readonly balance: BalanceService,
-    private readonly batchQueue: BatchQueueService,
+    private readonly checkQueue: CheckQueueService,
     private readonly report: ReportService,
     private readonly gateway: BatchGateway,
-    @Inject(forwardRef(() => CheckService))
-    private readonly checkService: CheckService,
   ) {}
 
   public async create(userId: string, module: CheckModuleEnums, file: Buffer) {
@@ -57,9 +52,11 @@ export class BatchService {
         },
         tx,
       );
+
       const created = await tx.batchCheck.create({
         data: { userId, module, totalItems: rows.length, cost: totalCost },
       });
+
       await tx.check.createMany({
         data: rows.map((row, batchPosition) => ({
           userId,
@@ -77,16 +74,24 @@ export class BatchService {
       });
       return created;
     });
+
     const queued = await this.prisma.batchCheck.update({
       where: { id: batch.id },
       data: { status: CheckStatusEnums.QUEUED },
     });
-    await this.batchQueue.enqueue(queued.id, module);
+
+    const checks = await this.prisma.check.findMany({
+      where: { batchId: queued.id },
+      select: { id: true },
+    });
+
+    await Promise.all(
+      checks.map((check) => this.checkQueue.enqueueSubmit(check.id)),
+    );
     this.publish(queued);
     return this.toResponse(queued);
   }
 
-  /** VIN-шаблон задаётся конкретным модулем в его сервисе. */
   public createVinBatch(
     userId: string,
     module: CheckModuleEnums,
@@ -95,90 +100,13 @@ export class BatchService {
     return this.create(userId, module, file);
   }
 
-  /**
-   * Owns the complete lifetime of a batch. The batch worker must stay active
-   * while it submits and polls every child, so batch checks never enter the
-   * shared queue used by single checks.
-   */
-  public async processBatch(batchId: string): Promise<void> {
+  public async onCheckCompleted(check: Check): Promise<void> {
+    if (!check.batchId) return;
     const batch = await this.prisma.batchCheck.findUnique({
-      where: { id: batchId },
+      where: { id: check.batchId },
     });
-    if (
-      !batch ||
-      !(<CheckStatusEnums[]>[
-        CheckStatusEnums.PENDING,
-        CheckStatusEnums.QUEUED,
-        CheckStatusEnums.RUNNING,
-      ]).includes(batch.status)
-    )
-      return;
-    let currentBatch = await this.prisma.batchCheck.update({
-      where: { id: batchId },
-      data: { status: CheckStatusEnums.RUNNING },
-    });
-    this.publish(currentBatch);
+    if (!batch || batch.completedAt) return;
 
-    while (true) {
-      const check = await this.prisma.check.findFirst({
-        where: {
-          batchId,
-          status: {
-            in: [
-              CheckStatusEnums.PENDING,
-              CheckStatusEnums.QUEUED,
-              CheckStatusEnums.RUNNING,
-            ],
-          },
-        },
-        orderBy: { batchPosition: 'asc' },
-      });
-      if (!check) break;
-
-      await this.processOneBatchCheck(check.id);
-      currentBatch = await this.prisma.batchCheck.update({
-        where: { id: batchId },
-        data: { currentChunk: { increment: 1 } },
-      });
-      await this.refreshProgress(currentBatch);
-    }
-
-    await this.complete(currentBatch);
-  }
-
-  /** The batch worker itself waits; this callback is intentionally a no-op. */
-  public async onCheckCompleted(_check: Check): Promise<void> {}
-
-  private async processOneBatchCheck(checkId: string): Promise<void> {
-    while (true) {
-      const check = await this.prisma.check.findUnique({
-        where: { id: checkId },
-      });
-      if (!check || this.isTerminal(check.status)) return;
-
-      if (check.status === CheckStatusEnums.PENDING && !check.serviceId) {
-        await this.checkService.processSubmit(check.id, {
-          scheduleSync: false,
-        });
-      } else {
-        await this.checkService.processSync(check.id, { scheduleSync: false });
-      }
-
-      const updated = await this.prisma.check.findUnique({
-        where: { id: checkId },
-      });
-      if (!updated || this.isTerminal(updated.status)) return;
-      await new Promise<void>((resolve) => setTimeout(resolve, 5_000));
-    }
-  }
-
-  private isTerminal(status: CheckStatusEnums): boolean {
-    return (
-      status === CheckStatusEnums.DONE || status === CheckStatusEnums.FAILED
-    );
-  }
-
-  private async refreshProgress(batch: BatchCheck): Promise<void> {
     const [successfulItems, failedItems] = await Promise.all([
       this.prisma.check.count({
         where: { batchId: batch.id, status: CheckStatusEnums.DONE },
@@ -187,11 +115,39 @@ export class BatchService {
         where: { batchId: batch.id, status: CheckStatusEnums.FAILED },
       }),
     ]);
-    const updated = await this.prisma.batchCheck.update({
-      where: { id: batch.id },
-      data: { successfulItems, failedItems },
+    const completed = successfulItems + failedItems === batch.totalItems;
+
+    if (!completed) {
+      const updated = await this.prisma.batchCheck.update({
+        where: { id: batch.id },
+        data: {
+          successfulItems,
+          failedItems,
+          currentChunk: successfulItems + failedItems,
+          status: CheckStatusEnums.RUNNING,
+        },
+      });
+      this.publish(updated);
+      return;
+    }
+
+    const result = await this.prisma.batchCheck.updateMany({
+      where: { id: batch.id, completedAt: null },
+      data: {
+        successfulItems,
+        failedItems,
+        currentChunk: successfulItems + failedItems,
+        status: failedItems ? CheckStatusEnums.FAILED : CheckStatusEnums.DONE,
+        completedAt: new Date(),
+      },
     });
-    this.publish(updated);
+    if (!result.count) return;
+
+    const completedBatch = await this.prisma.batchCheck.findUniqueOrThrow({
+      where: { id: batch.id },
+    });
+    await this.report.generateBatch(completedBatch);
+    this.publish(completedBatch);
   }
 
   public async list(userId: string, module?: CheckModuleEnums) {
@@ -219,28 +175,6 @@ export class BatchService {
         error: check.error,
       })),
     };
-  }
-
-  private async complete(batch: BatchCheck): Promise<void> {
-    const [successfulItems, failedItems] = await Promise.all([
-      this.prisma.check.count({
-        where: { batchId: batch.id, status: CheckStatusEnums.DONE },
-      }),
-      this.prisma.check.count({
-        where: { batchId: batch.id, status: CheckStatusEnums.FAILED },
-      }),
-    ]);
-    const finished = await this.prisma.batchCheck.update({
-      where: { id: batch.id },
-      data: {
-        successfulItems,
-        failedItems,
-        status: failedItems ? CheckStatusEnums.FAILED : CheckStatusEnums.DONE,
-        completedAt: new Date(),
-      },
-    });
-    await this.report.generateBatch(finished);
-    this.publish(finished);
   }
 
   private async readVins(file: Buffer): Promise<VinRow[]> {
@@ -273,10 +207,6 @@ export class BatchService {
     return rows;
   }
 
-  private async publishById(id: string): Promise<void> {
-    const batch = await this.prisma.batchCheck.findUnique({ where: { id } });
-    if (batch) this.publish(batch);
-  }
   private publish(batch: BatchCheck): void {
     this.gateway.emitUpdated(batch.userId, this.toResponse(batch));
   }

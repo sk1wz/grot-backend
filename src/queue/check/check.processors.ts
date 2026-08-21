@@ -3,12 +3,13 @@ import { Job } from 'bullmq';
 import { CheckService } from '@/check/check.service';
 import {
   CHECK_SINGLE_QUEUE,
+  CHECK_QUEUE_CONCURRENCY,
   CHECK_SUBMIT_JOB,
   CHECK_SYNC_JOB,
   CheckJobData,
 } from './check-queue.constants';
 
-@Processor(CHECK_SINGLE_QUEUE, { concurrency: 1 })
+@Processor(CHECK_SINGLE_QUEUE, { concurrency: CHECK_QUEUE_CONCURRENCY })
 export class CheckProcessor extends WorkerHost {
   public constructor(private readonly checkService: CheckService) {
     super();
