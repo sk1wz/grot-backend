@@ -26,7 +26,7 @@ export class GibddService {
   }
   /** Шаблон ГИБДД: первый лист, A1 = VIN, значения в A2:A... */
   public createBatch(userId: string, file: Buffer) {
-    return this.batchService.createVinBatch(
+    return this.batchService.createSpreadsheetBatch(
       userId,
       CheckModuleEnums.GIBDD,
       file,

@@ -27,6 +27,6 @@ export class LimitationService {
 
   /** Шаблон ограничений: первый лист, A1 = VIN, значения в A2:A... */
   public createBatch(userId: string, file: Buffer) {
-    return this.batchService.createVinBatch(userId, CheckModuleEnums.LIMITATION, file);
+    return this.batchService.createSpreadsheetBatch(userId, CheckModuleEnums.LIMITATION, file);
   }
 }

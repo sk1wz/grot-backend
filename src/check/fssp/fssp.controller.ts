@@ -6,7 +6,11 @@ import {
   HttpStatus,
   Post,
   Req,
+  UploadedFile,
+  UseInterceptors,
+  BadRequestException,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { type Request } from 'express';
 import { Auth } from '@/auth/decorators';
 import { FsspCheckDto } from './dto';
@@ -23,10 +27,28 @@ export class FsspController {
   }
 
   @Auth()
+  @Get('batch')
+  public getBatches(@Req() req: Request) {
+    return this.fsspService.getBatches(req.session.userId!);
+  }
+
+  @Auth()
   @Post()
   @HttpCode(HttpStatus.ACCEPTED)
   public createSingle(@Req() req: Request, @Body() dto: FsspCheckDto) {
     return this.fsspService.createSingle(req.session.userId!, dto);
+  }
+
+  @Auth()
+  @Post('batch')
+  @HttpCode(HttpStatus.ACCEPTED)
+  @UseInterceptors(FileInterceptor('file'))
+  public createBatch(
+    @Req() req: Request,
+    @UploadedFile() file: { buffer: Buffer } | undefined,
+  ) {
+    if (!file) throw new BadRequestException('Excel-файл обязателен');
+    return this.fsspService.createBatch(req.session.userId!, file.buffer);
   }
 }
 
