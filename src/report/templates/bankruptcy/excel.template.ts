@@ -2,7 +2,6 @@ import { Check } from '@/db';
 import ExcelJS from 'exceljs';
 
 const BANKRUPTCY_FIELDS = [
-  ['id', 'ID'],
   ['inn', 'ИНН'],
   ['snils', 'СНИЛС'],
   ['is_defendant', 'Ответчик'],

@@ -66,7 +66,7 @@ export class ReportService {
     );
   }
 
-  /** Stacks the existing single-check Excel templates one below another. */
+  /** Combines same-module check results into filterable tables with one header. */
   public async generateBatch(batch: BatchCheck): Promise<void> {
     const checks = await this.prisma.check.findMany({
       where: { batchId: batch.id },
@@ -74,16 +74,18 @@ export class ReportService {
     });
     const workbook = new ExcelJS.Workbook();
 
-    for (let index = 0; index < checks.length; index += 1) {
-      const check = checks[index];
+    const failedChecks: Check[] = [];
+    for (const check of checks) {
       if (check.status === CheckStatusEnums.FAILED) {
-        this.appendFailedCheck(workbook, check, index + 1);
+        failedChecks.push(check);
         continue;
       }
       const singleWorkbook = new ExcelJS.Workbook();
       await singleWorkbook.xlsx.load((await this.renderExcel(check)) as never);
-      this.appendSingleReport(workbook, singleWorkbook, check, index + 1);
+      this.appendCheckRows(workbook, singleWorkbook, check);
     }
+    this.appendFailedRows(workbook, failedChecks);
+    this.formatBatchSheets(workbook);
 
     await mkdir(this.directory, { recursive: true });
     await writeFile(
@@ -144,6 +146,113 @@ export class ReportService {
     if (check.module === CheckModuleEnums.INN) buildInnExcel(workbook, check);
     else buildGistorgiExcel(workbook, check);
     return Buffer.from(await workbook.xlsx.writeBuffer());
+  }
+
+  private appendCheckRows(
+    batchWorkbook: ExcelJS.Workbook,
+    singleWorkbook: ExcelJS.Workbook,
+    check: Check,
+  ): void {
+    for (const source of singleWorkbook.worksheets) {
+      let target = batchWorkbook.getWorksheet(source.name);
+      if (!target) target = batchWorkbook.addWorksheet(source.name);
+      const headerColumns = this.ensureBatchHeaders(target, source);
+      const hasData = source.rowCount > 1;
+
+      for (let rowNumber = 2; rowNumber <= source.rowCount; rowNumber += 1) {
+        const sourceRow = source.getRow(rowNumber);
+        const targetRow = target.addRow([check.status]);
+        targetRow.height = sourceRow.height;
+        sourceRow.eachCell(
+          { includeEmpty: true },
+          (sourceCell, columnNumber) => {
+            const targetColumn = headerColumns.get(columnNumber);
+            if (!targetColumn) return;
+            const targetCell = targetRow.getCell(targetColumn);
+            targetCell.value = sourceCell.value;
+            targetCell.style = { ...sourceCell.style };
+          },
+        );
+      }
+
+      // A successful check with no provider records still has a visible row.
+      if (!hasData) target.addRow([check.status]);
+    }
+  }
+
+  private ensureBatchHeaders(
+    target: ExcelJS.Worksheet,
+    source: ExcelJS.Worksheet,
+  ): Map<number, number> {
+    const targetHeaders = new Map<string, number>();
+    if (target.rowCount === 0) {
+      target.addRow([
+        'Статус проверки',
+        ...Array.from({ length: source.columnCount }, (_, index) =>
+          this.headerOf(source, index + 1),
+        ),
+      ]);
+      target.getColumn(1).width = 20;
+      target.getColumn(1).alignment = { vertical: 'top', wrapText: true };
+    }
+
+    for (let column = 1; column <= target.columnCount; column += 1) {
+      targetHeaders.set(this.headerOf(target, column), column);
+    }
+
+    const headerColumns = new Map<number, number>();
+    for (let column = 1; column <= source.columnCount; column += 1) {
+      const header = this.headerOf(source, column);
+      let targetColumn = targetHeaders.get(header);
+      if (!targetColumn) {
+        targetColumn = target.columnCount + 1;
+        target.getRow(1).getCell(targetColumn).value = header;
+        targetHeaders.set(header, targetColumn);
+      }
+      headerColumns.set(column, targetColumn);
+      const sourceColumn = source.getColumn(column);
+      const targetColumnDefinition = target.getColumn(targetColumn);
+      targetColumnDefinition.width = Math.max(
+        targetColumnDefinition.width ?? 0,
+        sourceColumn.width ?? 0,
+      );
+      targetColumnDefinition.alignment = {
+        vertical: 'top',
+        wrapText: true,
+      };
+    }
+    return headerColumns;
+  }
+
+  private appendFailedRows(workbook: ExcelJS.Workbook, checks: Check[]): void {
+    if (!checks.length) return;
+    const sheets = workbook.worksheets.length
+      ? workbook.worksheets
+      : [workbook.addWorksheet('Результаты')];
+    if (sheets[0].rowCount === 0) sheets[0].addRow(['Статус проверки']);
+    for (const sheet of sheets) {
+      checks.forEach(() => sheet.addRow([CheckStatusEnums.FAILED]));
+    }
+  }
+
+  private formatBatchSheets(workbook: ExcelJS.Workbook): void {
+    for (const sheet of workbook.worksheets) {
+      sheet.views = [{ state: 'frozen', ySplit: 1 }];
+      sheet.autoFilter = {
+        from: 'A1',
+        to: { row: Math.max(sheet.rowCount, 1), column: sheet.columnCount },
+      };
+      sheet.getRow(1).font = { bold: true };
+      sheet.getRow(1).fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: 'FFC9D5E5' },
+      };
+    }
+  }
+
+  private headerOf(sheet: ExcelJS.Worksheet, column: number): string {
+    return sheet.getCell(1, column).text || `Колонка ${column}`;
   }
 
   private appendSingleReport(
