@@ -18,7 +18,10 @@ export class LimitationService {
   }
 
   public getAll(userId: string) {
-    return this.checkService.getChecksByModule(userId, CheckModuleEnums.LIMITATION);
+    return this.checkService.getChecksByModule(
+      userId,
+      CheckModuleEnums.LIMITATION,
+    );
   }
 
   public getBatches(userId: string) {
@@ -26,7 +29,12 @@ export class LimitationService {
   }
 
   /** Шаблон ограничений: первый лист, A1 = VIN, значения в A2:A... */
-  public createBatch(userId: string, file: Buffer) {
-    return this.batchService.createSpreadsheetBatch(userId, CheckModuleEnums.LIMITATION, file);
+  public createBatch(userId: string, file: Buffer, fileName: string) {
+    return this.batchService.createSpreadsheetBatch(
+      userId,
+      CheckModuleEnums.LIMITATION,
+      file,
+      fileName,
+    );
   }
 }

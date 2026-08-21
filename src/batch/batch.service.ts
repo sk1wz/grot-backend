@@ -37,7 +37,12 @@ export class BatchService {
     private readonly gateway: BatchGateway,
   ) {}
 
-  public async create(userId: string, module: CheckModuleEnums, file: Buffer) {
+  public async create(
+    userId: string,
+    module: CheckModuleEnums,
+    file: Buffer,
+    subjectBodyText: string,
+  ) {
     const rows = await this.readBatchItems(module, file);
     const price = await this.prisma.checkPrice.findUnique({
       where: { module },
@@ -57,7 +62,13 @@ export class BatchService {
       );
 
       const created = await tx.batchCheck.create({
-        data: { userId, module, totalItems: rows.length, cost: totalCost },
+        data: {
+          userId,
+          module,
+          totalItems: rows.length,
+          cost: totalCost,
+          subjectBodyText,
+        },
       });
 
       await tx.check.createMany({
@@ -102,8 +113,9 @@ export class BatchService {
     userId: string,
     module: CheckModuleEnums,
     file: Buffer,
+    subjectBodyText: string,
   ) {
-    return this.create(userId, module, file);
+    return this.create(userId, module, file, subjectBodyText);
   }
 
   public async onCheckCompleted(check: Check): Promise<void> {
@@ -143,7 +155,12 @@ export class BatchService {
         successfulItems,
         failedItems,
         currentChunk: successfulItems + failedItems,
-        status: failedItems ? CheckStatusEnums.FAILED : CheckStatusEnums.DONE,
+        // A batch is unsuccessful only when no item produced a result. Failed
+        // items are refunded individually by CheckService.failCheck().
+        status:
+          failedItems === batch.totalItems
+            ? CheckStatusEnums.FAILED
+            : CheckStatusEnums.DONE,
         completedAt: new Date(),
       },
     });
@@ -232,6 +249,7 @@ export class BatchService {
       successfulItems: batch.successfulItems,
       failedItems: batch.failedItems,
       cost: batch.cost,
+      subjectBodyText: batch.subjectBodyText,
       currentChunk: batch.currentChunk,
       createdAt: batch.createdAt,
       completedAt: batch.completedAt,

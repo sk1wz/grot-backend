@@ -26,11 +26,12 @@ export class FsspService {
     return this.batchService.list(userId, CheckModuleEnums.FSSP);
   }
 
-  public createBatch(userId: string, file: Buffer) {
+  public createBatch(userId: string, file: Buffer, fileName: string) {
     return this.batchService.createSpreadsheetBatch(
       userId,
       CheckModuleEnums.FSSP,
       file,
+      fileName,
     );
   }
 }

@@ -51,6 +51,7 @@ export type BatchCheckMinAggregateOutputType = {
   successfulItems: number | null
   failedItems: number | null
   cost: number | null
+  subjectBodyText: string | null
   currentChunk: number | null
   reportPath: string | null
   createdAt: Date | null
@@ -67,6 +68,7 @@ export type BatchCheckMaxAggregateOutputType = {
   successfulItems: number | null
   failedItems: number | null
   cost: number | null
+  subjectBodyText: string | null
   currentChunk: number | null
   reportPath: string | null
   createdAt: Date | null
@@ -83,6 +85,7 @@ export type BatchCheckCountAggregateOutputType = {
   successfulItems: number
   failedItems: number
   cost: number
+  subjectBodyText: number
   currentChunk: number
   reportPath: number
   createdAt: number
@@ -117,6 +120,7 @@ export type BatchCheckMinAggregateInputType = {
   successfulItems?: true
   failedItems?: true
   cost?: true
+  subjectBodyText?: true
   currentChunk?: true
   reportPath?: true
   createdAt?: true
@@ -133,6 +137,7 @@ export type BatchCheckMaxAggregateInputType = {
   successfulItems?: true
   failedItems?: true
   cost?: true
+  subjectBodyText?: true
   currentChunk?: true
   reportPath?: true
   createdAt?: true
@@ -149,6 +154,7 @@ export type BatchCheckCountAggregateInputType = {
   successfulItems?: true
   failedItems?: true
   cost?: true
+  subjectBodyText?: true
   currentChunk?: true
   reportPath?: true
   createdAt?: true
@@ -252,6 +258,7 @@ export type BatchCheckGroupByOutputType = {
   successfulItems: number
   failedItems: number
   cost: number
+  subjectBodyText: string
   currentChunk: number
   reportPath: string | null
   createdAt: Date
@@ -291,6 +298,7 @@ export type BatchCheckWhereInput = {
   successfulItems?: Prisma.IntFilter<"BatchCheck"> | number
   failedItems?: Prisma.IntFilter<"BatchCheck"> | number
   cost?: Prisma.IntFilter<"BatchCheck"> | number
+  subjectBodyText?: Prisma.StringFilter<"BatchCheck"> | string
   currentChunk?: Prisma.IntFilter<"BatchCheck"> | number
   reportPath?: Prisma.StringNullableFilter<"BatchCheck"> | string | null
   createdAt?: Prisma.DateTimeFilter<"BatchCheck"> | Date | string
@@ -309,6 +317,7 @@ export type BatchCheckOrderByWithRelationInput = {
   successfulItems?: Prisma.SortOrder
   failedItems?: Prisma.SortOrder
   cost?: Prisma.SortOrder
+  subjectBodyText?: Prisma.SortOrder
   currentChunk?: Prisma.SortOrder
   reportPath?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -330,6 +339,7 @@ export type BatchCheckWhereUniqueInput = Prisma.AtLeast<{
   successfulItems?: Prisma.IntFilter<"BatchCheck"> | number
   failedItems?: Prisma.IntFilter<"BatchCheck"> | number
   cost?: Prisma.IntFilter<"BatchCheck"> | number
+  subjectBodyText?: Prisma.StringFilter<"BatchCheck"> | string
   currentChunk?: Prisma.IntFilter<"BatchCheck"> | number
   reportPath?: Prisma.StringNullableFilter<"BatchCheck"> | string | null
   createdAt?: Prisma.DateTimeFilter<"BatchCheck"> | Date | string
@@ -348,6 +358,7 @@ export type BatchCheckOrderByWithAggregationInput = {
   successfulItems?: Prisma.SortOrder
   failedItems?: Prisma.SortOrder
   cost?: Prisma.SortOrder
+  subjectBodyText?: Prisma.SortOrder
   currentChunk?: Prisma.SortOrder
   reportPath?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -372,6 +383,7 @@ export type BatchCheckScalarWhereWithAggregatesInput = {
   successfulItems?: Prisma.IntWithAggregatesFilter<"BatchCheck"> | number
   failedItems?: Prisma.IntWithAggregatesFilter<"BatchCheck"> | number
   cost?: Prisma.IntWithAggregatesFilter<"BatchCheck"> | number
+  subjectBodyText?: Prisma.StringWithAggregatesFilter<"BatchCheck"> | string
   currentChunk?: Prisma.IntWithAggregatesFilter<"BatchCheck"> | number
   reportPath?: Prisma.StringNullableWithAggregatesFilter<"BatchCheck"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"BatchCheck"> | Date | string
@@ -387,6 +399,7 @@ export type BatchCheckCreateInput = {
   successfulItems?: number
   failedItems?: number
   cost: number
+  subjectBodyText?: string
   currentChunk?: number
   reportPath?: string | null
   createdAt?: Date | string
@@ -405,6 +418,7 @@ export type BatchCheckUncheckedCreateInput = {
   successfulItems?: number
   failedItems?: number
   cost: number
+  subjectBodyText?: string
   currentChunk?: number
   reportPath?: string | null
   createdAt?: Date | string
@@ -421,6 +435,7 @@ export type BatchCheckUpdateInput = {
   successfulItems?: Prisma.IntFieldUpdateOperationsInput | number
   failedItems?: Prisma.IntFieldUpdateOperationsInput | number
   cost?: Prisma.IntFieldUpdateOperationsInput | number
+  subjectBodyText?: Prisma.StringFieldUpdateOperationsInput | string
   currentChunk?: Prisma.IntFieldUpdateOperationsInput | number
   reportPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -439,6 +454,7 @@ export type BatchCheckUncheckedUpdateInput = {
   successfulItems?: Prisma.IntFieldUpdateOperationsInput | number
   failedItems?: Prisma.IntFieldUpdateOperationsInput | number
   cost?: Prisma.IntFieldUpdateOperationsInput | number
+  subjectBodyText?: Prisma.StringFieldUpdateOperationsInput | string
   currentChunk?: Prisma.IntFieldUpdateOperationsInput | number
   reportPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -456,6 +472,7 @@ export type BatchCheckCreateManyInput = {
   successfulItems?: number
   failedItems?: number
   cost: number
+  subjectBodyText?: string
   currentChunk?: number
   reportPath?: string | null
   createdAt?: Date | string
@@ -471,6 +488,7 @@ export type BatchCheckUpdateManyMutationInput = {
   successfulItems?: Prisma.IntFieldUpdateOperationsInput | number
   failedItems?: Prisma.IntFieldUpdateOperationsInput | number
   cost?: Prisma.IntFieldUpdateOperationsInput | number
+  subjectBodyText?: Prisma.StringFieldUpdateOperationsInput | string
   currentChunk?: Prisma.IntFieldUpdateOperationsInput | number
   reportPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -487,6 +505,7 @@ export type BatchCheckUncheckedUpdateManyInput = {
   successfulItems?: Prisma.IntFieldUpdateOperationsInput | number
   failedItems?: Prisma.IntFieldUpdateOperationsInput | number
   cost?: Prisma.IntFieldUpdateOperationsInput | number
+  subjectBodyText?: Prisma.StringFieldUpdateOperationsInput | string
   currentChunk?: Prisma.IntFieldUpdateOperationsInput | number
   reportPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -518,6 +537,7 @@ export type BatchCheckCountOrderByAggregateInput = {
   successfulItems?: Prisma.SortOrder
   failedItems?: Prisma.SortOrder
   cost?: Prisma.SortOrder
+  subjectBodyText?: Prisma.SortOrder
   currentChunk?: Prisma.SortOrder
   reportPath?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -542,6 +562,7 @@ export type BatchCheckMaxOrderByAggregateInput = {
   successfulItems?: Prisma.SortOrder
   failedItems?: Prisma.SortOrder
   cost?: Prisma.SortOrder
+  subjectBodyText?: Prisma.SortOrder
   currentChunk?: Prisma.SortOrder
   reportPath?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -558,6 +579,7 @@ export type BatchCheckMinOrderByAggregateInput = {
   successfulItems?: Prisma.SortOrder
   failedItems?: Prisma.SortOrder
   cost?: Prisma.SortOrder
+  subjectBodyText?: Prisma.SortOrder
   currentChunk?: Prisma.SortOrder
   reportPath?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -639,6 +661,7 @@ export type BatchCheckCreateWithoutUserInput = {
   successfulItems?: number
   failedItems?: number
   cost: number
+  subjectBodyText?: string
   currentChunk?: number
   reportPath?: string | null
   createdAt?: Date | string
@@ -655,6 +678,7 @@ export type BatchCheckUncheckedCreateWithoutUserInput = {
   successfulItems?: number
   failedItems?: number
   cost: number
+  subjectBodyText?: string
   currentChunk?: number
   reportPath?: string | null
   createdAt?: Date | string
@@ -701,6 +725,7 @@ export type BatchCheckScalarWhereInput = {
   successfulItems?: Prisma.IntFilter<"BatchCheck"> | number
   failedItems?: Prisma.IntFilter<"BatchCheck"> | number
   cost?: Prisma.IntFilter<"BatchCheck"> | number
+  subjectBodyText?: Prisma.StringFilter<"BatchCheck"> | string
   currentChunk?: Prisma.IntFilter<"BatchCheck"> | number
   reportPath?: Prisma.StringNullableFilter<"BatchCheck"> | string | null
   createdAt?: Prisma.DateTimeFilter<"BatchCheck"> | Date | string
@@ -716,6 +741,7 @@ export type BatchCheckCreateWithoutChecksInput = {
   successfulItems?: number
   failedItems?: number
   cost: number
+  subjectBodyText?: string
   currentChunk?: number
   reportPath?: string | null
   createdAt?: Date | string
@@ -733,6 +759,7 @@ export type BatchCheckUncheckedCreateWithoutChecksInput = {
   successfulItems?: number
   failedItems?: number
   cost: number
+  subjectBodyText?: string
   currentChunk?: number
   reportPath?: string | null
   createdAt?: Date | string
@@ -764,6 +791,7 @@ export type BatchCheckUpdateWithoutChecksInput = {
   successfulItems?: Prisma.IntFieldUpdateOperationsInput | number
   failedItems?: Prisma.IntFieldUpdateOperationsInput | number
   cost?: Prisma.IntFieldUpdateOperationsInput | number
+  subjectBodyText?: Prisma.StringFieldUpdateOperationsInput | string
   currentChunk?: Prisma.IntFieldUpdateOperationsInput | number
   reportPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -781,6 +809,7 @@ export type BatchCheckUncheckedUpdateWithoutChecksInput = {
   successfulItems?: Prisma.IntFieldUpdateOperationsInput | number
   failedItems?: Prisma.IntFieldUpdateOperationsInput | number
   cost?: Prisma.IntFieldUpdateOperationsInput | number
+  subjectBodyText?: Prisma.StringFieldUpdateOperationsInput | string
   currentChunk?: Prisma.IntFieldUpdateOperationsInput | number
   reportPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -796,6 +825,7 @@ export type BatchCheckCreateManyUserInput = {
   successfulItems?: number
   failedItems?: number
   cost: number
+  subjectBodyText?: string
   currentChunk?: number
   reportPath?: string | null
   createdAt?: Date | string
@@ -811,6 +841,7 @@ export type BatchCheckUpdateWithoutUserInput = {
   successfulItems?: Prisma.IntFieldUpdateOperationsInput | number
   failedItems?: Prisma.IntFieldUpdateOperationsInput | number
   cost?: Prisma.IntFieldUpdateOperationsInput | number
+  subjectBodyText?: Prisma.StringFieldUpdateOperationsInput | string
   currentChunk?: Prisma.IntFieldUpdateOperationsInput | number
   reportPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -827,6 +858,7 @@ export type BatchCheckUncheckedUpdateWithoutUserInput = {
   successfulItems?: Prisma.IntFieldUpdateOperationsInput | number
   failedItems?: Prisma.IntFieldUpdateOperationsInput | number
   cost?: Prisma.IntFieldUpdateOperationsInput | number
+  subjectBodyText?: Prisma.StringFieldUpdateOperationsInput | string
   currentChunk?: Prisma.IntFieldUpdateOperationsInput | number
   reportPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -843,6 +875,7 @@ export type BatchCheckUncheckedUpdateManyWithoutUserInput = {
   successfulItems?: Prisma.IntFieldUpdateOperationsInput | number
   failedItems?: Prisma.IntFieldUpdateOperationsInput | number
   cost?: Prisma.IntFieldUpdateOperationsInput | number
+  subjectBodyText?: Prisma.StringFieldUpdateOperationsInput | string
   currentChunk?: Prisma.IntFieldUpdateOperationsInput | number
   reportPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -890,6 +923,7 @@ export type BatchCheckSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   successfulItems?: boolean
   failedItems?: boolean
   cost?: boolean
+  subjectBodyText?: boolean
   currentChunk?: boolean
   reportPath?: boolean
   createdAt?: boolean
@@ -909,6 +943,7 @@ export type BatchCheckSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   successfulItems?: boolean
   failedItems?: boolean
   cost?: boolean
+  subjectBodyText?: boolean
   currentChunk?: boolean
   reportPath?: boolean
   createdAt?: boolean
@@ -926,6 +961,7 @@ export type BatchCheckSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   successfulItems?: boolean
   failedItems?: boolean
   cost?: boolean
+  subjectBodyText?: boolean
   currentChunk?: boolean
   reportPath?: boolean
   createdAt?: boolean
@@ -943,6 +979,7 @@ export type BatchCheckSelectScalar = {
   successfulItems?: boolean
   failedItems?: boolean
   cost?: boolean
+  subjectBodyText?: boolean
   currentChunk?: boolean
   reportPath?: boolean
   createdAt?: boolean
@@ -950,7 +987,7 @@ export type BatchCheckSelectScalar = {
   completedAt?: boolean
 }
 
-export type BatchCheckOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "module" | "status" | "totalItems" | "successfulItems" | "failedItems" | "cost" | "currentChunk" | "reportPath" | "createdAt" | "updatedAt" | "completedAt", ExtArgs["result"]["batchCheck"]>
+export type BatchCheckOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "module" | "status" | "totalItems" | "successfulItems" | "failedItems" | "cost" | "subjectBodyText" | "currentChunk" | "reportPath" | "createdAt" | "updatedAt" | "completedAt", ExtArgs["result"]["batchCheck"]>
 export type BatchCheckInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   checks?: boolean | Prisma.BatchCheck$checksArgs<ExtArgs>
@@ -978,6 +1015,7 @@ export type $BatchCheckPayload<ExtArgs extends runtime.Types.Extensions.Internal
     successfulItems: number
     failedItems: number
     cost: number
+    subjectBodyText: string
     currentChunk: number
     reportPath: string | null
     createdAt: Date
@@ -1416,6 +1454,7 @@ export interface BatchCheckFieldRefs {
   readonly successfulItems: Prisma.FieldRef<"BatchCheck", 'Int'>
   readonly failedItems: Prisma.FieldRef<"BatchCheck", 'Int'>
   readonly cost: Prisma.FieldRef<"BatchCheck", 'Int'>
+  readonly subjectBodyText: Prisma.FieldRef<"BatchCheck", 'String'>
   readonly currentChunk: Prisma.FieldRef<"BatchCheck", 'Int'>
   readonly reportPath: Prisma.FieldRef<"BatchCheck", 'String'>
   readonly createdAt: Prisma.FieldRef<"BatchCheck", 'DateTime'>

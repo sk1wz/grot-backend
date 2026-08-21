@@ -22,7 +22,10 @@ export class GistorgiService {
   }
 
   public getAll(userId: string) {
-    return this.checkService.getChecksByModule(userId, CheckModuleEnums.GISTORGI);
+    return this.checkService.getChecksByModule(
+      userId,
+      CheckModuleEnums.GISTORGI,
+    );
   }
 
   public getBatches(userId: string) {
@@ -30,11 +33,12 @@ export class GistorgiService {
   }
 
   /** Шаблон ГИС Торги: первый лист, A1 = VIN, значения в A2:A... */
-  public createBatch(userId: string, file: Buffer) {
+  public createBatch(userId: string, file: Buffer, fileName: string) {
     return this.batchService.createSpreadsheetBatch(
       userId,
       CheckModuleEnums.GISTORGI,
       file,
+      fileName,
     );
   }
 }

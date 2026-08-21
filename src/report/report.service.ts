@@ -76,6 +76,10 @@ export class ReportService {
 
     for (let index = 0; index < checks.length; index += 1) {
       const check = checks[index];
+      if (check.status === CheckStatusEnums.FAILED) {
+        this.appendFailedCheck(workbook, check, index + 1);
+        continue;
+      }
       const singleWorkbook = new ExcelJS.Workbook();
       await singleWorkbook.xlsx.load((await this.renderExcel(check)) as never);
       this.appendSingleReport(workbook, singleWorkbook, check, index + 1);
@@ -186,6 +190,35 @@ export class ReportService {
         );
       });
     }
+  }
+
+  /** Failed checks do not have provider data for a module-specific template. */
+  private appendFailedCheck(
+    workbook: ExcelJS.Workbook,
+    check: Check,
+    number: number,
+  ): void {
+    const sheet =
+      workbook.getWorksheet('Ошибки') ?? workbook.addWorksheet('Ошибки');
+    if (sheet.rowCount === 0) {
+      sheet.addRow(['Проверка', 'Строка', 'Данные', 'Ошибка']);
+      sheet.getRow(1).font = { bold: true };
+      sheet.views = [{ state: 'frozen', ySplit: 1 }];
+      [14, 12, 45, 70].forEach((width, index) => {
+        sheet.getColumn(index + 1).width = width;
+        sheet.getColumn(index + 1).alignment = {
+          vertical: 'top',
+          wrapText: true,
+        };
+      });
+    }
+
+    sheet.addRow([
+      number,
+      check.sourceRow ?? '',
+      check.subjectBodyText,
+      JSON.stringify(check.error ?? check.result ?? {}),
+    ]);
   }
 
   private vinOf(check: Check): string {

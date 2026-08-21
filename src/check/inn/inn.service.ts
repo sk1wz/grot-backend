@@ -26,11 +26,12 @@ export class InnService {
     return this.batchService.list(userId, CheckModuleEnums.INN);
   }
 
-  public createBatch(userId: string, file: Buffer) {
+  public createBatch(userId: string, file: Buffer, fileName: string) {
     return this.batchService.createSpreadsheetBatch(
       userId,
       CheckModuleEnums.INN,
       file,
+      fileName,
     );
   }
 }

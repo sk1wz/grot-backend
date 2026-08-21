@@ -46,9 +46,13 @@ export class TaxiController {
   @UseInterceptors(FileInterceptor('file'))
   public createBatch(
     @Req() req: Request,
-    @UploadedFile() file: { buffer: Buffer } | undefined,
+    @UploadedFile() file: { buffer: Buffer; originalname: string } | undefined,
   ) {
     if (!file) throw new BadRequestException('Excel-файл обязателен');
-    return this.taxiService.createBatch(req.session.userId!, file.buffer);
+    return this.taxiService.createBatch(
+      req.session.userId!,
+      file.buffer,
+      file.originalname,
+    );
   }
 }

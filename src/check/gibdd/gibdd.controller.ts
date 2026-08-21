@@ -44,9 +44,15 @@ export class GibddController {
   @Post('batch')
   @HttpCode(HttpStatus.ACCEPTED)
   @UseInterceptors(FileInterceptor('file'))
-  public createBatch(@Req() req: Request, @UploadedFile() file: { buffer: Buffer } | undefined) {
+  public createBatch(
+    @Req() req: Request,
+    @UploadedFile() file: { buffer: Buffer; originalname: string } | undefined,
+  ) {
     if (!file) throw new BadRequestException('Excel-файл обязателен');
-    return this.gibddService.createBatch(req.session.userId!, file.buffer);
+    return this.gibddService.createBatch(
+      req.session.userId!,
+      file.buffer,
+      file.originalname,
+    );
   }
-
 }

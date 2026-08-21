@@ -26,11 +26,12 @@ export class TaxiService {
   }
 
   /** Шаблон такси: первый лист, A1 = VIN, значения в A2:A... */
-  public createBatch(userId: string, file: Buffer) {
+  public createBatch(userId: string, file: Buffer, fileName: string) {
     return this.batchService.createSpreadsheetBatch(
       userId,
       CheckModuleEnums.TAXI,
       file,
+      fileName,
     );
   }
 }
