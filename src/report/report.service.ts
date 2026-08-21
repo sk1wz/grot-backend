@@ -161,7 +161,7 @@ export class ReportService {
 
       for (let rowNumber = 2; rowNumber <= source.rowCount; rowNumber += 1) {
         const sourceRow = source.getRow(rowNumber);
-        const targetRow = target.addRow([check.status]);
+        const targetRow = target.addRow([check.subjectBodyText, check.status]);
         targetRow.height = sourceRow.height;
         sourceRow.eachCell(
           { includeEmpty: true },
@@ -176,7 +176,7 @@ export class ReportService {
       }
 
       // A successful check with no provider records still has a visible row.
-      if (!hasData) target.addRow([check.status]);
+      if (!hasData) target.addRow([check.subjectBodyText, check.status]);
     }
   }
 
@@ -187,13 +187,19 @@ export class ReportService {
     const targetHeaders = new Map<string, number>();
     if (target.rowCount === 0) {
       target.addRow([
+        'Запрос',
         'Статус проверки',
         ...Array.from({ length: source.columnCount }, (_, index) =>
           this.headerOf(source, index + 1),
         ),
       ]);
-      target.getColumn(1).width = 20;
-      target.getColumn(1).alignment = { vertical: 'top', wrapText: true };
+      [38, 20].forEach((width, index) => {
+        target.getColumn(index + 1).width = width;
+        target.getColumn(index + 1).alignment = {
+          vertical: 'top',
+          wrapText: true,
+        };
+      });
     }
 
     for (let column = 1; column <= target.columnCount; column += 1) {
@@ -229,9 +235,12 @@ export class ReportService {
     const sheets = workbook.worksheets.length
       ? workbook.worksheets
       : [workbook.addWorksheet('Результаты')];
-    if (sheets[0].rowCount === 0) sheets[0].addRow(['Статус проверки']);
+    if (sheets[0].rowCount === 0)
+      sheets[0].addRow(['Запрос', 'Статус проверки']);
     for (const sheet of sheets) {
-      checks.forEach(() => sheet.addRow([CheckStatusEnums.FAILED]));
+      checks.forEach((check) =>
+        sheet.addRow([check.subjectBodyText, CheckStatusEnums.FAILED]),
+      );
     }
   }
 

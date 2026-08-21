@@ -2,7 +2,6 @@ import { Check } from '@/db';
 import ExcelJS from 'exceljs';
 
 const FSSP_FIELDS = [
-  ['id', 'ID'],
   ['date', 'Дата'],
   ['service', 'Сервис'],
   ['initiationDate', 'Дата возбуждения'],
