@@ -7,7 +7,7 @@ import {
   BatchJobData,
 } from './batch-queue.constants';
 
-@Processor(BATCH_GIBDD_QUEUE, { concurrency: 1 })
+@Processor(BATCH_GIBDD_QUEUE, { concurrency: 5 })
 export class GibddBatchProcessor extends WorkerHost {
   public constructor(private readonly batchService: BatchService) {
     super();
