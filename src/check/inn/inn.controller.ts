@@ -55,15 +55,3 @@ export class InnController {
     );
   }
 }
-
-// @Controller('checks/inn/batch')
-// export class InnBatchController {
-//   public constructor(private readonly innService: InnService) {}
-
-// @Auth()
-// @Post()
-// @HttpCode(HttpStatus.ACCEPTED)
-// public createBatch(@Req() req: Request, @Body() dto: InnDto) {
-//   return this.innService.createBatchInn(req.session.userId!, dto);
-// }
-// }

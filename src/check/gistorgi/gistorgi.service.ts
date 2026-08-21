@@ -32,7 +32,6 @@ export class GistorgiService {
     return this.batchService.list(userId, CheckModuleEnums.GISTORGI);
   }
 
-  /** Шаблон ГИС Торги: первый лист, A1 = VIN, значения в A2:A... */
   public createBatch(userId: string, file: Buffer, fileName: string) {
     return this.batchService.createSpreadsheetBatch(
       userId,
