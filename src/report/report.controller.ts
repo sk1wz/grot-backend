@@ -24,7 +24,7 @@ export class ReportController {
     res.set({
       'Content-Type':
         'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-      'Content-Disposition': `attachment; filename="report-${id}.xlsx"`,
+      'Content-Disposition': `attachment; filename="autosintes-report-${id}.xlsx"`,
     });
     return new StreamableFile(file);
   }
@@ -39,7 +39,7 @@ export class ReportController {
     const file = await this.reportService.batchExcelForUser(req.session.userId!, id);
     res.set({
       'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-      'Content-Disposition': `attachment; filename="batch-report-${id}.xlsx"`,
+      'Content-Disposition': `attachment; filename="autosintes-batch-report-${id}.xlsx"`,
     });
     return new StreamableFile(file);
   }
