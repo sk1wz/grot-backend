@@ -43,7 +43,7 @@ const PRICES = [
   {
     module: CheckModuleEnums.TAXI,
     title: 'Проверка такси',
-    description: 'Проверка ТС в реестре такси по VIN',
+    description: 'Проверка ТС в реестре такси',
     price: 5,
   },
 ] as const;
