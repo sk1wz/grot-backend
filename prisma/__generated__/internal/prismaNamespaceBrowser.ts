@@ -137,7 +137,6 @@ export const BatchCheckScalarFieldEnum = {
   cost: 'cost',
   subjectBodyText: 'subjectBodyText',
   currentChunk: 'currentChunk',
-  reportPath: 'reportPath',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   completedAt: 'completedAt'

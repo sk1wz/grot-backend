@@ -78,7 +78,6 @@ model BatchCheck {
   cost            Int
   subjectBodyText String           @default("") @map("subject_body_text")
   currentChunk    Int              @default(0) @map("current_chunk")
-  reportPath      String?          @map("report_path")
   createdAt       DateTime         @default(now()) @map("created_at")
   updatedAt       DateTime         @updatedAt @map("updated_at")
   completedAt     DateTime?        @map("completed_at")

@@ -155,8 +155,6 @@ export class BatchService {
         successfulItems,
         failedItems,
         currentChunk: successfulItems + failedItems,
-        // A batch is unsuccessful only when no item produced a result. Failed
-        // items are refunded individually by CheckService.failCheck().
         status:
           failedItems === batch.totalItems
             ? CheckStatusEnums.FAILED
@@ -198,36 +196,6 @@ export class BatchService {
         error: check.error,
       })),
     };
-  }
-
-  private async readVins(file: Buffer): Promise<VinRow[]> {
-    const workbook = new ExcelJS.Workbook();
-    await workbook.xlsx.load(file as never);
-    const sheet = workbook.worksheets[0];
-    if (
-      !sheet ||
-      String(sheet.getCell('A1').text).trim().toUpperCase() !== 'VIN'
-    ) {
-      throw new BadRequestException(
-        'В первой ячейке первого листа должен быть заголовок VIN',
-      );
-    }
-
-    const rows: VinRow[] = [];
-    const seen = new Set<string>();
-    for (let row = 2; row <= sheet.rowCount; row += 1) {
-      const vin = String(sheet.getCell(row, 1).text).trim().toUpperCase();
-      if (!vin) continue;
-      if (!/^[A-HJ-NPR-Z0-9]{17}$/.test(vin))
-        throw new BadRequestException(`Некорректный VIN в строке ${row}`);
-      if (seen.has(vin))
-        throw new BadRequestException(`Повторяющийся VIN в строке ${row}`);
-      seen.add(vin);
-      rows.push({ vin, sourceRow: row });
-    }
-    if (!rows.length)
-      throw new BadRequestException('В файле нет VIN для проверки');
-    return rows;
   }
 
   private async readBatchItems(
