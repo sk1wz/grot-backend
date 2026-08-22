@@ -27,6 +27,8 @@ import { LimitationService } from './limitation/limitation.service';
 import { TaxiController } from './taxi/taxi.controller';
 import { TaxiService } from './taxi/taxi.service';
 import { BatchModule } from '@/batch/batch.module';
+import { CheckPriceController } from './price/check-price.controller';
+import { CheckPriceService } from './price/check-price.service';
 
 @Module({
   imports: [
@@ -47,6 +49,7 @@ import { BatchModule } from '@/batch/batch.module';
     InnController,
     LimitationController,
     TaxiController,
+    CheckPriceController,
     CheckQueryController,
   ],
   providers: [
@@ -58,6 +61,7 @@ import { BatchModule } from '@/batch/batch.module';
     InnService,
     LimitationService,
     TaxiService,
+    CheckPriceService,
     CheckGateway,
     CheckProviderRegistry,
     StormfinderCheckHandler,
