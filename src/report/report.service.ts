@@ -121,6 +121,31 @@ export class ReportService {
     }
   }
 
+  public async batchExcelForAdmin(id: string): Promise<Buffer> {
+    const batch = await this.prisma.batchCheck.findUnique({ where: { id } });
+    if (!batch) throw new NotFoundException('Пакетная проверка не найдена');
+    if (!batch.completedAt) throw new NotFoundException('Отчёт ещё не готов');
+    try {
+      return await readFile(this.batchPath(id));
+    } catch {
+      await this.generateBatch(batch);
+      return readFile(this.batchPath(id));
+    }
+  }
+
+  public async excelForAdmin(id: string): Promise<Buffer> {
+    const check = await this.prisma.check.findUnique({ where: { id } });
+    if (!check) throw new NotFoundException('Проверка не найдена');
+    if (check.status !== CheckStatusEnums.DONE)
+      throw new NotFoundException('Отчёт ещё не готов');
+    try {
+      return await readFile(this.path(id));
+    } catch {
+      await this.generate(check);
+      return readFile(this.path(id));
+    }
+  }
+
   private async renderExcel(check: Check): Promise<Buffer> {
     const workbook = new ExcelJS.Workbook();
     if (check.module === CheckModuleEnums.GIBDD) {

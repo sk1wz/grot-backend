@@ -43,4 +43,33 @@ export class ReportController {
     });
     return new StreamableFile(file);
   }
+
+  @Auth('ADMIN')
+  @Get('admin/excel/:id')
+  public async adminExcel(
+    @Res({ passthrough: true }) res: Response,
+    @Param('id') id: string,
+  ) {
+    const file = await this.reportService.excelForAdmin(id);
+    res.set({
+      'Content-Type':
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      'Content-Disposition': `attachment; filename="autosintes-report-${id}.xlsx"`,
+    });
+    return new StreamableFile(file);
+  }
+
+  @Auth('ADMIN')
+  @Get('admin/batch/:id')
+  public async adminBatchExcel(
+    @Res({ passthrough: true }) res: Response,
+    @Param('id') id: string,
+  ) {
+    const file = await this.reportService.batchExcelForAdmin(id);
+    res.set({
+      'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      'Content-Disposition': `attachment; filename="autosintes-batch-report-${id}.xlsx"`,
+    });
+    return new StreamableFile(file);
+  }
 }
