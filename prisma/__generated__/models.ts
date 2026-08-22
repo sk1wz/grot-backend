@@ -10,6 +10,7 @@
  */
 export type * from './models/User.js'
 export type * from './models/CheckPrice.js'
+export type * from './models/UserCheckPrice.js'
 export type * from './models/Check.js'
 export type * from './models/BatchCheck.js'
 export type * from './models/BalanceTransaction.js'

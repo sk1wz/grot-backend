@@ -251,6 +251,7 @@ export type UserWhereInput = {
   checks?: Prisma.CheckListRelationFilter
   batches?: Prisma.BatchCheckListRelationFilter
   balanceTransactions?: Prisma.BalanceTransactionListRelationFilter
+  checkPriceOverrides?: Prisma.UserCheckPriceListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -266,6 +267,7 @@ export type UserOrderByWithRelationInput = {
   checks?: Prisma.CheckOrderByRelationAggregateInput
   batches?: Prisma.BatchCheckOrderByRelationAggregateInput
   balanceTransactions?: Prisma.BalanceTransactionOrderByRelationAggregateInput
+  checkPriceOverrides?: Prisma.UserCheckPriceOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -284,6 +286,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   checks?: Prisma.CheckListRelationFilter
   batches?: Prisma.BatchCheckListRelationFilter
   balanceTransactions?: Prisma.BalanceTransactionListRelationFilter
+  checkPriceOverrides?: Prisma.UserCheckPriceListRelationFilter
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -331,6 +334,7 @@ export type UserCreateInput = {
   checks?: Prisma.CheckCreateNestedManyWithoutUserInput
   batches?: Prisma.BatchCheckCreateNestedManyWithoutUserInput
   balanceTransactions?: Prisma.BalanceTransactionCreateNestedManyWithoutUserInput
+  checkPriceOverrides?: Prisma.UserCheckPriceCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -346,6 +350,7 @@ export type UserUncheckedCreateInput = {
   checks?: Prisma.CheckUncheckedCreateNestedManyWithoutUserInput
   batches?: Prisma.BatchCheckUncheckedCreateNestedManyWithoutUserInput
   balanceTransactions?: Prisma.BalanceTransactionUncheckedCreateNestedManyWithoutUserInput
+  checkPriceOverrides?: Prisma.UserCheckPriceUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -361,6 +366,7 @@ export type UserUpdateInput = {
   checks?: Prisma.CheckUpdateManyWithoutUserNestedInput
   batches?: Prisma.BatchCheckUpdateManyWithoutUserNestedInput
   balanceTransactions?: Prisma.BalanceTransactionUpdateManyWithoutUserNestedInput
+  checkPriceOverrides?: Prisma.UserCheckPriceUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -376,6 +382,7 @@ export type UserUncheckedUpdateInput = {
   checks?: Prisma.CheckUncheckedUpdateManyWithoutUserNestedInput
   batches?: Prisma.BatchCheckUncheckedUpdateManyWithoutUserNestedInput
   balanceTransactions?: Prisma.BalanceTransactionUncheckedUpdateManyWithoutUserNestedInput
+  checkPriceOverrides?: Prisma.UserCheckPriceUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -491,6 +498,20 @@ export type DateTimeFieldUpdateOperationsInput = {
   set?: Date | string
 }
 
+export type UserCreateNestedOneWithoutCheckPriceOverridesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCheckPriceOverridesInput, Prisma.UserUncheckedCreateWithoutCheckPriceOverridesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCheckPriceOverridesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutCheckPriceOverridesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCheckPriceOverridesInput, Prisma.UserUncheckedCreateWithoutCheckPriceOverridesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCheckPriceOverridesInput
+  upsert?: Prisma.UserUpsertWithoutCheckPriceOverridesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutCheckPriceOverridesInput, Prisma.UserUpdateWithoutCheckPriceOverridesInput>, Prisma.UserUncheckedUpdateWithoutCheckPriceOverridesInput>
+}
+
 export type UserCreateNestedOneWithoutChecksInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutChecksInput, Prisma.UserUncheckedCreateWithoutChecksInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutChecksInput
@@ -533,6 +554,82 @@ export type UserUpdateOneRequiredWithoutBalanceTransactionsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutBalanceTransactionsInput, Prisma.UserUpdateWithoutBalanceTransactionsInput>, Prisma.UserUncheckedUpdateWithoutBalanceTransactionsInput>
 }
 
+export type UserCreateWithoutCheckPriceOverridesInput = {
+  id?: string
+  email: string
+  password: string
+  role?: $Enums.UserRole
+  balance?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  picture?: string | null
+  method: $Enums.AuthMethod
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  checks?: Prisma.CheckCreateNestedManyWithoutUserInput
+  batches?: Prisma.BatchCheckCreateNestedManyWithoutUserInput
+  balanceTransactions?: Prisma.BalanceTransactionCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutCheckPriceOverridesInput = {
+  id?: string
+  email: string
+  password: string
+  role?: $Enums.UserRole
+  balance?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  picture?: string | null
+  method: $Enums.AuthMethod
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  checks?: Prisma.CheckUncheckedCreateNestedManyWithoutUserInput
+  batches?: Prisma.BatchCheckUncheckedCreateNestedManyWithoutUserInput
+  balanceTransactions?: Prisma.BalanceTransactionUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutCheckPriceOverridesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutCheckPriceOverridesInput, Prisma.UserUncheckedCreateWithoutCheckPriceOverridesInput>
+}
+
+export type UserUpsertWithoutCheckPriceOverridesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutCheckPriceOverridesInput, Prisma.UserUncheckedUpdateWithoutCheckPriceOverridesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutCheckPriceOverridesInput, Prisma.UserUncheckedCreateWithoutCheckPriceOverridesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutCheckPriceOverridesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutCheckPriceOverridesInput, Prisma.UserUncheckedUpdateWithoutCheckPriceOverridesInput>
+}
+
+export type UserUpdateWithoutCheckPriceOverridesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  balance?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  picture?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  method?: Prisma.EnumAuthMethodFieldUpdateOperationsInput | $Enums.AuthMethod
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  checks?: Prisma.CheckUpdateManyWithoutUserNestedInput
+  batches?: Prisma.BatchCheckUpdateManyWithoutUserNestedInput
+  balanceTransactions?: Prisma.BalanceTransactionUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutCheckPriceOverridesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  balance?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  picture?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  method?: Prisma.EnumAuthMethodFieldUpdateOperationsInput | $Enums.AuthMethod
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  checks?: Prisma.CheckUncheckedUpdateManyWithoutUserNestedInput
+  batches?: Prisma.BatchCheckUncheckedUpdateManyWithoutUserNestedInput
+  balanceTransactions?: Prisma.BalanceTransactionUncheckedUpdateManyWithoutUserNestedInput
+}
+
 export type UserCreateWithoutChecksInput = {
   id?: string
   email: string
@@ -545,6 +642,7 @@ export type UserCreateWithoutChecksInput = {
   updatedAt?: Date | string
   batches?: Prisma.BatchCheckCreateNestedManyWithoutUserInput
   balanceTransactions?: Prisma.BalanceTransactionCreateNestedManyWithoutUserInput
+  checkPriceOverrides?: Prisma.UserCheckPriceCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutChecksInput = {
@@ -559,6 +657,7 @@ export type UserUncheckedCreateWithoutChecksInput = {
   updatedAt?: Date | string
   batches?: Prisma.BatchCheckUncheckedCreateNestedManyWithoutUserInput
   balanceTransactions?: Prisma.BalanceTransactionUncheckedCreateNestedManyWithoutUserInput
+  checkPriceOverrides?: Prisma.UserCheckPriceUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutChecksInput = {
@@ -589,6 +688,7 @@ export type UserUpdateWithoutChecksInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   batches?: Prisma.BatchCheckUpdateManyWithoutUserNestedInput
   balanceTransactions?: Prisma.BalanceTransactionUpdateManyWithoutUserNestedInput
+  checkPriceOverrides?: Prisma.UserCheckPriceUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutChecksInput = {
@@ -603,6 +703,7 @@ export type UserUncheckedUpdateWithoutChecksInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   batches?: Prisma.BatchCheckUncheckedUpdateManyWithoutUserNestedInput
   balanceTransactions?: Prisma.BalanceTransactionUncheckedUpdateManyWithoutUserNestedInput
+  checkPriceOverrides?: Prisma.UserCheckPriceUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutBatchesInput = {
@@ -617,6 +718,7 @@ export type UserCreateWithoutBatchesInput = {
   updatedAt?: Date | string
   checks?: Prisma.CheckCreateNestedManyWithoutUserInput
   balanceTransactions?: Prisma.BalanceTransactionCreateNestedManyWithoutUserInput
+  checkPriceOverrides?: Prisma.UserCheckPriceCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutBatchesInput = {
@@ -631,6 +733,7 @@ export type UserUncheckedCreateWithoutBatchesInput = {
   updatedAt?: Date | string
   checks?: Prisma.CheckUncheckedCreateNestedManyWithoutUserInput
   balanceTransactions?: Prisma.BalanceTransactionUncheckedCreateNestedManyWithoutUserInput
+  checkPriceOverrides?: Prisma.UserCheckPriceUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutBatchesInput = {
@@ -661,6 +764,7 @@ export type UserUpdateWithoutBatchesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   checks?: Prisma.CheckUpdateManyWithoutUserNestedInput
   balanceTransactions?: Prisma.BalanceTransactionUpdateManyWithoutUserNestedInput
+  checkPriceOverrides?: Prisma.UserCheckPriceUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutBatchesInput = {
@@ -675,6 +779,7 @@ export type UserUncheckedUpdateWithoutBatchesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   checks?: Prisma.CheckUncheckedUpdateManyWithoutUserNestedInput
   balanceTransactions?: Prisma.BalanceTransactionUncheckedUpdateManyWithoutUserNestedInput
+  checkPriceOverrides?: Prisma.UserCheckPriceUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutBalanceTransactionsInput = {
@@ -689,6 +794,7 @@ export type UserCreateWithoutBalanceTransactionsInput = {
   updatedAt?: Date | string
   checks?: Prisma.CheckCreateNestedManyWithoutUserInput
   batches?: Prisma.BatchCheckCreateNestedManyWithoutUserInput
+  checkPriceOverrides?: Prisma.UserCheckPriceCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutBalanceTransactionsInput = {
@@ -703,6 +809,7 @@ export type UserUncheckedCreateWithoutBalanceTransactionsInput = {
   updatedAt?: Date | string
   checks?: Prisma.CheckUncheckedCreateNestedManyWithoutUserInput
   batches?: Prisma.BatchCheckUncheckedCreateNestedManyWithoutUserInput
+  checkPriceOverrides?: Prisma.UserCheckPriceUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutBalanceTransactionsInput = {
@@ -733,6 +840,7 @@ export type UserUpdateWithoutBalanceTransactionsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   checks?: Prisma.CheckUpdateManyWithoutUserNestedInput
   batches?: Prisma.BatchCheckUpdateManyWithoutUserNestedInput
+  checkPriceOverrides?: Prisma.UserCheckPriceUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutBalanceTransactionsInput = {
@@ -747,6 +855,7 @@ export type UserUncheckedUpdateWithoutBalanceTransactionsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   checks?: Prisma.CheckUncheckedUpdateManyWithoutUserNestedInput
   batches?: Prisma.BatchCheckUncheckedUpdateManyWithoutUserNestedInput
+  checkPriceOverrides?: Prisma.UserCheckPriceUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -758,12 +867,14 @@ export type UserCountOutputType = {
   checks: number
   batches: number
   balanceTransactions: number
+  checkPriceOverrides: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   checks?: boolean | UserCountOutputTypeCountChecksArgs
   batches?: boolean | UserCountOutputTypeCountBatchesArgs
   balanceTransactions?: boolean | UserCountOutputTypeCountBalanceTransactionsArgs
+  checkPriceOverrides?: boolean | UserCountOutputTypeCountCheckPriceOverridesArgs
 }
 
 /**
@@ -797,6 +908,13 @@ export type UserCountOutputTypeCountBalanceTransactionsArgs<ExtArgs extends runt
   where?: Prisma.BalanceTransactionWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountCheckPriceOverridesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.UserCheckPriceWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -811,6 +929,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   checks?: boolean | Prisma.User$checksArgs<ExtArgs>
   batches?: boolean | Prisma.User$batchesArgs<ExtArgs>
   balanceTransactions?: boolean | Prisma.User$balanceTransactionsArgs<ExtArgs>
+  checkPriceOverrides?: boolean | Prisma.User$checkPriceOverridesArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -855,6 +974,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   checks?: boolean | Prisma.User$checksArgs<ExtArgs>
   batches?: boolean | Prisma.User$batchesArgs<ExtArgs>
   balanceTransactions?: boolean | Prisma.User$balanceTransactionsArgs<ExtArgs>
+  checkPriceOverrides?: boolean | Prisma.User$checkPriceOverridesArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -866,6 +986,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     checks: Prisma.$CheckPayload<ExtArgs>[]
     batches: Prisma.$BatchCheckPayload<ExtArgs>[]
     balanceTransactions: Prisma.$BalanceTransactionPayload<ExtArgs>[]
+    checkPriceOverrides: Prisma.$UserCheckPricePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1274,6 +1395,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   checks<T extends Prisma.User$checksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$checksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CheckPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   batches<T extends Prisma.User$batchesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$batchesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BatchCheckPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   balanceTransactions<T extends Prisma.User$balanceTransactionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$balanceTransactionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BalanceTransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  checkPriceOverrides<T extends Prisma.User$checkPriceOverridesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$checkPriceOverridesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserCheckPricePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1769,6 +1891,30 @@ export type User$balanceTransactionsArgs<ExtArgs extends runtime.Types.Extension
   take?: number
   skip?: number
   distinct?: Prisma.BalanceTransactionScalarFieldEnum | Prisma.BalanceTransactionScalarFieldEnum[]
+}
+
+/**
+ * User.checkPriceOverrides
+ */
+export type User$checkPriceOverridesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the UserCheckPrice
+   */
+  select?: Prisma.UserCheckPriceSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the UserCheckPrice
+   */
+  omit?: Prisma.UserCheckPriceOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserCheckPriceInclude<ExtArgs> | null
+  where?: Prisma.UserCheckPriceWhereInput
+  orderBy?: Prisma.UserCheckPriceOrderByWithRelationInput | Prisma.UserCheckPriceOrderByWithRelationInput[]
+  cursor?: Prisma.UserCheckPriceWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.UserCheckPriceScalarFieldEnum | Prisma.UserCheckPriceScalarFieldEnum[]
 }
 
 /**

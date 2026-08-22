@@ -1,7 +1,6 @@
 import { PrismaService } from '@/prisma/prisma.service';
 import { BalanceService } from '@/balance/balance.service';
 import {
-  BadRequestException,
   Inject,
   Injectable,
   NotFoundException,
@@ -26,6 +25,7 @@ import { CheckBody } from './types';
 import { CheckProviderRegistry } from './providers/provider.registry';
 import { ProviderCheckResult } from './providers/provider.types';
 import { BatchService } from '@/batch/batch.service';
+import { CheckPriceService } from './check-price/check-price.service';
 
 @Injectable()
 export class CheckService {
@@ -35,6 +35,7 @@ export class CheckService {
     private readonly providerRegistry: CheckProviderRegistry,
     private readonly balanceService: BalanceService,
     private readonly checkGateway: CheckGateway,
+    private readonly checkPriceService: CheckPriceService,
     @Inject(forwardRef(() => BatchService))
     private readonly batchService: BatchService,
   ) {}
@@ -100,7 +101,7 @@ export class CheckService {
     const subjectBody = toStoredSubjectBody(body);
 
     const check = await this.prismaService.$transaction(async (tx) => {
-      const cost = await this.getCheckPrice(module);
+      const cost = await this.checkPriceService.getForUser(userId, module);
       const idempotencyKey = randomUUID();
 
       await this.balanceService.debit(
@@ -294,16 +295,5 @@ export class CheckService {
       check.userId,
       CheckResponseDto.fromCheck(check),
     );
-  }
-
-  private async getCheckPrice(module: CheckModuleEnums): Promise<number> {
-    const row = await this.prismaService.checkPrice.findUnique({
-      where: { module },
-    });
-
-    if (!row)
-      throw new BadRequestException('Цена для данного модуля не настроена');
-
-    return row.price;
   }
 }

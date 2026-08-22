@@ -14,7 +14,7 @@ const PRICES = [
     module: CheckModuleEnums.LIMITATION,
     title: 'Ограничения регистрации',
     description: 'Проверка ограничений на регистрационные действия автомобиля',
-    price: 5,
+    price: 20,
   },
   {
     module: CheckModuleEnums.GISTORGI,

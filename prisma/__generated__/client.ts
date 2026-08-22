@@ -50,6 +50,11 @@ export type User = Prisma.UserModel
  */
 export type CheckPrice = Prisma.CheckPriceModel
 /**
+ * Model UserCheckPrice
+ * 
+ */
+export type UserCheckPrice = Prisma.UserCheckPriceModel
+/**
  * Model Check
  * 
  */

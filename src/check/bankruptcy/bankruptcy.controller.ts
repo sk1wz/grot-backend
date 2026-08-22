@@ -16,7 +16,7 @@ import { Auth } from '@/auth/decorators';
 import { BankruptcyService } from './bankruptcy.service';
 import { BankruptcyDto } from './dto';
 
-@Controller(['checks/bankruptcy', 'checks/bancrupcy'])
+@Controller('checks/bankruptcy')
 export class BankruptcyController {
   public constructor(private readonly bankruptcyService: BankruptcyService) {}
 

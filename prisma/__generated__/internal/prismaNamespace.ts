@@ -386,6 +386,7 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 export const ModelName = {
   User: 'User',
   CheckPrice: 'CheckPrice',
+  UserCheckPrice: 'UserCheckPrice',
   Check: 'Check',
   BatchCheck: 'BatchCheck',
   BalanceTransaction: 'BalanceTransaction',
@@ -406,7 +407,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "checkPrice" | "check" | "batchCheck" | "balanceTransaction" | "feedbackRequest" | "token"
+    modelProps: "user" | "checkPrice" | "userCheckPrice" | "check" | "batchCheck" | "balanceTransaction" | "feedbackRequest" | "token"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -555,6 +556,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.CheckPriceCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.CheckPriceCountAggregateOutputType> | number
+        }
+      }
+    }
+    UserCheckPrice: {
+      payload: Prisma.$UserCheckPricePayload<ExtArgs>
+      fields: Prisma.UserCheckPriceFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.UserCheckPriceFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserCheckPricePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.UserCheckPriceFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserCheckPricePayload>
+        }
+        findFirst: {
+          args: Prisma.UserCheckPriceFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserCheckPricePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.UserCheckPriceFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserCheckPricePayload>
+        }
+        findMany: {
+          args: Prisma.UserCheckPriceFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserCheckPricePayload>[]
+        }
+        create: {
+          args: Prisma.UserCheckPriceCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserCheckPricePayload>
+        }
+        createMany: {
+          args: Prisma.UserCheckPriceCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.UserCheckPriceCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserCheckPricePayload>[]
+        }
+        delete: {
+          args: Prisma.UserCheckPriceDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserCheckPricePayload>
+        }
+        update: {
+          args: Prisma.UserCheckPriceUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserCheckPricePayload>
+        }
+        deleteMany: {
+          args: Prisma.UserCheckPriceDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.UserCheckPriceUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.UserCheckPriceUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserCheckPricePayload>[]
+        }
+        upsert: {
+          args: Prisma.UserCheckPriceUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserCheckPricePayload>
+        }
+        aggregate: {
+          args: Prisma.UserCheckPriceAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateUserCheckPrice>
+        }
+        groupBy: {
+          args: Prisma.UserCheckPriceGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.UserCheckPriceGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.UserCheckPriceCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.UserCheckPriceCountAggregateOutputType> | number
         }
       }
     }
@@ -991,6 +1066,15 @@ export const CheckPriceScalarFieldEnum = {
 } as const
 
 export type CheckPriceScalarFieldEnum = (typeof CheckPriceScalarFieldEnum)[keyof typeof CheckPriceScalarFieldEnum]
+
+
+export const UserCheckPriceScalarFieldEnum = {
+  userId: 'userId',
+  module: 'module',
+  price: 'price'
+} as const
+
+export type UserCheckPriceScalarFieldEnum = (typeof UserCheckPriceScalarFieldEnum)[keyof typeof UserCheckPriceScalarFieldEnum]
 
 
 export const CheckScalarFieldEnum = {
@@ -1446,6 +1530,7 @@ export type PrismaClientOptions = ({
 export type GlobalOmitConfig = {
   user?: Prisma.UserOmit
   checkPrice?: Prisma.CheckPriceOmit
+  userCheckPrice?: Prisma.UserCheckPriceOmit
   check?: Prisma.CheckOmit
   batchCheck?: Prisma.BatchCheckOmit
   balanceTransaction?: Prisma.BalanceTransactionOmit

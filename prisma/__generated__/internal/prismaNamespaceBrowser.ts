@@ -53,6 +53,7 @@ export const AnyNull = runtime.AnyNull
 export const ModelName = {
   User: 'User',
   CheckPrice: 'CheckPrice',
+  UserCheckPrice: 'UserCheckPrice',
   Check: 'Check',
   BatchCheck: 'BatchCheck',
   BalanceTransaction: 'BalanceTransaction',
@@ -100,6 +101,15 @@ export const CheckPriceScalarFieldEnum = {
 } as const
 
 export type CheckPriceScalarFieldEnum = (typeof CheckPriceScalarFieldEnum)[keyof typeof CheckPriceScalarFieldEnum]
+
+
+export const UserCheckPriceScalarFieldEnum = {
+  userId: 'userId',
+  module: 'module',
+  price: 'price'
+} as const
+
+export type UserCheckPriceScalarFieldEnum = (typeof UserCheckPriceScalarFieldEnum)[keyof typeof UserCheckPriceScalarFieldEnum]
 
 
 export const CheckScalarFieldEnum = {

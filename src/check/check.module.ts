@@ -27,14 +27,15 @@ import { LimitationService } from './limitation/limitation.service';
 import { TaxiController } from './taxi/taxi.controller';
 import { TaxiService } from './taxi/taxi.service';
 import { BatchModule } from '@/batch/batch.module';
-import { CheckPriceController } from './price/check-price.controller';
-import { CheckPriceService } from './price/check-price.service';
+import { CheckPriceModule } from './check-price/check-price.module';
+import { CheckPriceController } from './check-price/check-price.controller';
 
 @Module({
   imports: [
     AuthModule,
     BalanceModule,
     PrismaModule,
+    CheckPriceModule,
     StormfinderModule,
     DuckdnsModule,
     ReportModule,
@@ -42,6 +43,7 @@ import { CheckPriceService } from './price/check-price.service';
     forwardRef(() => QueueModule),
   ],
   controllers: [
+    CheckPriceController,
     GibddController,
     GistorgiController,
     FsspController,
@@ -49,7 +51,6 @@ import { CheckPriceService } from './price/check-price.service';
     InnController,
     LimitationController,
     TaxiController,
-    CheckPriceController,
     CheckQueryController,
   ],
   providers: [
@@ -61,12 +62,11 @@ import { CheckPriceService } from './price/check-price.service';
     InnService,
     LimitationService,
     TaxiService,
-    CheckPriceService,
     CheckGateway,
     CheckProviderRegistry,
     StormfinderCheckHandler,
     DuckdnsCheckHandler,
   ],
-  exports: [CheckService],
+  exports: [CheckService, CheckPriceModule],
 })
 export class CheckModule {}

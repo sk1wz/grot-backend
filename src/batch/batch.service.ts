@@ -23,6 +23,7 @@ import { CheckBody } from '@/check/types';
 import { ReportService } from '@/report/report.service';
 import { BatchGateway } from './batch.gateway';
 import { getCheckModuleLabel } from '@/utils/check-module-label';
+import { CheckPriceService } from '@/check/check-price/check-price.service';
 
 type BatchItem = { body: CheckBody; sourceRow: number };
 type VinRow = { vin: string; sourceRow: number };
@@ -35,6 +36,7 @@ export class BatchService {
     private readonly checkQueue: CheckQueueService,
     private readonly report: ReportService,
     private readonly gateway: BatchGateway,
+    private readonly checkPriceService: CheckPriceService,
   ) {}
 
   public async create(
@@ -44,12 +46,11 @@ export class BatchService {
     subjectBodyText: string,
   ) {
     const rows = await this.readBatchItems(module, file);
-    const price = await this.prisma.checkPrice.findUnique({
-      where: { module },
-    });
-    if (!price)
-      throw new BadRequestException('Цена для данного модуля не настроена');
-    const totalCost = price.price * rows.length;
+    const personalPrice = await this.checkPriceService.getForUser(
+      userId,
+      module,
+    );
+    const totalCost = personalPrice * rows.length;
     const batch = await this.prisma.$transaction(async (tx) => {
       await this.balance.debit(
         userId,
@@ -80,7 +81,7 @@ export class BatchService {
           module,
           provider: getCheckProvider(module),
           status: CheckStatusEnums.PENDING,
-          cost: price.price,
+          cost: personalPrice,
           subjectBody: toStoredSubjectBody(row.body) as Prisma.InputJsonValue,
           subjectBodyText: buildSubjectBodyText(
             module,
