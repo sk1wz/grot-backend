@@ -8,6 +8,7 @@ import { CheckModule } from '@/check/check.module';
 import { BalanceModule } from '@/balance/balance.module';
 import { QueueModule } from '@/queue/queue.module';
 import { BatchModule } from '@/batch/batch.module';
+import { FeedbackModule } from '@/feedback/feedback.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { BatchModule } from '@/batch/batch.module';
     UserModule,
     BalanceModule,
     BatchModule,
+    FeedbackModule,
     CheckModule,
     QueueModule,
   ],

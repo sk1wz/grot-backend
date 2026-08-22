@@ -389,6 +389,7 @@ export const ModelName = {
   Check: 'Check',
   BatchCheck: 'BatchCheck',
   BalanceTransaction: 'BalanceTransaction',
+  FeedbackRequest: 'FeedbackRequest',
   Token: 'Token'
 } as const
 
@@ -405,7 +406,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "checkPrice" | "check" | "batchCheck" | "balanceTransaction" | "token"
+    modelProps: "user" | "checkPrice" | "check" | "batchCheck" | "balanceTransaction" | "feedbackRequest" | "token"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -779,6 +780,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    FeedbackRequest: {
+      payload: Prisma.$FeedbackRequestPayload<ExtArgs>
+      fields: Prisma.FeedbackRequestFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.FeedbackRequestFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FeedbackRequestPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.FeedbackRequestFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FeedbackRequestPayload>
+        }
+        findFirst: {
+          args: Prisma.FeedbackRequestFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FeedbackRequestPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.FeedbackRequestFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FeedbackRequestPayload>
+        }
+        findMany: {
+          args: Prisma.FeedbackRequestFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FeedbackRequestPayload>[]
+        }
+        create: {
+          args: Prisma.FeedbackRequestCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FeedbackRequestPayload>
+        }
+        createMany: {
+          args: Prisma.FeedbackRequestCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.FeedbackRequestCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FeedbackRequestPayload>[]
+        }
+        delete: {
+          args: Prisma.FeedbackRequestDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FeedbackRequestPayload>
+        }
+        update: {
+          args: Prisma.FeedbackRequestUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FeedbackRequestPayload>
+        }
+        deleteMany: {
+          args: Prisma.FeedbackRequestDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.FeedbackRequestUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.FeedbackRequestUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FeedbackRequestPayload>[]
+        }
+        upsert: {
+          args: Prisma.FeedbackRequestUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FeedbackRequestPayload>
+        }
+        aggregate: {
+          args: Prisma.FeedbackRequestAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateFeedbackRequest>
+        }
+        groupBy: {
+          args: Prisma.FeedbackRequestGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FeedbackRequestGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.FeedbackRequestCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FeedbackRequestCountAggregateOutputType> | number
+        }
+      }
+    }
     Token: {
       payload: Prisma.$TokenPayload<ExtArgs>
       fields: Prisma.TokenFieldRefs
@@ -972,6 +1047,25 @@ export const BalanceTransactionScalarFieldEnum = {
 } as const
 
 export type BalanceTransactionScalarFieldEnum = (typeof BalanceTransactionScalarFieldEnum)[keyof typeof BalanceTransactionScalarFieldEnum]
+
+
+export const FeedbackRequestScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  companyName: 'companyName',
+  email: 'email',
+  phone: 'phone',
+  message: 'message',
+  status: 'status',
+  attachmentName: 'attachmentName',
+  attachmentMimeType: 'attachmentMimeType',
+  attachmentSize: 'attachmentSize',
+  attachmentData: 'attachmentData',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type FeedbackRequestScalarFieldEnum = (typeof FeedbackRequestScalarFieldEnum)[keyof typeof FeedbackRequestScalarFieldEnum]
 
 
 export const TokenScalarFieldEnum = {
@@ -1201,6 +1295,34 @@ export type ListEnumBalanceStatusEnumsFieldRefInput<$PrismaModel> = FieldRefInpu
 
 
 /**
+ * Reference to a field of type 'FeedbackStatus'
+ */
+export type EnumFeedbackStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FeedbackStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'FeedbackStatus[]'
+ */
+export type ListEnumFeedbackStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FeedbackStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Bytes'
+ */
+export type BytesFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Bytes'>
+    
+
+
+/**
+ * Reference to a field of type 'Bytes[]'
+ */
+export type ListBytesFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Bytes[]'>
+    
+
+
+/**
  * Reference to a field of type 'TokenType'
  */
 export type EnumTokenTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TokenType'>
@@ -1327,6 +1449,7 @@ export type GlobalOmitConfig = {
   check?: Prisma.CheckOmit
   batchCheck?: Prisma.BatchCheckOmit
   balanceTransaction?: Prisma.BalanceTransactionOmit
+  feedbackRequest?: Prisma.FeedbackRequestOmit
   token?: Prisma.TokenOmit
 }
 

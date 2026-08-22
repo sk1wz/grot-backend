@@ -43,6 +43,11 @@ export type BatchCheck = Prisma.BatchCheckModel
  */
 export type BalanceTransaction = Prisma.BalanceTransactionModel
 /**
+ * Model FeedbackRequest
+ * 
+ */
+export type FeedbackRequest = Prisma.FeedbackRequestModel
+/**
  * Model Token
  * 
  */

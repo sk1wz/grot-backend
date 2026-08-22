@@ -56,6 +56,7 @@ export const ModelName = {
   Check: 'Check',
   BatchCheck: 'BatchCheck',
   BalanceTransaction: 'BalanceTransaction',
+  FeedbackRequest: 'FeedbackRequest',
   Token: 'Token'
 } as const
 
@@ -155,6 +156,25 @@ export const BalanceTransactionScalarFieldEnum = {
 } as const
 
 export type BalanceTransactionScalarFieldEnum = (typeof BalanceTransactionScalarFieldEnum)[keyof typeof BalanceTransactionScalarFieldEnum]
+
+
+export const FeedbackRequestScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  companyName: 'companyName',
+  email: 'email',
+  phone: 'phone',
+  message: 'message',
+  status: 'status',
+  attachmentName: 'attachmentName',
+  attachmentMimeType: 'attachmentMimeType',
+  attachmentSize: 'attachmentSize',
+  attachmentData: 'attachmentData',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type FeedbackRequestScalarFieldEnum = (typeof FeedbackRequestScalarFieldEnum)[keyof typeof FeedbackRequestScalarFieldEnum]
 
 
 export const TokenScalarFieldEnum = {

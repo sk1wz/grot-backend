@@ -34,4 +34,10 @@ export class CheckQueryController {
   public getUserChecksByAdmin(@Param('userId') userId: string) {
     return this.checkService.getAllChecks(userId);
   }
+
+  @Auth('ADMIN')
+  @Get('admin/:userId/batch')
+  public getUserBatchesByAdmin(@Param('userId') userId: string) {
+    return this.batchService.list(userId);
+  }
 }

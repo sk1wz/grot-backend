@@ -71,3 +71,14 @@ export const BalanceStatusEnums = {
 } as const
 
 export type BalanceStatusEnums = (typeof BalanceStatusEnums)[keyof typeof BalanceStatusEnums]
+
+
+export const FeedbackStatus = {
+  NEW: 'NEW',
+  IN_REVIEW: 'IN_REVIEW',
+  REJECTED: 'REJECTED',
+  COMPLETED: 'COMPLETED',
+  ARCHIVED: 'ARCHIVED'
+} as const
+
+export type FeedbackStatus = (typeof FeedbackStatus)[keyof typeof FeedbackStatus]

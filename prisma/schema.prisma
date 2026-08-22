@@ -101,6 +101,25 @@ model BalanceTransaction {
   @@map("balance_transactions")
 }
 
+model FeedbackRequest {
+  id                 String          @id @default(uuid())
+  name               String
+  companyName        String          @map("company_name")
+  email              String
+  phone              String
+  message            String          @db.Text
+  status             FeedbackStatus  @default(NEW)
+  attachmentName     String?         @map("attachment_name")
+  attachmentMimeType String?         @map("attachment_mime_type")
+  attachmentSize     Int?            @map("attachment_size")
+  attachmentData     Bytes?          @map("attachment_data")
+  createdAt          DateTime        @default(now()) @map("created_at")
+  updatedAt          DateTime        @updatedAt @map("updated_at")
+
+  @@index([status, createdAt])
+  @@map("feedback_requests")
+}
+
 model Token {
   id        String    @id @default(uuid())
   email     String
@@ -152,4 +171,12 @@ enum BalanceStatusEnums {
   BALANCE_REFUND
   BALANCE_TOPUP
   BALANCE_FAILED
+}
+
+enum FeedbackStatus {
+  NEW
+  IN_REVIEW
+  REJECTED
+  COMPLETED
+  ARCHIVED
 }

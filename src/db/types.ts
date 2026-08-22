@@ -4,6 +4,7 @@ export type {
   Check,
   BatchCheck,
   BalanceTransaction,
+  FeedbackRequest,
   Token,
 } from '@prisma/__generated__/client';
 
