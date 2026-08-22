@@ -723,10 +723,6 @@ export type EnumCheckStatusEnumsFieldUpdateOperationsInput = {
   set?: $Enums.CheckStatusEnums
 }
 
-export type BoolFieldUpdateOperationsInput = {
-  set?: boolean
-}
-
 export type NullableDateTimeFieldUpdateOperationsInput = {
   set?: Date | string | null
 }

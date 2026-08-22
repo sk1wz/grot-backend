@@ -77,6 +77,7 @@ export class AuthService {
     return new Promise((resolve, reject) => {
       req.session.userId = user.id;
       req.session.role = user.role;
+      req.session.isBlocked = user.isBlocked;
       req.session.save((err) => {
         if (err) {
           return reject(
