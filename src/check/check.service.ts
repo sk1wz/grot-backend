@@ -43,6 +43,25 @@ export class CheckService {
     return this.getChecksByModule(userId);
   }
 
+  public async getStatistics() {
+    const grouped = await this.prismaService.check.groupBy({
+      by: ['module'],
+      _count: { _all: true },
+    });
+    const byModule = Object.fromEntries(
+      Object.values(CheckModuleEnums).map((module) => [module, 0]),
+    ) as Record<CheckModuleEnums, number>;
+
+    for (const item of grouped) {
+      byModule[item.module] = item._count._all;
+    }
+
+    return {
+      totalChecks: grouped.reduce((total, item) => total + item._count._all, 0),
+      byModule,
+    };
+  }
+
   public async getChecksByModule(userId: string, module?: CheckModuleEnums) {
     const checks = await this.prismaService.check.findMany({
       where: { userId, batchId: null, ...(module ? { module } : {}) },

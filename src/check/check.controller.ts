@@ -17,6 +17,12 @@ export class CheckQueryController {
     return this.checkService.getAllChecks(req.session.userId!);
   }
 
+  @Auth('ADMIN')
+  @Get('statistics')
+  public getStatistics() {
+    return this.checkService.getStatistics();
+  }
+
   @Auth()
   @Get(':id')
   public getCheckById(@Req() req: Request, @Param('id') id: string) {
